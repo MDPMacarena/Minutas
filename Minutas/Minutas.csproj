@@ -14,7 +14,6 @@
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="wwwroot\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
