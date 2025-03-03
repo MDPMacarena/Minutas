@@ -1,0 +1,235 @@
+body{
+    margin: 0;
+    font-family: Verdana;
+}
+header{
+    display: inline-flex;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+#titulo{
+    color: white;
+    height: 70px;
+    display: flex;
+    width: 60%;
+    margin: 0;
+    line-height: 30px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+#titulo img{
+    height: 50px;
+    margin: 10px 20px;
+}
+#seccion{
+    background-color:white;
+    margin-left: -60px;
+    width: 80%;
+    line-height: 60px;    
+    clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%);
+
+}
+#seccion input{
+    height: 24px;
+    border-radius: 10px;
+    background-color: #D9D9D9;
+    border: 0;
+    width: auto;
+    padding: 10px;
+    color: #7E7A7A;
+    cursor: pointer;
+    translate: 200px;
+}
+aside{
+    background-color: #1D5371;
+    width: 70px;
+    position:fixed;
+    height: calc(100vh - 50px);
+    padding: 2px;
+    top: 15%;
+}
+#menu{
+    width: 100%;
+    padding: 5px 0;
+    cursor: pointer;
+}
+#menu:hover{
+    background-color: #164057;
+}
+#menu a{
+    text-decoration: none;
+    color: white;
+    font-size: 11px;
+    font-family: Verdana;
+    justify-content: center;
+    display: flex;
+}
+#menu i{
+    margin: 10px auto;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+main{
+    width: 99%;
+    box-sizing: border-box;
+    margin: 100px 0 0 75px;
+}
+main h3{
+    color: #7E7A7A;
+    margin: -20px 50px 50px 0;
+    padding-bottom: 10px;
+    border-bottom: #1D5371 1px solid;
+}
+nav{
+    width: 100%;
+    left: -10px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    top: 11.5%;
+    height: 25px;
+    position: fixed;
+}
+nav a{
+    font-family: Verdana;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 100px;
+}
+#minutas{
+    margin-top: 150px;
+    margin-left: 20px;
+}
+#minuta{
+    margin-top: 40px;
+    margin-left: 50px;
+    width: 300px;
+    background-color: #D9D9D9;
+    padding: 20px;
+    border-radius: 0 0 20px 20px;
+    border-top: #1D7165 3px solid;
+    display: inline-block;
+}
+/*tabla de departamentos, empleados*/
+
+table{
+    background-color: #D9D9D9;
+    width: 90%;
+    box-sizing: border-box;
+    margin: 30px 20px;
+    font-size: 13px;
+    text-align: center;
+}
+table th{
+    background-color: #CDCBCB;
+    color: #164057;
+}
+table tr{
+    height: 50px;
+    border: 1px solid black;
+}
+table a{
+    text-decoration: none;
+    color: #164057;
+    font-size: 20px;
+}
+table td:nth-child(4){
+    visibility: hidden;
+    font-size: 25px;
+}
+table tr:hover td:nth-child(4){
+    visibility: visible;
+    cursor: pointer;
+}
+#depto{
+    display: flex;
+    justify-content: right;
+    text-decoration: none;
+    margin: 10px 100px;
+}
+#depto input{
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    width: 10%;
+    height: 30px;
+    cursor: pointer;
+    box-shadow: 3px 5px 10px 0px #b2b4b5;
+    margin: 10px 20px 0;
+}
+#depto input:hover{
+    background-color: #D9D9D9;
+    transition: .5s ease-out;
+    color: #164057;
+}
+/*darDeAltaEmpleado*/
+form{
+    background-color: #D9D9D9;
+    height: calc(100vh - 50px);
+    padding: 80px 50px 0 80px;
+    width: 85%;
+}
+form input, select{
+    border-radius: 12px;
+    padding: 4px 0 4px 10px;
+    border: 0;
+    margin: 20px;
+    box-shadow: 1px 2px 10px 0px #b2b4b5;
+}
+form input[type="text"], input[type="password"]{
+    width: 70%;
+    box-shadow: 1px 2px 10px 0px #b2b4b5;
+}
+form input[type="number"], select {
+    width: 26%;
+}
+form input[type="button" ]{
+    float: right;
+    margin: 90px;
+    border-bottom: #1D5371 2px solid;
+    border-radius: 0;
+    width: 20%;
+}
+#modal{
+    width: 100%;
+    background-color: rgba(135, 133, 133, 0.516);
+    height: calc(100vh - 50px);
+    z-index: 1;
+    position: fixed;
+    top: 97px;
+    display: none;
+}
+#modal div{
+    background-color: white;
+    height: 120px;
+    width: 40%;
+    justify-content: center;
+    margin: 150px auto;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 30px;
+}
+#modal input{
+    margin: 50px 20px;
+    width: 20%;
+    border-radius: 10px;
+    height: 30px;
+    border: #185C53 1px solid;
+    cursor: pointer;
+}
+#modal input:hover{
+    background-color: #164057;
+    color: white;
+    transition: .2s ease-out;
+}
+#editar{
+    width: 100%;
+    justify-content: right;
+}
+#editar input[type="text"]:nth-child(2){
+    width: calc(100% - 20%);
+}
+#editar select{
+    width: calc(100% - 65%);
+}
