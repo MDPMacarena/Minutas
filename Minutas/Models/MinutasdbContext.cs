@@ -24,6 +24,7 @@ public partial class MinutasdbContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
+    //Scaffold-DBContext "server=localhost;user=root;password=root;database=presidentes;port=3307" Pomelo.EntityFrameworkCore.MySql -o "Models" -nop -f
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=minutasdb;port=3307", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
