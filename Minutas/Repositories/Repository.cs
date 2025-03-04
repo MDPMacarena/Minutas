@@ -12,9 +12,6 @@ namespace Minutas.Repositories
             this.context = context;
         }
 
-       
-
-
         public void Insert(M entity)
         {
             context.Add(entity);
