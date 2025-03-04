@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minutas.Repositories;
 using Minutas.Models;
 
 namespace Minutas.Areas.Admin.Controllers
 {
     public class DepartamentoController : Controller
     {
-        Repository<Departamento> Departamentorepository;
-
-        public IActionResult Index()
+     
+        [HttpGet]
+        public IActionResult Agregar()
         {
-            var departamentos = Departamentorepository.GetAll().OrderBy(d => d.Nombre);
-
-            return View(departamentos);
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Agregar(Departamento dep)
+        {
+            return View();
         }
     }
 }
