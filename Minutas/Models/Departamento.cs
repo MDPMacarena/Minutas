@@ -13,6 +13,8 @@ public partial class Departamento
 
     public int? IdDeptSuperior { get; set; }
 
+    public bool? Activo { get; set; }
+
     public virtual Departamento? IdDeptSuperiorNavigation { get; set; }
 
     public virtual ICollection<Departamento> InverseIdDeptSuperiorNavigation { get; set; } = new List<Departamento>();

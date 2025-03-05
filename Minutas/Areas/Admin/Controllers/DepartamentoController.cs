@@ -5,6 +5,7 @@ namespace Minutas.Areas.Admin.Controllers
 {
     public class DepartamentoController : Controller
     {
+
      
         [HttpGet]
         public IActionResult Agregar()
