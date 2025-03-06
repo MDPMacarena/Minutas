@@ -8,11 +8,16 @@ namespace Minutas.Areas.Admin.Controllers
     {
 
 
-        Repository<Departamento> Departamentorepository;
-        public IActionResult Index()
+        private readonly DepartamentoRepository _departamentoRepository;
 
+        public DepartamentoController(DepartamentoRepository departamentoRepository)
         {
-            var departamentos = Departamentorepository.GetAll().OrderBy(x => x.Nombre);
+            _departamentoRepository = departamentoRepository;
+        }
+
+        public IActionResult Index()
+        {
+            var departamentos = _departamentoRepository.GetAll().OrderBy(x => x.Nombre);
             return View(departamentos);
         }
 
@@ -22,43 +27,25 @@ namespace Minutas.Areas.Admin.Controllers
             return View();
         }
 
-
         [HttpPost]
         public IActionResult Agregar(Departamento dep)
         {
-            ModelState.Clear();
-            if (string.IsNullOrWhiteSpace(dep.Nombre))
+            if (!_departamentoRepository.ValidarDepartamento(dep, out string errores))
             {
-                ModelState.AddModelError("", "El Nombre esta vacio");
-            }
-            if (dep.IdJefe <= 0)
-            {
-                ModelState.AddModelError("", "El Id del Jefe no es válido");
-            }
-            if (dep.IdDeptSuperior <= 0)
-            {
-                ModelState.AddModelError("", "El Id del Departamento Superior no es válido");
+                ModelState.AddModelError("", errores);
+                return View(dep);
             }
 
-            if (ModelState.IsValid)
-            {
-                Departamentorepository.Insert(dep);
-                return RedirectToAction("Index");
-            }
-            return View(dep);
-
-
+            _departamentoRepository.Insert(dep);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Editar(int id)
         {
-
-            var departamento = Departamentorepository.Get(id);
+            var departamento = _departamentoRepository.Get(id);
             if (departamento == null)
-            {
                 return RedirectToAction("Index");
-            }
 
             return View(departamento);
         }
@@ -66,40 +53,41 @@ namespace Minutas.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(Departamento dep)
         {
-            var departamento = Departamentorepository.Get(dep.Id);
-            if (departamento == null)
+            if (!_departamentoRepository.ValidarDepartamento(dep, out string errores))
             {
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", errores);
+                return View(dep);
             }
+
+            var departamento = _departamentoRepository.Get(dep.Id);
+            if (departamento == null)
+                return RedirectToAction("Index");
+
             departamento.Nombre = dep.Nombre;
             departamento.IdJefe = dep.IdJefe;
             departamento.IdDeptSuperior = dep.IdDeptSuperior;
 
-            Departamentorepository.Update(departamento);
+            _departamentoRepository.Update(departamento);
             return RedirectToAction("Index");
         }
-
 
         [HttpGet]
         public IActionResult Eliminar(int id)
         {
-            var departamento = Departamentorepository.Get(id);
+            var departamento = _departamentoRepository.Get(id);
             if (departamento == null)
-            {
                 return RedirectToAction("Index");
-            }
 
             return View(departamento);
         }
+
         [HttpPost]
         public IActionResult Eliminar(Departamento dep)
         {
-            var departamento = Departamentorepository.Get(dep.Id);
+            var departamento = _departamentoRepository.Get(dep.Id);
             if (departamento != null)
             {
-
-                Departamentorepository.Delete(departamento);
-
+                _departamentoRepository.Delete(departamento);
             }
             return RedirectToAction("Index");
         }
