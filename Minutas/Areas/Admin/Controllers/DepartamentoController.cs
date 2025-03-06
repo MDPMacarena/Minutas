@@ -8,16 +8,16 @@ namespace Minutas.Areas.Admin.Controllers
     {
 
 
-        private readonly DepartamentoRepository _departamentoRepository;
+        private readonly DepartamentoRepository depaRepository;
 
         public DepartamentoController(DepartamentoRepository departamentoRepository)
         {
-            _departamentoRepository = departamentoRepository;
+            depaRepository = departamentoRepository;
         }
 
         public IActionResult Index()
         {
-            var departamentos = _departamentoRepository.GetAll().OrderBy(x => x.Nombre);
+            var departamentos = depaRepository.GetDepartamentosActivos();
             return View(departamentos);
         }
 
@@ -30,20 +30,20 @@ namespace Minutas.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(Departamento dep)
         {
-            if (!_departamentoRepository.ValidarDepartamento(dep, out string errores))
+            if (!depaRepository.ValidarDepartamento(dep, out string errores))
             {
                 ModelState.AddModelError("", errores);
                 return View(dep);
             }
 
-            _departamentoRepository.Insert(dep);
+            depaRepository.Insert(dep);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Editar(int id)
         {
-            var departamento = _departamentoRepository.Get(id);
+            var departamento = depaRepository.Get(id);
             if (departamento == null)
                 return RedirectToAction("Index");
 
@@ -53,28 +53,20 @@ namespace Minutas.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(Departamento dep)
         {
-            if (!_departamentoRepository.ValidarDepartamento(dep, out string errores))
+            if (!depaRepository.ValidarDepartamento(dep, out string errores))
             {
                 ModelState.AddModelError("", errores);
                 return View(dep);
             }
 
-            var departamento = _departamentoRepository.Get(dep.Id);
-            if (departamento == null)
-                return RedirectToAction("Index");
-
-            departamento.Nombre = dep.Nombre;
-            departamento.IdJefe = dep.IdJefe;
-            departamento.IdDeptSuperior = dep.IdDeptSuperior;
-
-            _departamentoRepository.Update(departamento);
+            depaRepository.EditarDepartamento(dep);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Eliminar(int id)
         {
-            var departamento = _departamentoRepository.Get(id);
+            var departamento = depaRepository.Get(id);
             if (departamento == null)
                 return RedirectToAction("Index");
 
@@ -84,10 +76,10 @@ namespace Minutas.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Eliminar(Departamento dep)
         {
-            var departamento = _departamentoRepository.Get(dep.Id);
+            var departamento = depaRepository.Get(dep.Id);
             if (departamento != null)
             {
-                _departamentoRepository.Delete(departamento);
+                depaRepository.Eliminar(departamento);
             }
             return RedirectToAction("Index");
         }
