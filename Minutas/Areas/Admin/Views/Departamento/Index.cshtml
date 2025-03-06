@@ -1,62 +1,38 @@
 ﻿@model IEnumerable<Minutas.Models.Departamento>
-    @{
- 
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+@{
+    Layout = "_LayoutAdmin";
 }
-    
- 
 
-    <nav>
-        <a href="">Pendientes</a>
-        <a href="">Firmadas</a>
-        <a href="">Guardadas</a>
-        <a href="">Todas</a>
-    </nav>
-    <div id="minutas">
-        <div id="minuta">
-            <a href="vistaMinuta.html">
-                <h3>Título</h3>
-            </a>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
+<nav>
 
-        </div>
-        <div id="minuta">
-            <h3>Título</h3>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
-        </div>
-        <div id="minuta">
-            <h3>Título</h3>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
-        </div>
-        <div id="minuta">
-            <h3>Título</h3>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
-        </div>
-        <div id="minuta">
-            <h3>Título</h3>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
-        </div>
-        <div id="minuta">
-            <h3>Título</h3>
-            <p>Revisión y Aprobación del Calendario Académico 2025</p>
-            <h3>Objetivo:</h3>
-            <p> Definir y aprobar las fechas clave del calendario académico para el año 2025...</p>
-            <p>09/02/2025</p>
-        </div>
+</nav>
+<a id="depto" href="~/Admin/Departamento/Agregar">
+    <input type="button" value="Crear">
+</a>
+<table>
+    <tr>
+        <th>Superior</th>
+        <th>Departamento</th>
+        <th>Estado</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var departamento in Model)
+    {
+        <tr>
+            <td>@departamento.IdDeptSuperior</td>
+            <td>@departamento.Nombre</td>
+            <td>@(departamento.Activo.HasValue && departamento.Activo.Value ? "Activo" : "Inactivo")</td>
+            <td id="eliminar">🗑</td>
+            <td><a href="editarDepto.html">🖉</a></td>
+        </tr>
+    }
+</table>
+<div id="modal">
+    <div>
+        <label>¿Desea dar una baja lógica a este departamento?</label><br>
+        <input type="button" value="Si">
+        <input type="button" value="No">
     </div>
+</div>

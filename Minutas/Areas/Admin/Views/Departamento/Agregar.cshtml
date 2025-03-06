@@ -1,8 +1,6 @@
-﻿@model Minutas.Models.Departamento
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿
 @{
-    ViewData["Title"] = "Agregar";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "_LayoutAdmin";
 }
 
 <form>
@@ -10,20 +8,18 @@
     <div>
 
         <label>Nombre</label>
-        <input type="text" placeholder="Escribir..." required asp-for="Nombre"><br>
+        <input type="text" placeholder="Escribir..."><br>
         <label>Jefe de Departamento</label>
-        <input type="text" placeholder="Escribir..." required asp-for="IdJefe"><br>
+        <input type="text" placeholder="Escribir..."><br>
         <label>Miembros</label>
-        @foreach (var m in Model.Usuarios)
-        {
-          <select>
-           
-            <option>@m.Nombre</option>
-           
-        </select><br>  
-        }
-        
-
+        <select>
+            <option>juanita</option>
+            <option>juanita</option>
+            <option>juanita</option>
+            <option>juanita</option>
+            <option>juanita</option>
+            <option>juanita</option>
+        </select><br>
         <label>Estado</label>
         <select>
             <option>Activo</option>

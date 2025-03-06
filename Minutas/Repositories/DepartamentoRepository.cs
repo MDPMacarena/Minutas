@@ -1,59 +1,56 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Minutas.Models;
+﻿using Minutas.Models;
+using Minutas.Repositories;
 using System.Text;
 
-namespace Minutas.Repositories
+public class DepartamentoRepository : Repository<Departamento>
 {
-    public class DepartamentoRepository:Repository<Departamento>
+    public DepartamentoRepository(DbminutasContext context) : base(context)
     {
-        public DepartamentoRepository(DbContext context) : base(context)
+    }
+
+    public bool ValidarDepartamento(Departamento dep, out string errores)
+    {
+        var sb = new StringBuilder();
+
+        if (string.IsNullOrWhiteSpace(dep.Nombre))
+            sb.AppendLine("El Nombre está vacío.");
+        if (dep.IdJefe <= 0)
+            sb.AppendLine("El Id del Jefe no es válido.");
+        if (dep.IdDeptSuperior <= 0)
+            sb.AppendLine("El Id del Departamento Superior no es válido.");
+
+        errores = sb.ToString();
+        return errores.Length == 0;
+    }
+
+    public void Eliminar(Departamento dep)
+    {
+        if (dep.Minutas.Any() || dep.Usuarios.Any() || dep.InverseIdDeptSuperiorNavigation.Any())
         {
+            dep.Activo = false;
+            Update(dep);
         }
-
-        public bool ValidarDepartamento(Departamento dep, out string errores)
+        else
         {
-            var sb = new StringBuilder();
-
-            if (string.IsNullOrWhiteSpace(dep.Nombre))
-                sb.AppendLine("El Nombre está vacío.");
-            if (dep.IdJefe <= 0)
-                sb.AppendLine("El Id del Jefe no es válido.");
-            if (dep.IdDeptSuperior <= 0)
-                sb.AppendLine("El Id del Departamento Superior no es válido.");
-
-            errores = sb.ToString();
-            return errores.Length == 0;
+            Delete(dep);
         }
+    }
 
-        public void Eliminar(Departamento dep)
+    public void EditarDepartamento(Departamento dep)
+    {
+        var departamento = Get(dep.Id);
+        if (departamento != null)
         {
-            if (dep.Minutas.Any() || dep.Usuarios.Any() || dep.InverseIdDeptSuperiorNavigation.Any())
-            {
-                dep.Activo = false;
-                Update(dep);
-            }
-            else
-            {
-                Delete(dep);
-            }
-        }
+            departamento.Nombre = dep.Nombre;
+            departamento.IdJefe = dep.IdJefe;
+            departamento.IdDeptSuperior = dep.IdDeptSuperior;
 
-        public void EditarDepartamento(Departamento dep)
-        {
-            var departamento = Get(dep.Id);
-            if (departamento != null)
-            {
-                departamento.Nombre = dep.Nombre;
-                departamento.IdJefe = dep.IdJefe;
-                departamento.IdDeptSuperior = dep.IdDeptSuperior;
-
-                Update(departamento);
-            }
+            Update(departamento);
         }
+    }
 
-        public IEnumerable<Departamento> GetDepartamentosActivos()
-        {
-            return GetAll().Where(d => d.Activo == true).OrderBy(d => d.Nombre);
-        }
+    public IEnumerable<Departamento> GetDepartamentosActivos()
+    {
+        return GetAll().Where(d => d.Activo == true).OrderBy(d => d.Nombre);
     }
 }
