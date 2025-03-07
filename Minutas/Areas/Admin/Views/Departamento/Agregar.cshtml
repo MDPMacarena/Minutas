@@ -1,31 +1,33 @@
-﻿
+﻿@model Minutas.Models.Departamento
+
 @{
     Layout = "_LayoutAdmin";
 }
 
-<form>
+<form method="post" asp-action="Agregar">
     <h3>Crear Departamento</h3>
     <div>
-
         <label>Nombre</label>
-        <input type="text" placeholder="Escribir..."><br>
+        <input type="text" name="Nombre" placeholder="Escribir..." value="@Model.Nombre" required /><br>
+
         <label>Jefe de Departamento</label>
-        <input type="text" placeholder="Escribir..."><br>
+        <input type="number" name="IdJefe" placeholder="Escribir..." value="@Model.IdJefe" required /><br>
+
         <label>Miembros</label>
-        <select>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
+        <select name="IdDeptSuperior">
+            @foreach (var u in Model.Usuarios)
+            {
+                <option value="@u.Id">@u.Nombre</option>
+            }
         </select><br>
+
         <label>Estado</label>
-        <select>
-            <option>Activo</option>
-            <option>Inactivo</option>
+        <select name="Activo">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
         </select><br>
-        <a href="Departamentos.html"><input type="button" value="Confirmar"></a>
-        <a href="Departamentos.html"><input type="button" value="Cancelar"></a>
+
+        <input type="submit" value="Confirmar" />
+        <a href="Index"><input type="button" value="Cancelar"></a>
     </div>
 </form>

@@ -22,11 +22,13 @@ namespace Minutas.Areas.Admin.Controllers
             return View(departamentos);
         }
 
+        
 
         [HttpGet]
         public IActionResult Agregar()
         {
-            return View();
+           var departamento = new Departamento(); 
+            return View(departamento);
         }
 
         [HttpPost]
@@ -76,15 +78,28 @@ namespace Minutas.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Eliminar(Departamento dep)
+        public IActionResult EliminarConfirmado(int id)
         {
-            var departamento = DepaRepository.Get(dep.Id);
+            var departamento = DepaRepository.Get(id);
             if (departamento != null)
             {
-                DepaRepository.Eliminar(departamento);
+                
+                DepaRepository.Eliminar(departamento);  
             }
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
+
+
+        //[HttpPost]
+        //public IActionResult Eliminar(Departamento dep)
+        //{
+        //    var departamento = DepaRepository.Get(dep.Id);
+        //    if (departamento != null)
+        //    {
+        //        DepaRepository.Eliminar(departamento);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
     }
 }

@@ -1,33 +1,36 @@
 ﻿@model Minutas.Models.Departamento
 
 @{
-    ViewData["Title"] = "Editar";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    
+    Layout = "_LayoutAdmin";
 }
 
-
-<form>
+<form method="post" asp-action="Editar">
     <h3>Editar Departamento</h3>
     <div id="editar">
+        <input type="hidden" name="Id" value="@Model.Id" /> 
+
         <label>Nombre</label>
-        <input type="text" placeholder="Escribir..."><br>
+        <input type="text" name="Nombre" placeholder="Escribir..." value="@Model.Nombre" required /><br>
+
         <label>Jefe de Departamento</label>
-        <input type="text" placeholder="Escribir..."><br>
+        <input type="number" name="IdJefe" placeholder="Escribir..." value="@Model.IdJefe" required /><br>
+
         <label>Miembros</label>
-        <select>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-            <option>juanita</option>
-        </select>
-        <label>Estado</label>
-        <select>
-            <option>Activo</option>
-            <option>Inactivo</option>
+        <select name="IdDeptSuperior">
+            @foreach (var u in Model.Usuarios)
+            {
+                <option value="@u.Id" @(u.Id == Model.IdDeptSuperior ? "selected" : "")>@u.Nombre</option>
+            }
         </select><br>
-        <a href="Departamentos.html"><input type="button" value="Confirmar"></a>
-        <a href="Departamentos.html"><input type="button" value="Cancelar"></a>
+
+        <label>Estado</label>
+        <select name="Activo">
+            <option value="true" @(Model.Activo == true ? "selected" : "")>Activo</option>
+            <option value="false" @(Model.Activo == false ? "selected" : "")>Inactivo</option>
+        </select><br>
+
+        <input type="submit" value="Confirmar" />
+        <a href="Index"><input type="button" value="Cancelar"></a>
     </div>
 </form>

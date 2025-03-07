@@ -24,15 +24,63 @@
             <td>@departamento.IdDeptSuperior</td>
             <td>@departamento.Nombre</td>
             <td>@(departamento.Activo.HasValue && departamento.Activo.Value ? "Activo" : "Inactivo")</td>
-            <td id="eliminar">🗑</td>
-            <td><a href="editarDepto.html">🖉</a></td>
+            <td id="eliminar" data-dep-id="@departamento.Id">🗑</td>
+            <td><a href="~/Admin/Departamento/Editar/@departamento.Id">🖉</a></td>
         </tr>
     }
 </table>
-<div id="modal">
+
+<div id="modal" style="display:none;">
     <div>
         <label>¿Desea dar una baja lógica a este departamento?</label><br>
-        <input type="button" value="Si">
-        <input type="button" value="No">
+        <input type="button" value="Si" id="modalSi">
+        <input type="button" value="No" id="modalNo">
     </div>
 </div>
+
+<script>
+   
+    document.querySelectorAll('#eliminar').forEach(function(element) {
+        element.addEventListener('click', function() {
+          
+            document.getElementById('modal').style.display = 'block';
+
+         
+            const deptoId = element.getAttribute('data-dep-id');
+            console.log('Departamento a eliminar:', deptoId);
+
+  
+            document.getElementById('modalSi').addEventListener('click', function() {
+                fetch(`/Admin/Departamento/EliminarConfirmado/${deptoId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Id: deptoId
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Departamento eliminado o dado de baja correctamente.');
+                        location.reload(); 
+                    } else {
+                        alert('Hubo un error al intentar eliminar el departamento.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al intentar eliminar el departamento.');
+                });
+
+               
+                document.getElementById('modal').style.display = 'none';
+            });
+
+          
+            document.getElementById('modalNo').addEventListener('click', function() {
+                document.getElementById('modal').style.display = 'none';
+            });
+        });
+    });
+</script>

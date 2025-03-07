@@ -4,10 +4,14 @@ using System.Text;
 
 public class DepartamentoRepository : Repository<Departamento>
 {
+  
     public DepartamentoRepository(DbminutasContext context) : base(context)
     {
+       
     }
 
+
+   
     public bool ValidarDepartamento(Departamento dep, out string errores)
     {
         var sb = new StringBuilder();
@@ -22,6 +26,8 @@ public class DepartamentoRepository : Repository<Departamento>
         errores = sb.ToString();
         return errores.Length == 0;
     }
+
+    
 
     public void Eliminar(Departamento dep)
     {
