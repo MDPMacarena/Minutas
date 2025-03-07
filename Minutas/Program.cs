@@ -9,8 +9,10 @@ builder.Services.AddMvc();
 builder.Services.AddDbContext<Minutas.Models.DbminutasContext>(options =>
     options.UseMySql("server=localhost;user=root;password=root;database=dbminutas", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.1.0-mysql")));
 
-// Agrega esta línea para registrar DepartamentoRepository
+// Agrega esta línea para registrar los repositorios
 builder.Services.AddScoped<DepartamentoRepository>();
+
+builder.Services.AddScoped<EmpleadoRepository>();
 
 var app = builder.Build();
 

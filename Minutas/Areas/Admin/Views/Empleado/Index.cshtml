@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Minutas.Models.Usuarios>
+@{
+    Layout = "_LayoutAdmin";
+}
+<nav>
+    <a href="~/Admin/Empleado">Empleados</a>
+</nav>
+<a href="~/Admin/Empleado/Agregar">
+    <input type="button" value="Dar de alta empleado">
+</a>
+<table>
+    <tr>
+        <th>Núm. Empleado</th>
+        <th>Nombre</th>
+        <th>Departamento</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var empleado in Model)
+    {
+        <tr>
+            <td>@empleado.Id</td>
+            <td>@empleado.Nombre</td>
+            <td>@empleado.IdDepartamentoNavigation.Nombre</td>
+            <td id="eliminar" data-dep-id="@empleado.Id">🗑</td>
+            <td><a href="~/Admin/Empleado/Editar/@empleado.Id">🖉</a></td>
+        </tr>
+    }
+
+
+
+</table>
+
+<div id="modal" style="display: none;">
+    <div>
+        <label>¿Desea eliminar a este empleado?</label><br>
+        <input type="button" value="Si" id="modalSi">
+        <input type="button" value="No" id="modalNo">
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.eliminar').forEach(function(element) {
+        element.addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'block';
+
+
+            const empId = element.getAttribute('data-emp-id');
+            console.log('Empleado a eliminar:', empId);
+
+
+            document.getElementById('modalSi').onclick = function() {
+                fetch(`/Admin/Empleado/EliminarConfirmado/${empId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Id: empId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Empleado eliminado correctamente.');
+                        location.reload();
+                    } else {
+                        alert('Hubo un error al eliminar el empleado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al eliminar el empleado.');
+                });
+
+                document.getElementById('modal').style.display = 'none';
+            };
+
+
+            document.getElementById('modalNo').onclick = function() {
+                document.getElementById('modal').style.display = 'none';
+            };
+        });
+    });
+</script>
