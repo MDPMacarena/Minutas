@@ -1,123 +1,232 @@
+
 body{
     margin: 0;
     font-family: Verdana;
+    box-sizing: border-box;
 }
+
 header{
     display: inline-flex;
     width: 100%;
     position: fixed;
     top: 0;
+    line-height: 80px; 
+    background-color: white;
 }
 #titulo{
     color: white;
-    height: 70px;
+    height: 90px;
     display: flex;
     width: 60%;
     margin: 0;
-    line-height: 30px;
+    line-height: 40px;
     background: linear-gradient(to right, #1D5371,#185C53);
     clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
 }
+#titulo p{
+    font-size: 15px;
+    height: 30px;
+    position: absolute;
+    margin: 50px 110px;
+}
 #titulo img{
-    height: 50px;
-    margin: 10px 20px;
+    height: 70px;
+    margin: 10px 15px;
 }
 #seccion{
-    background-color:white;
-    margin-left: -60px;
     width: 80%;
-    line-height: 60px;    
     clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%);
-
 }
 #seccion input{
-    height: 24px;
-    border-radius: 10px;
     background-color: #D9D9D9;
-    border: 0;
-    width: auto;
-    padding: 10px;
+    translate: 120%;
     color: #7E7A7A;
-    cursor: pointer;
-    translate: 200px;
+    width: 40%;
 }
+input,select{
+    height: 30px;
+    border-radius: 10px;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 0px #b2b4b5;
+}
+
+
 aside{
     background-color: #1D5371;
-    width: 70px;
+    width: 100px;
     position:fixed;
     height: calc(100vh - 50px);
     padding: 2px;
-    top: 15%;
-}
-#menu{
-    width: 100%;
-    padding: 5px 0;
-    cursor: pointer;
-}
-#menu:hover{
-    background-color: #164057;
-}
-#menu a{
-    text-decoration: none;
-    color: white;
-    font-size: 11px;
-    font-family: Verdana;
-    justify-content: center;
-    display: flex;
-}
-#menu i{
-    margin: 10px auto;
-    width: 100%;
-    color: white;
-    text-align: center;
-}
-main{
-    width: 99%;
+    top: 14%;
     box-sizing: border-box;
-    margin: 100px 0 0 75px;
-}
-main h3{
-    color: #7E7A7A;
-    margin: -20px 50px 50px 0;
-    padding-bottom: 10px;
-    border-bottom: #1D5371 1px solid;
 }
 nav{
     width: 100%;
-    left: -10px;
-    background: linear-gradient(to right, #1D5371,#185C53);
-    top: 11.5%;
-    height: 25px;
+    top: 10%;
+    height: 40px;
     position: fixed;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    justify-self: center;
+    padding-left: 100px;
+}
+nav div{
+    width: 10%;
+    text-align: center;
+    display: inline-block;
+}
+nav div:hover{
+    background-color: white;
+}
+nav div:hover a{
+    color: #164057;
 }
 nav a{
-    font-family: Verdana;
     color: white;
     text-decoration: none;
-    font-size: 13px;
-    margin-left: 100px;
+    font-size: 15px;
+    line-height: 35px;
 }
+.menu{
+    width: 100%;
+    padding: 15px 0;
+    cursor: pointer;
+    height: 80px;
+    text-align: center;
+    color: white;
+}
+.menu:hover{
+    background-color: #164057;
+}
+.menu a{
+    text-decoration: none;
+    font-size: 11px;
+    justify-content: center;
+    color: white;
+}
+.menu i{
+    margin: 10px auto;
+}
+/*boton crear minuta*/
+.menu:nth-child(1){
+    border: rgb(117, 117, 117) 1px solid;
+    color:#1D5371;
+    background-color: white;
+    border-radius: 10px;
+    width: 50%;
+    height: 15px;
+    margin: 10px auto;
+}
+.menu:nth-child(1) i{
+    margin: -10px 0;
+    font-size: 35px;
+    color: #164057;
+}
+/*separados pq el de arriba se desacomoda todo si le quito i*/
+.menu:nth-child(1):hover{
+    background-color: #164057;
+    transition: .5s;
+}
+.menu:nth-child(1) i:hover{
+    color: white;
+}
+main{
+    width: auto;
+    box-sizing: border-box;
+    margin: 130px 0 0 100px;
+}
+/*filtro minutas*/
+/*sin fijar
+    margin: 9% 0 0 0;
+    width: 100%;
+    height: 40px;
+*/
+#filtro{
+    border-bottom: #164057 1px solid;
+    margin: 0 0 0 0px;
+    width: 100%;
+    height: 110px;
+    color: #164057;
+    padding: 25px 0 0 100px;
+    justify-items: left;
+    position: fixed;
+    background-color: white;
+}
+fieldset{
+    border: none;
+    height: 50px;
+    width: 45%;
+    margin: auto;
+}
+#filtro div{
+    width: 85%;
+    height: 100px;
+    display: flex;
+}
+#filtro select{
+    height: 30px;
+    width: 15%;
+    padding: 0 10px;
+    transform: translateX(-80px);
+    margin: 40px 0 0 0px;
+}
+#filtro input{
+    width: 100px;
+    height: 40px;
+    background-color: #164057;
+    margin: auto;
+    color: white;
+}
+#filtro input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    margin: 0 30px;
+}
+
 #minutas{
-    margin-top: 150px;
-    margin-left: 20px;
+    padding: 50px;
 }
-#minuta{
-    margin-top: 40px;
-    margin-left: 50px;
+.minuta{
+    margin-top: 110px;
+    margin-left: 60px;
     width: 300px;
+    height: 250px;
     background-color: #D9D9D9;
     padding: 20px;
     border-radius: 0 0 20px 20px;
-    border-top: #1D7165 3px solid;
+    border-top: #1D7165 4px solid;
     display: inline-block;
 }
+.minuta h3{
+    color: #164057;
+}
+.minuta p{
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.minuta div{
+    margin-top: 60px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.minuta i{
+    color: #164057;
+}
+
+
+
+
 /*tabla de departamentos, empleados*/
 
 table{
     background-color: #D9D9D9;
     width: 90%;
     box-sizing: border-box;
-    margin: 30px 20px;
+    margin: 30px auto;
     font-size: 13px;
     text-align: center;
 }
@@ -134,102 +243,287 @@ table a{
     color: #164057;
     font-size: 20px;
 }
+/*boton basura*/
 table td:nth-child(4){
-    visibility: hidden;
-    font-size: 25px;
-}
-table tr:hover td:nth-child(4){
-    visibility: visible;
+    font-size: 20px;
+    color: #1D5371;
     cursor: pointer;
 }
-#depto{
-    display: flex;
-    justify-content: right;
+#depto, #empleado{
     text-decoration: none;
-    margin: 10px 100px;
+    display: flex;
+    justify-content: flex-end;
 }
-#depto input{
-    border-radius: 10px;
-    border: none;
-    font-size: 14px;
-    width: 10%;
-    height: 30px;
-    cursor: pointer;
-    box-shadow: 3px 5px 10px 0px #b2b4b5;
-    margin: 10px 20px 0;
+#depto input, #empleado input{
+    width: 4%;
+    margin: 30px 100px 0;
+    font-size: 20px;
+    height: 35px;
 }
-#depto input:hover{
-    background-color: #D9D9D9;
+
+/*clase hover para botones*/
+.hover:hover{
+    background-color: #164057;
+    color: white;
     transition: .5s ease-out;
-    color: #164057;
 }
-/*darDeAltaEmpleado*/
-form{
-    background-color: #D9D9D9;
+/*fondo modal*/
+.modal{
+    width: 100%;
+    top: 135px;
+    left: 100px;
+    position: fixed;
     height: calc(100vh - 50px);
-    padding: 80px 50px 0 80px;
-    width: 85%;
+    background-color: rgba(135, 133, 133, 0.516);
 }
-form input, select{
-    border-radius: 12px;
-    padding: 4px 0 4px 10px;
+/*modales, div para eliminar*/
+.modal form, .modal div{
+    width: 40%;
+    height:auto;
+    margin: 50px auto;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+    
+}
+/*Empleado*/
+#modalCrearEmpleado{
+    display: block;
+}
+#modalEditarEmpleado{
+    display: none;
+}
+#modalEliminarEmpleado{
+    display: none;  
+}
+/*Departamento*/
+#modalCrearDepto{
+    display: block;
+}
+#modalEditarDepto{
+    display: none;
+}
+#modalEliminarDepto{
+    display: none;
+}
+/*eliminar empleado*/
+#modalEliminarEmpleado div, #modalEliminarDepto div{
+    height: 120px;
+    margin: 150px auto;
+    text-align: center;
+    padding-top: 30px;
+}
+#modalEliminarEmpleado input, #modalEliminarDepto input{
+    margin: 50px 20px;
+    width: 20%;
+    height: 35px;
+    border: #185C53 1px solid;
+}
+
+/*titulo en los modales*/
+form h3{
+    color: white;
+    padding: 40px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    border-bottom: #1D5371 1px solid;
+}
+form label{
+    padding-left: 50px;
+}
+/*departamento*/
+#modalCrearDepto input[type="text"], #modalEditarDepto input[type="text"]{
     border: 0;
     margin: 20px;
-    box-shadow: 1px 2px 10px 0px #b2b4b5;
+    width: 65%;
+    border-radius: 5px;
+    padding: 0 10px;
 }
-form input[type="text"], input[type="password"]{
-    width: 70%;
-    box-shadow: 1px 2px 10px 0px #b2b4b5;
+#modalCrearDepto select, #modalEditarDepto select{
+    border: 0;
+    margin: 20px 70px;
+    width: 45%;
+    border-radius: 5px;
+    padding: 0 10px;
 }
-form input[type="number"], select {
-    width: 26%;
+/*empleado*/
+#modalCrearEmpleado input[type="text"], #modalEditarEmpleado input[type="text"]{
+    margin: 20px 40px;
+    padding: 0 10px;
+    width: 50%;
 }
-form input[type="button" ]{
-    float: right;
-    margin: 90px;
+#modalEditarEmpleado input[type="password"], #modalCrearEmpleado input[type="password"]{
+    padding: 0 10px;
+    margin: 30px 95px;
+    width: 50%;
+}
+#modalEditarEmpleado input[type="number"], #modalCrearEmpleado input[type="number"]{
+    padding: 0 10px;
+    margin: 30px 10px;
+    width: 50%;
+}
+#modalEditarEmpleado input[type="date"], #modalCrearEmpleado input[type="date"]{
+    padding: 0 10px;
+    margin: 30px 25px;
+    width: 50%;
+}
+#modalEditarEmpleado select, #modalCrearEmpleado select{
+    border: 0;
+    margin: 20px 70px;
+    width: 50%;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+/*botones cancelar y confirmar*/
+form input[type="button"] {
     border-bottom: #1D5371 2px solid;
     border-radius: 0;
     width: 20%;
+    padding: 5px;
+    margin: 50px 110px;
+    font-size: 15px;
 }
-#modal{
-    width: 100%;
-    background-color: rgba(135, 133, 133, 0.516);
-    height: calc(100vh - 50px);
-    z-index: 1;
-    position: fixed;
-    top: 97px;
-    display: none;
-}
-#modal div{
-    background-color: white;
-    height: 120px;
-    width: 40%;
-    justify-content: center;
-    margin: 150px auto;
-    text-align: center;
-    border-radius: 10px;
-    padding-top: 30px;
-}
-#modal input{
-    margin: 50px 20px;
-    width: 20%;
-    border-radius: 10px;
-    height: 30px;
-    border: #185C53 1px solid;
-    cursor: pointer;
-}
-#modal input:hover{
-    background-color: #164057;
-    color: white;
-    transition: .2s ease-out;
-}
-#editar{
-    width: 100%;
-    justify-content: right;
-}
-#editar input[type="text"]:nth-child(2){
-    width: calc(100% - 20%);
-}
-#editar select{
-    width: calc(100% - 65%);
-}
+
+@media screen and (max-width: 992px) {
+    body {
+        background-color: purple;
+    }
+    #filtro{
+        top: 140px;
+        width: 85%;
+    }
+    #filtro select{
+        width: 100px;
+    }
+    #titulo{
+        width: 90%;
+    }
+    #seccion input{
+        width: 200px;
+        translate: 70px;
+    }
+    nav{
+        top: 100px;
+    }
+    nav div{
+        width: 130px;
+    }
+    aside{
+        top: 140px;
+    }
+    .minuta{
+        margin-left: 40px;
+    }
+    #modalEditarEmpleado input[type="password"], #modalCrearEmpleado input[type="password"]{
+        margin-left: 50px;
+    }
+    #modalEditarEmpleado input[type="number"], #modalCrearEmpleado input[type="number"]{
+        margin-left: 50px;
+    }
+    #modalEditarEmpleado input[type="date"], #modalCrearEmpleado input[type="date"]{
+        margin-left: 50px;
+    }
+    form input[type="button"]{
+        margin: 50px 25px;
+        width: 30%;
+    }
+  }
+  /*disp menos de 600 pixeles*/
+  @media screen and (max-width: 600px) {
+    body {
+        background-color: cadetblue;
+    }
+    #filtro{
+        top: 140px;
+        width:80%;
+        padding: 0px 0 20px 10px;
+        height: 130px;
+    }
+    #filtro div{
+        height: 150px;
+        margin-top: -20px;
+    }
+    #filtro legend{
+        width: 200px;
+    }
+    #filtro select{
+        width: 95px;
+    }
+    #filtro input[type="button"]{
+        translate: -50px;
+    }
+    nav{
+        top: 100px;
+    }
+    nav div{
+        width: 110px;
+    }
+    aside{
+        top: 140px;
+    }
+    .minuta{
+        margin-left: 40px;
+        top: 1000px;
+    }
+  }
+  /*@media only screen and (orientation: landscape){
+    body {
+      background-color: lightblue;
+    }
+    nav{
+        top: 100px;
+    }
+    #filtro{
+        top: 140px;
+    }
+    aside{
+        top: 140px;
+    }
+    nav div{
+        width: 170px;
+    }
+     /*departamento
+     #modalCrearDepto input[type="text"], #modalCrearDepto select{
+        margin-left: 60px;
+        width: 10%;
+    }
+    /*#modalCrearEmpleado input[type="text"], #modalEditarEmpleado input[type="text"]{
+        width: 75%;
+    }
+    #modalEditarEmpleado input[type="password"], #modalCrearEmpleado input[type="password"]{
+        margin: 10px 0 0 60px;
+        width: 160px;
+    }
+    #modalEditarEmpleado input[type="number"], #modalCrearEmpleado input[type="number"]{
+        margin-left: 50px;
+        width: 90px;
+    }
+    #modalEditarEmpleado input[type="date"], #modalCrearEmpleado input[type="date"]{
+        margin-left: 50px;
+        width: 100px;
+    }
+    form input[type="button"]{
+        margin: 50px 60px;
+        width: 30%;
+    }
+    
+  }*/
+  @media screen and (min-width: 992px) and (max-width: 1600px){
+    body{
+        background-color: #164057;
+    }
+    #modalCrearDepto input[type="text"], #modalEditarDepto input[type="text"]{
+        margin-left: 50px;
+    }
+    #modalEditarEmpleado select, #modalCrearEmpleado select{
+        margin-left: 10px;
+        width: 10%;
+    }
+    #modalCrearDepto select, #modalEditarDepto select{
+        margin-left: 60px;
+        width: 40%;
+    }
+    form input[type="button"]{
+        margin: 35px;
+        width: 30%;
+    }
+  }
