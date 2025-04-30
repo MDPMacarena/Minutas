@@ -9,21 +9,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Proyecto\adminEmpleados.html" />
-    <None Include="wwwroot\Proyecto\DarAltaDepto.html" />
-    <None Include="wwwroot\Proyecto\DarAltaEmpleado.html" />
-    <None Include="wwwroot\Proyecto\Departamentos.html" />
-    <None Include="wwwroot\Proyecto\dinamic.js" />
-    <None Include="wwwroot\Proyecto\editarDepto.html" />
-    <None Include="wwwroot\Proyecto\editarEmpleado.html" />
-    <None Include="wwwroot\Proyecto\eliminarDepto.html" />
-    <None Include="wwwroot\Proyecto\estilos.css" />
-    <None Include="wwwroot\Proyecto\halcon.png" />
-    <None Include="wwwroot\Proyecto\Index.html" />
-    <None Include="wwwroot\Proyecto\vistaMinuta.html" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
