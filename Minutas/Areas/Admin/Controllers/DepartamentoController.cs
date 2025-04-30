@@ -5,101 +5,60 @@ using Minutas.Repositories;
 namespace Minutas.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Route("Admin/Departamento")]
     public class DepartamentoController : Controller
     {
         public DepartamentoRepository DepaRepository { get; }
-
 
         public DepartamentoController(DepartamentoRepository departamentoRepository)
         {
             DepaRepository = departamentoRepository;
         }
 
-
-        public IActionResult Index()
+        // Obtener departamentos activos (ej: para llenar la tabla con JS)
+        [HttpGet("Lista")]
+        public IActionResult GetDepartamentos()
         {
             var departamentos = DepaRepository.GetDepartamentosActivos();
-            return View(departamentos);
+            return Json(departamentos);
         }
 
-        
-
-        [HttpGet]
-        public IActionResult Agregar()
-        {
-           var departamento = new Departamento(); 
-            return View(departamento);
-        }
-
-        [HttpPost]
-        public IActionResult Agregar(Departamento dep)
+        // Agregar nuevo departamento (desde formulario JS)
+        [HttpPost("Agregar")]
+        public IActionResult Agregar([FromBody] Departamento dep)
         {
             if (!DepaRepository.ValidarDepartamento(dep, out string errores))
             {
-                ModelState.AddModelError("", errores);
-                return View(dep);
+                return BadRequest(new { success = false, message = errores });
             }
 
             DepaRepository.Insert(dep);
-            return RedirectToAction("Index");
+            return Ok(new { success = true });
         }
 
-        [HttpGet]
-        public IActionResult Editar(int id)
-        {
-            var departamento = DepaRepository.Get(id);
-            if (departamento == null)
-                return RedirectToAction("Index");
-
-            return View(departamento);
-        }
-
-        [HttpPost]
-        public IActionResult Editar(Departamento dep)
+        // Editar departamento
+        [HttpPost("Editar")]
+        public IActionResult Editar([FromBody] Departamento dep)
         {
             if (!DepaRepository.ValidarDepartamento(dep, out string errores))
             {
-                ModelState.AddModelError("", errores);
-                return View(dep);
+                return BadRequest(new { success = false, message = errores });
             }
 
             DepaRepository.EditarDepartamento(dep);
-            return RedirectToAction("Index");
+            return Ok(new { success = true });
         }
 
-        [HttpGet]
-        public IActionResult Eliminar(int id)
-        {
-            var departamento = DepaRepository.Get(id);
-            if (departamento == null)
-                return RedirectToAction("Index");
-
-            return View(departamento);
-        }
-
-        [HttpPost]
+        // Eliminar departamento (baja lógica)
+        [HttpPost("EliminarConfirmado/{id}")]
         public IActionResult EliminarConfirmado(int id)
         {
             var departamento = DepaRepository.Get(id);
             if (departamento != null)
             {
-                
-                DepaRepository.Eliminar(departamento);  
+                DepaRepository.Eliminar(departamento);
             }
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
-
-
-        //[HttpPost]
-        //public IActionResult Eliminar(Departamento dep)
-        //{
-        //    var departamento = DepaRepository.Get(dep.Id);
-        //    if (departamento != null)
-        //    {
-        //        DepaRepository.Eliminar(departamento);
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
     }
 }
