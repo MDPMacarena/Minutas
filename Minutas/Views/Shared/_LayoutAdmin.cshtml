@@ -1,70 +1,53 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Outlock Base</title>
+    <link rel="stylesheet" href="~/modif/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="~/Proyecto/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+
 </head>
 <body>
     <header>
         <div id="titulo">
-            <img src="~/Proyecto/halcon.png">
-            <h1>MINUTAS</h1>
-            <p>Dr. Luis Carlos Longares</p>
+            <button class="menu">
+                <img id="imgMenu" src="588a64e0d06f6719692a2d10.png" alt="" srcset="">
+            </button>
+            <img src="logotec (weld).png">
+            <div>
+                <h1>MINUTAS</h1>
+                <p>Luis Carlos Longares Vidal</p>
+            </div>
         </div>
         <div id="seccion">
-            <input type="search" placeholder="&#x1F50E; Buscar...">
-        </div>
-    </header>
-    <nav>
-            <div>
-                <a href="Index.html">Pendientes</a>
-            </div>
-           <div>
-                <a href="minutasFirmadas.html">Firmadas</a>
-           </div>
-            <div>
-                <a href="minutasGuardadas.html">Guardadas</a>
-            </div>
-        </nav>
-    <aside>
-        <div class="menu">
-            <a href="CrearMinuta.html">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-        <div class="menu">
-            <a href="Index.html">
-                <i class="material-icons">menu</i>
-                <p>Minutas</p>
-            </a>
-        </div>
-        <div class="menu">
-            <a href="~/Admin/Empleado">
-                <i class="material-icons">person</i>
-                <p>Empleados</p>
-            </a>
-        </div>
-        <div class="menu">
-            <a href="~/Admin/Departamento">
-                <i class="material-icons">group</i>
-                <p>Departamentos</p>
-            </a>
-        </div>
-        <div class="menu">
-            <a href="">
-                <i class="material-icons">person</i><br>
-                <p>Perfil</p>
-            </a>
-        </div>
-    </aside>
+            <input type="search" placeholder="">
+            <i id="buscar" class="material-icons">search</i>
+            <i id="crearMinutaBtn" class="material-icons">note_add</i>
 
-    <main>
+        </div>
+
+
+
+
+    </header>
+    <div class="content">
+        <aside class="sidebar">
+            <a id="apartado-minutas" href="index.html">Minutas</a>
+            <a id="apartado-empleados" href="Empleados.html">Empleados</a>
+            <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
+            <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
+            <a id="apartado-perfil" href="perfil.html">Perfil</a>
+
+
+        </aside>
+        <main>
         @RenderBody()
-    </main>
+        </main>
+
+    </div>
+   
 </body>
 </html>
