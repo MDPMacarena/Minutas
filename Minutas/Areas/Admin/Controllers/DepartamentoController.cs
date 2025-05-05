@@ -60,5 +60,7 @@ namespace Minutas.Areas.Admin.Controllers
             }
             return Ok(new { success = true });
         }
+
+
     }
 }
