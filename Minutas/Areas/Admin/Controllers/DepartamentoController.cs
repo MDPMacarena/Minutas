@@ -8,57 +8,68 @@ namespace Minutas.Areas.Admin.Controllers
     [Route("Admin/Departamento")]
     public class DepartamentoController : Controller
     {
-        public DepartamentoRepository DepaRepository { get; }
+        private readonly DepartamentoRepository _depaRepo;
 
-        public DepartamentoController(DepartamentoRepository departamentoRepository)
+        public DepartamentoController(DepartamentoRepository depaRepo)
         {
-            DepaRepository = departamentoRepository;
+            _depaRepo = depaRepo;
         }
 
-        // Obtener departamentos activos (ej: para llenar la tabla con JS)
+        // Acción principal: muestra la vista con los departamentos
+        [HttpGet("")]
+        public IActionResult Index()
+        {
+            var departamentos = _depaRepo.GetDepartamentosActivos();
+            return View(departamentos); // Asegúrate de tener Views/Departamento/Index.cshtml
+        }
+
+        // Acción para cargar departamentos vía JavaScript (AJAX)
         [HttpGet("Lista")]
         public IActionResult GetDepartamentos()
         {
-            var departamentos = DepaRepository.GetDepartamentosActivos();
+            var departamentos = _depaRepo.GetDepartamentosActivos();
             return Json(departamentos);
         }
 
-        // Agregar nuevo departamento (desde formulario JS)
+        // Acción para agregar un nuevo departamento (AJAX)
         [HttpPost("Agregar")]
-        public IActionResult Agregar([FromBody] Departamento dep)
+        public IActionResult Agregar([FromForm] Departamento dep)
         {
-            if (!DepaRepository.ValidarDepartamento(dep, out string errores))
+            if (!_depaRepo.ValidarDepartamento(dep, out string errores))
             {
                 return BadRequest(new { success = false, message = errores });
             }
 
-            DepaRepository.Insert(dep);
+            _depaRepo.Insert(dep);
             return Ok(new { success = true });
         }
 
-        // Editar departamento
+        // Acción para editar un departamento (AJAX)
         [HttpPost("Editar")]
-        public IActionResult Editar([FromBody] Departamento dep)
+        public IActionResult Editar([FromForm] Departamento dep)
         {
-            if (!DepaRepository.ValidarDepartamento(dep, out string errores))
+            if (!_depaRepo.ValidarDepartamento(dep, out string errores))
             {
                 return BadRequest(new { success = false, message = errores });
             }
 
-            DepaRepository.EditarDepartamento(dep);
+            _depaRepo.EditarDepartamento(dep);
             return Ok(new { success = true });
         }
 
-        // Eliminar departamento (baja lógica)
+        // Acción para eliminar un departamento (baja lógica) (AJAX)
         [HttpPost("EliminarConfirmado/{id}")]
         public IActionResult EliminarConfirmado(int id)
         {
-            var departamento = DepaRepository.Get(id);
+            var departamento = _depaRepo.Get(id);
             if (departamento != null)
             {
-                DepaRepository.Eliminar(departamento);
+                _depaRepo.Eliminar(departamento);
             }
             return Ok(new { success = true });
         }
     }
+
+
+
 }
