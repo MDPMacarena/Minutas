@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,9 +7,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\modif\.vscode\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\modif\.git\objects\info\" />
+    <Folder Include="wwwroot\modif\.git\refs\tags\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\modif\.git\config" />
+    <None Include="wwwroot\modif\.git\description" />
+    <None Include="wwwroot\modif\.git\HEAD" />
+    <None Include="wwwroot\modif\.git\hooks\applypatch-msg.sample" />
+    <None Include="wwwroot\modif\.git\hooks\commit-msg.sample" />
+    <None Include="wwwroot\modif\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="wwwroot\modif\.git\hooks\post-update.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-applypatch.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-commit.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-merge-commit.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-push.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-rebase.sample" />
+    <None Include="wwwroot\modif\.git\hooks\pre-receive.sample" />
+    <None Include="wwwroot\modif\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="wwwroot\modif\.git\hooks\push-to-checkout.sample" />
+    <None Include="wwwroot\modif\.git\hooks\sendemail-validate.sample" />
+    <None Include="wwwroot\modif\.git\hooks\update.sample" />
+    <None Include="wwwroot\modif\.git\index" />
+    <None Include="wwwroot\modif\.git\info\exclude" />
+    <None Include="wwwroot\modif\.git\logs\HEAD" />
+    <None Include="wwwroot\modif\.git\logs\refs\heads\main" />
+    <None Include="wwwroot\modif\.git\logs\refs\remotes\origin\HEAD" />
+    <None Include="wwwroot\modif\.git\objects\pack\pack-d80e2d34044a322858ac7601984a68c58197e85c.idx" />
+    <None Include="wwwroot\modif\.git\objects\pack\pack-d80e2d34044a322858ac7601984a68c58197e85c.pack" />
+    <None Include="wwwroot\modif\.git\objects\pack\pack-d80e2d34044a322858ac7601984a68c58197e85c.rev" />
+    <None Include="wwwroot\modif\.git\packed-refs" />
+    <None Include="wwwroot\modif\.git\refs\heads\main" />
+    <None Include="wwwroot\modif\.git\refs\remotes\origin\HEAD" />
   </ItemGroup>
 
   <ItemGroup>
