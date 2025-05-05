@@ -15,15 +15,15 @@ namespace Minutas.Areas.Admin.Controllers
             _depaRepo = depaRepo;
         }
 
-        // Acción principal: muestra la vista con los departamentos
+     
         [HttpGet("")]
         public IActionResult Index()
         {
             var departamentos = _depaRepo.GetDepartamentosActivos();
-            return View(departamentos); // Asegúrate de tener Views/Departamento/Index.cshtml
+            return View(departamentos); 
         }
 
-        // Acción para cargar departamentos vía JavaScript (AJAX)
+      
         [HttpGet("Lista")]
         public IActionResult GetDepartamentos()
         {
@@ -31,7 +31,7 @@ namespace Minutas.Areas.Admin.Controllers
             return Json(departamentos);
         }
 
-        // Acción para agregar un nuevo departamento (AJAX)
+     
         [HttpPost("Agregar")]
         public IActionResult Agregar([FromForm] Departamento dep)
         {
@@ -44,7 +44,6 @@ namespace Minutas.Areas.Admin.Controllers
             return Ok(new { success = true });
         }
 
-        // Acción para editar un departamento (AJAX)
         [HttpPost("Editar")]
         public IActionResult Editar([FromForm] Departamento dep)
         {
@@ -57,7 +56,6 @@ namespace Minutas.Areas.Admin.Controllers
             return Ok(new { success = true });
         }
 
-        // Acción para eliminar un departamento (baja lógica) (AJAX)
         [HttpPost("EliminarConfirmado/{id}")]
         public IActionResult EliminarConfirmado(int id)
         {
