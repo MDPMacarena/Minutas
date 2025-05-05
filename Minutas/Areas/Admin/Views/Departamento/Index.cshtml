@@ -9,7 +9,7 @@
     <aside class="sidebar">
         <a id="apartado-minutas" href="/Admin/Minutas">Minutas</a>
         <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
-        <a id="apartado-departamentos" href="~/Admin/Departamento">Departamentos</a>
+        <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
         <a id="apartado-configuracion" href="#">Configuración</a>
         <a id="apartado-perfil" href="#">Perfil</a>
     </aside>
@@ -51,14 +51,18 @@
                 <label>Nombre</label>
                 <input type="text" name="Nombre"><br>
                 <label>Jefe de Departamento</label>
-                <select name="JefeId">
-                    <option value="1">Oscar</option>
-                    <option value="2">Lucía</option>
+                <select name="IdJefe">
+                    @foreach (var jefe in ViewBag.Empleados)
+                    {
+                        <option value="@jefe.Id">@jefe.Nombre</option>
+                    }
                 </select><br>
                 <label>Departamento Superior</label>
-                <select name="DepartamentoSuperiorId">
-                    <option value="1">Académicos</option>
-                    <option value="2">Administrativos</option>
+                <select name="IdDeptSuperior">
+                    @foreach (var superior in ViewBag.Departamentos)
+                    {
+                        <option value="@superior.Id">@superior.Nombre</option>
+                    }
                 </select><br>
                 <div class="buttons">
                     <input type="submit" value="Confirmar">
@@ -75,14 +79,18 @@
                 <label>Nombre</label>
                 <input type="text" name="Nombre"><br>
                 <label>Jefe de Departamento</label>
-                <select name="JefeId">
-                    <option value="1">Oscar</option>
-                    <option value="2">Lucía</option>
+                <select name="IdJefe">
+                    @foreach (var jefe in ViewBag.Empleados)
+                    {
+                        <option value="@jefe.Id">@jefe.Nombre</option>
+                    }
                 </select><br>
                 <label>Departamento Superior</label>
-                <select name="DepartamentoSuperiorId">
-                    <option value="1">Académicos</option>
-                    <option value="2">Administrativos</option>
+                <select name="IdDeptSuperior">
+                    @foreach (var superior in ViewBag.Departamentos)
+                    {
+                        <option value="@superior.Id">@superior.Nombre</option>
+                    }
                 </select><br>
                 <div class="buttons">
                     <input type="submit" value="Confirmar">
@@ -117,8 +125,8 @@
             const modal = document.getElementById("modalEditarDepto");
             modal.querySelector("input[name='Id']").value = row.dataset.id;
             modal.querySelector("input[name='Nombre']").value = row.dataset.nombre;
-            modal.querySelector("select[name='JefeId']").value = row.dataset.jefe;
-            modal.querySelector("select[name='DepartamentoSuperiorId']").value = row.dataset.superior;
+            modal.querySelector("select[name='IdJefe']").value = row.dataset.jefe;
+            modal.querySelector("select[name='IdDeptSuperior']").value = row.dataset.superior;
             modal.style.display = "block";
         });
     });
