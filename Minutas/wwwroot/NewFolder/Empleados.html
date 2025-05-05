@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlock Base</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  
+</head>
+<body>
+    <header>
+        <div id="titulo">
+            <button class="menu">
+               <img id="imgMenu" src="588a64e0d06f6719692a2d10.png" alt="" srcset="">
+            </button> 
+            <img src="logotec (weld).png">
+            <div> <h1>MINUTAS</h1>
+            <p>Luis Carlos Esteban Longares Vidal</p>
+            </div>
+        </div>
+        <div id="seccion">
+            <input type="search" placeholder="">
+            <i id="buscar" class="material-icons">search</i>
+            <i id="crearEmpleadoBtn" class="material-icons">person_add</i>
+        </div>
+    </header>
+    <div class="content">
+        <aside class="sidebar"> 
+                
+            <a id="apartado-minutas" href="index.html">Minutas</a>
+            <a id="apartado-empleados" href="Empleados.html">Empleados</a>
+            <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
+            <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
+            <a id="apartado-perfil" href="perfil.html">Perfil</a>
+            </aside>
+       <main>
+        <table id="tablaEmplea">
+            <tr>
+                <th>Núm. Empleado</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+            <tr>
+                <td>4455</td>
+                <td>Juan Torres Méndez</td>
+                <td>Administración</td>
+                <td class="eliminarEmp">🗑</td>
+                <td class="editarEmp">🖉</td>
+            </tr>
+        </table>
+
+        <!--Eliminar empleado-->
+        <div id="modalEliminarEmpleado" class="modal">
+            <form class="botonesForm">
+                <label>¿Desea eliminar a este empleado?</label><br>
+                <input type="button" value="Si">
+                <input type="button" value="No">
+            </form>
+        </div>
+
+        <!--Dar de alta empleado-->
+        <div id="modalCrearEmpleado" class="modal">
+            <form>
+                <h3>Dar de alta empleados</h3>
+
+                    <label>Nombre completo:</label>
+                    <input type="text" placeholder="Escribir...">
+      
+                    <label>Nombre completo:</label>
+                    <input type="text" placeholder="Escribir...">
+           
+                    <label>Correo electronico:</label>
+                    <input type="text" placeholder="Escribir...">
+          
+                    <label>Departamento:</label>
+                    <select>
+                        <option>Sistemas</option>
+                        <option>Vinculación</option>
+                        <option>Planeación</option>
+                        <option>Administración</option>
+                        <option>Industrial</option>
+                        <option>Coordinación</option>
+                    </select>
+             
+
+                <label>Número de empleado:</label>
+                <input type="number" placeholder="Escribir...">
+               
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date">
+             
+                <div class="buttons">
+                    <input type="button" value="Cancelar">
+                    <input type="button" value="Confirmar">
+            </div>
+
+            </form>
+        </div>
+        <div id="modalEditarEmpleado" class="modal">
+            <form>
+                <h3>Editar empleado</h3>
+                <div></div>
+                <label>Nombre completo:</label>
+                <input type="text" placeholder="Escribir...">
+                <label>Correo electronico:</label>
+                <input disabled type="text" placeholder="Escribir...">
+                <label>Departamento:</label>
+                <select>
+                    <option>Sistemas</option>
+                    <option>Vinculación</option>
+                    <option>Planeación</option>
+                    <option>Administración</option>
+                    <option>Industrial</option>
+                    <option>Coordinación</option>
+                </select><br>
+                <label>Número de empleado:</label>
+                <input disabled type="number" placeholder="Escribir..."><br>
+                <label>Contraseña</label>
+                <input type="password" placeholder="Escribir..."><br>
+                <label>Fecha de Nacimiento</label>
+                <input type="date"><br>
+                <div class="buttons">
+                    <input class="hover" type="button" value="Cancelar">
+                    <input class="hover" type="button" value="Confirmar">
+                </div>
+            </form>
+        </div>
+       </main>
+    
+    </div>
+        <script>
+        const menu = document.querySelector('button');
+        const sidebar = document.querySelector('.sidebar');
+        const header =document.querySelector("header");
+
+        // abrir crear empleado
+        
+        document.querySelector("#crearEmpleadoBtn").addEventListener("click",function(){
+           let crearDep = document.querySelector("#modalCrearEmpleado");
+           crearDep.style.display= "block";
+        })
+        
+
+        //Sidebar
+        menu.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        //buscar 
+        document.querySelector("#buscar").addEventListener("click",function (){
+            console.log("sdfgh");
+            header.classList.toggle("buscar");
+        })
+
+
+        //Filtros
+        let lasActiveCategory = null;
+        const categorias=document.querySelector('.filtros div');
+        categorias.addEventListener('click',(e)=>{
+            if(lasActiveCategory){
+                lasActiveCategory.classList.remove('active');
+            }
+            lasActiveCategory=e.target;
+            e.target.classList.toggle('active');
+        });
+
+        //CambioEnMovilDeminuta
+        const minutas=document.querySelector('.minutas-list');
+        const minutasContent=document.querySelector('.minuta-content');
+
+        minutas.addEventListener('click',(e)=>{
+            if(!e.target.classList.contains('filtros')){
+                minutasContent.classList.toggle('active');
+                console.log('click en minuta');
+                minutas.classList.toggle('inactive');
+            }
+        });
+
+
+       
+
+        history.pushState(null, "", location.href);
+
+        window.addEventListener("popstate", function () {
+            minutas.classList.toggle('inactive');
+        console.log("Intento de salir con botón de retroceso");
+        history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
+        });
+
+
+
+        document.addEventListener("click", function (event) {
+      //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
+        //        minutasContent.classList.remove('active');
+          //      minutas.classList.remove('inactive');
+            //}
+            if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
+                if (sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+            console.log('click en sidebar');
+
+                }
+            }
+        });
+    </script>
+</body>
+</html>

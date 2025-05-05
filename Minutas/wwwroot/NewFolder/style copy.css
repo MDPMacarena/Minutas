@@ -1,0 +1,465 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f3f3f3;
+  /*  background: linear-gradient(to right, #1D5371,#185C53);*/
+}
+body {
+    font-family: Arial, sans-serif;
+   width: 100%;
+}
+.content{
+    display: flex;
+    width: 100%;
+    height: 90vh;
+}
+header {
+    width: 100%;
+    height: 10vh;
+
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+   position: sticky;
+    top: 0;
+
+}
+#titulo{
+    padding-left: 5px;
+    width: 350px;
+    background-color: #1D5371;
+    display: flex;    
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+#titulo img{
+    width: 6vh;
+    height: 6vh;
+
+    
+}
+
+#titulo h1{
+    color: white;
+    font-size: 1.5rem;
+}
+#titulo p{
+    color: white;
+    font-size: 0.7rem;
+}
+#seccion{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#seccion input{
+    width: 100%;
+    height: 3vh;
+    font-size: 1rem;
+    border: none;
+    margin-right: 30px;
+    background-color: transparent;
+    color: #7E7A7A;
+    
+
+}
+
+.menu{
+    background-color: transparent;
+
+   
+    border: none;
+}
+
+/*#1D5371,#185C53*/
+.sidebar {
+    height: 90vh;
+    width: 0;
+    background-color: #11384d;
+    background: linear-gradient(to right, #1D5371,#185C53);
+
+    transition: all 0.5s;
+   
+}
+.sidebar li{
+    list-style: none;
+    padding: 1rem 1rem 1rem 0 ;
+    border-bottom: 1px solid white;
+    color: white;
+    text-align: right;
+    width: 100%;
+    text-wrap: nowrap;
+}
+
+.sidebar.active {
+    width: 15%;
+}
+
+main {
+    display: flex;
+    height: 90vh;
+    width: 100%;
+  
+    
+}
+.minutas-list {
+    
+    width: 400px;
+    min-width: 400px;
+    background-color: white;
+   overflow-y: auto;
+    
+    gap: 2px;
+    padding: 2px;
+}
+.filtros{
+    width: 100%;
+    height: 10%;
+    background-color: #D9D9D9;
+    color: #1D5371;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 5px;
+    border-bottom: 1px solid white;
+}
+.filtros div{
+    border-radius: 5px;
+    overflow: hidden;
+    width: auto;
+    display: flex;
+    gap: 0px;
+}
+.filtros button{
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #bbbbbb;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+}
+.filtros div button{
+    border-radius: 0px;
+}
+.filtros div .active{
+    background-color: #1D5371;
+}
+
+
+
+
+
+
+.minuta-content {
+    width: 60%;
+    background-color: white;
+    overflow-y: auto;
+    
+    padding: 20px 30px;
+    text-align: justify;
+
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+}
+.minuta-content h1{
+    padding: 20px;
+    text-align: center;
+    border-bottom: #11384d 1px solid;
+    border-top: #11384d 1px solid;
+
+    color: #222;
+}
+.minuta-content b{
+    margin-right: 15px;
+}
+.minuta-content div{
+    padding: 20px;
+}
+.minuta-content ul{
+    margin-left: 40px;
+}
+
+/*tabla*/
+table {
+    background-color: #D9D9D9;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 30px auto;
+    font-size: 15px;
+    text-align: center;
+}
+
+    table th {
+        background-color: #CDCBCB;
+        color: #164057;
+    }
+
+    table tr {
+        height: 20px;
+    }
+
+    table td:nth-child(4), table td:nth-child(5){
+        font-size: 20px;
+        color: #1D5371;
+        cursor: pointer;
+    }
+
+.minuta{
+    width: 100%;
+    height: 10%;
+    background-color: #D9D9D9;
+    color: #1D5371;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1rem;
+    gap: 5px;
+    border-bottom: 1px solid white;
+    
+}
+.minuta:hover{
+    background-color: #1D5371;
+    color: white;
+    cursor: pointer;
+}
+.minuta p{
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+.minuta h3{
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+.minuta div {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    width: 100%; 
+    position: relative;
+}
+.minuta a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    position: absolute;
+    pointer-events: none;
+    right: 0;
+}
+/*botones cancelar y confirmar*/
+ input[type="button"] {
+    border-bottom: #1D5371 2px solid;
+    border-radius: 0;
+    width: 25%;
+    padding: 5px;
+    margin: 50px 100px;
+    font-size: 15px;
+    height: 30px;
+}
+/*clase hover para botones*/
+input[type="button"]:hover{
+    background-color: #164057;
+    color: white;
+    transition: .5s ease-out;
+}
+/* Mostrar el ícono activo */
+.minuta a.activo {
+    opacity: 1;
+    pointer-events: auto; 
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 10vh;
+        left: -100%;
+        width: 40%;
+       
+    }
+    .sidebar.active {
+        left: 0;
+        width: 40%;
+    }
+    main {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    .minutas-list {
+        transition: all 0.2s;
+        min-width: 100%;
+        width: 100%;
+        overflow-x: hidden;
+
+    }
+    .minutas-list.inactive {
+        width: 0;
+        min-width: 0;
+    }
+
+    .minuta-content {
+        min-width: 100%;
+        width: 100%;
+        padding: 0px;
+        margin-top: 2px0px;
+    }
+
+    
+}
+
+/*login*/
+#login{
+    background-color: #ACCBCC;
+    width: 25%;
+    height: 60vh;
+    margin: 160px auto;
+    color: #185C53;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 1px 2px 10px 0px #0f3833;
+}
+#login h2{
+    margin-top: 20px;
+}
+#login img{
+    height: 170px;
+}
+#login input{
+    margin: 20px;
+    width: 50%;
+    height: auto;
+    margin-top: 45px;
+}
+input,select{
+    height: 30px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 0px #b2b4b5;
+}
+
+ /*departamentos*/
+ #tablaDepto, #tablaEmplea{
+    width: 80%;
+}
+
+/*fondo modal*/
+.modal{
+    width: 100%;
+    left: auto;
+    position: fixed;
+    height: calc(100vh - 50px);
+    background-color: rgba(135, 133, 133, 0.516);
+}
+/*modales, div para eliminar*/
+.modal form, .modal div{
+    width: 50%;
+    height:auto;
+    margin: 50px auto;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+}
+/*Empleado*/
+#modalCrearEmpleado{
+    display: block;
+}
+#modalEditarEmpleado{
+    display: none;
+}
+#modalEliminarEmpleado{
+    display: none;  
+}
+/*Departamento*/
+#modalCrearDepto{
+    display: none;
+}
+#modalEditarDepto{
+    display: none;
+}
+#modalEliminarDepto{
+    display: none;
+}
+/*eliminar empleado*/
+#modalEliminarEmpleado div, #modalEliminarDepto div{
+    height: auto;
+    margin: 150px auto;
+    text-align: center;
+    padding-top: 40px;
+}
+#modalEliminarEmpleado input, #modalEliminarDepto input{
+    margin: 50px 20px;
+    width: 20%;
+    height: 35px;
+    border: #185C53 1px solid;
+}
+
+/*titulo en los modales*/
+form h3{
+    color: white;
+    padding: 40px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+}
+form label{
+    padding-left: 110px;
+}
+/*departamento*/
+#modalCrearDepto input[type="text"], #modalEditarDepto input[type="text"]{
+    border: 0;
+    margin: 20px;
+    width: 65%;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+#modalCrearDepto select, #modalEditarDepto select{
+    border: 1px solid #ced0d0;
+    margin: 20px 70px;
+    width: 45%;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+/*empleado*/
+#modalCrearEmpleado input[type="text"], #modalEditarEmpleado input[type="text"]{
+    margin: 20px 40px;
+    padding: 0 10px;
+    width: 50%;
+}
+#modalEditarEmpleado input[type="password"], #modalCrearEmpleado input[type="password"]{
+    padding: 0 10px;
+    margin: 30px 95px;
+    width: 50%;
+}
+#modalEditarEmpleado input[type="number"], #modalCrearEmpleado input[type="number"]{
+    padding: 0 10px;
+    margin: 30px 10px;
+    width: 50%;
+}
+#modalEditarEmpleado input[type="date"], #modalCrearEmpleado input[type="date"]{
+    padding: 0 10px;
+    margin: 30px 25px;
+    width: 50%;
+}
+#modalEditarEmpleado select, #modalCrearEmpleado select{
+    border: 0;
+    margin: 20px 70px;
+    width: 50%;
+    border-radius: 5px;
+    padding: 0 10px;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlock Base</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="login">
+        <div>
+        <img src="logotec (weld).png">
+            <form>
+                <h2>INICIAR SESIÓN</h2>
+                <input id="usuario" type="text" placeholder="Número de Control">
+                <input type="password" placeholder="Contraseña">
+                
+                <input id="iniciarSesion" type="button" value="Iniciar Sesión">
+            </form>
+        </div>
+    </main>
+</body>
+</html>
+<script>
+    document.querySelector("#iniciarSesion").addEventListener("click", function() {
+    let usuario = document.querySelector("#usuario").value.trim().toLowerCase();
+
+        if (usuario == "admin") {
+            window.location.href = "index.html";
+        } else if (usuario == "empleado") {
+            window.location.href = "indexEmpleado.html";
+        }
+    });
+
+</script>

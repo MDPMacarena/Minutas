@@ -1,0 +1,123 @@
+body{
+    margin: 0;
+    font-family: Verdana;
+    box-sizing: border-box;
+}
+header{
+    display: inline-flex;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    line-height: 80px; 
+    background-color: white;
+}
+#titulo{
+    color: white;
+    height: 90px;
+    display: flex;
+    width: 60%;
+    margin: 0;
+    line-height: 40px;
+    background: linear-gradient(to right, #1D5371,#185C53);
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+#titulo p{
+    font-size: 15px;
+    height: 30px;
+    position: absolute;
+    margin: 50px 110px;
+}
+#titulo img{
+    height: 70px;
+    margin: 10px 15px;
+}
+#seccion{
+    width: 80%;
+    clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%);
+}
+#seccion input{
+    background-color: #D9D9D9;
+    translate: 120%;
+    color: #7E7A7A;
+    width: 40%;
+}
+input{
+    height: 10px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 1px 2px 10px 0px #b2b4b5;
+}
+/*login*/
+html{
+    background: linear-gradient(to right, #1D5371,#185C53);
+}
+#login{
+    background-color: #ACCBCC;
+    width: 25%;
+    height: 50vh;
+    margin: 150px auto;
+    color: #185C53;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 1px 2px 10px 0px #0f3833;
+}
+#login img{
+    height: 170px;
+    margin-top: -100px;
+}
+#login input{
+    margin: 20px;
+    width: 50%;
+    height: auto;
+    margin-top: 45px;
+}
+/*clase hover para botones*/
+.hover:hover{
+    background-color: #164057;
+    color: white;
+    transition: .5s ease-out;
+}
+@media screen and (max-width: 600px){
+    #login{
+        font-size: 11px;
+        width: 75%;
+        padding: 20px;
+        height: 350px;
+        font-weight: bold;
+    }
+    #login input{
+        height: 5px;
+        width: 45%;
+    }
+    #login [type="button"]{
+        width: 50%;
+        height: 30px;
+    }
+    #login img{
+        height: 130px;
+    }
+}
+@media screen and (max-width: 992px){
+    #login{
+        font-size: 11px;
+        width: 50%;
+        padding: 20px;
+        height: 350px;
+        font-weight: bold;
+    }
+    #login input{
+        height: 5px;
+        width: 45%;
+    }
+    #login [type="button"]{
+        width: 50%;
+        height: 30px;
+    }
+    #login img{
+        height: 130px;
+    }
+
+}
