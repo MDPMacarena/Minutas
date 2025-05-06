@@ -56,7 +56,7 @@ public class DepartamentoRepository : Repository<Departamento>
 
     public IEnumerable<Departamento> GetDepartamentosActivos()
     {
-        return GetAll().Where(d => d.Activo ?? false).OrderBy(d => d.Nombre);
+        return GetAll().Where(d => d.Activo.HasValue && d.Activo.Value).OrderBy(d => d.Nombre);
 
     }
 }

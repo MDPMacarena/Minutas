@@ -21,11 +21,19 @@ namespace Minutas.Areas.Admin.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            var departamentos = _depaRepo.GetDepartamentosActivos();
+            try
+            {
+ var departamentos = _depaRepo.GetDepartamentosActivos();
             var empleados = _empleadoRepo.GetEmpleadosActivos();
-            ViewBag.Empleado = empleados;
-            ViewBag.Departamento = departamentos;
+            ViewBag.Empleados = empleados;
+            ViewBag.Departamentos = departamentos;
             return View(departamentos); 
+            }
+            catch (Exception ex)
+            {
+                return Content("error en el index" + ex.Message);
+            }
+
         }
 
       
