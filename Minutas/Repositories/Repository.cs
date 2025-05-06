@@ -20,7 +20,7 @@ namespace Minutas.Repositories
 
         public IEnumerable<M> GetAll()
         {
-            return context.Set<M>().ToList();
+            return context.Set<M>();
         }
         public M? Get(object id)
         {

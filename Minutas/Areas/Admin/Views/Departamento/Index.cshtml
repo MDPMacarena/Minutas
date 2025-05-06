@@ -32,8 +32,8 @@
                 {
                     <tr data-id="@dep.Id"
                         data-nombre="@dep.Nombre"
-                        data-jefe="@dep.IdJefe"
-                        data-superior="@dep.IdDeptSuperior">
+                        data-jefe="@dep.IdJefe?.ToString()"
+                        data-superior="@dep.IdDeptSuperior?.ToString()">
                         <td>@dep.Nombre</td>
                         <td>@dep.IdJefe</td>
                         <td>@dep.IdDeptSuperior</td>
