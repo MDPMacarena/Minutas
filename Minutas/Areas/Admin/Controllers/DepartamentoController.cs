@@ -9,18 +9,31 @@ namespace Minutas.Areas.Admin.Controllers
     public class DepartamentoController : Controller
     {
         private readonly DepartamentoRepository _depaRepo;
+        private readonly EmpleadoRepository _empleadoRepo;
 
-        public DepartamentoController(DepartamentoRepository depaRepo)
+        public DepartamentoController(DepartamentoRepository depaRepo, EmpleadoRepository empleadoRepo)
         {
             _depaRepo = depaRepo;
+            _empleadoRepo = empleadoRepo;
         }
 
-     
+
         [HttpGet("")]
         public IActionResult Index()
         {
-            var departamentos = _depaRepo.GetDepartamentosActivos();
+            try
+            {
+ var departamentos = _depaRepo.GetDepartamentosActivos();
+            var empleados = _empleadoRepo.GetEmpleadosActivos();
+            ViewBag.Empleados = empleados;
+            ViewBag.Departamentos = departamentos;
             return View(departamentos); 
+            }
+            catch (Exception ex)
+            {
+                return Content("error en el index" + ex.Message);
+            }
+
         }
 
       
