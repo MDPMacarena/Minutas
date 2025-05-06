@@ -23,6 +23,8 @@ public partial class Usuarios
 
     public int IdRol { get; set; }
 
+    public virtual ICollection<Departamento> Departamento { get; set; } = new List<Departamento>();
+
     public virtual Departamento IdDepartamentoNavigation { get; set; } = null!;
 
     public virtual Roles IdRolNavigation { get; set; } = null!;

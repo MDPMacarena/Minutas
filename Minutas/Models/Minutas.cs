@@ -11,11 +11,19 @@ public partial class Minutas
 
     public DateOnly FechaCreacion { get; set; }
 
-    public string Contenidos { get; set; } = null!;
-
     public string Estado { get; set; } = null!;
 
     public int IdDepartamento { get; set; }
+
+    public string Objetivo { get; set; } = null!;
+
+    public string OrdenDia { get; set; } = null!;
+
+    public string Desarrollo { get; set; } = null!;
+
+    public string CompromisosYtareas { get; set; } = null!;
+
+    public sbyte? Privadas { get; set; }
 
     public virtual Usuarios IdCreadorNavigation { get; set; } = null!;
 

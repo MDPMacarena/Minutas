@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlock Base</title>
+    <title>Departamentos</title>
     <link rel="stylesheet" href="~/Modifi/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
@@ -13,7 +13,7 @@
     <header>
         <div id="titulo">
             <button class="menu">
-                <img id="imgMenu" src="~/Modifi/588a64e0d06f6719692a2d10.png" alt="" srcset="">
+                <img id="imgMenu" src="~/Modifi/588a64e0d06f6719692a2d10.png" alt="">
             </button>
             <img src="~/Modifi/logotec (weld).png">
             <div>
@@ -22,11 +22,222 @@
             </div>
         </div>
         <div id="seccion">
-            <input type="search" placeholder="">
+            <input type="search" placeholder="Buscar...">
             <i id="buscar" class="material-icons">search</i>
             <i id="crearDeptoBtn" class="material-icons">group_add</i>
-
         </div>
+    </header>
+
+    <div class="content">
+        <aside class="sidebar">
+            <a href="/Admin/Home">Minutas</a>
+            <a href="/Admin/Empleado">Empleados</a>
+            <a href="/Admin/Departamento">Departamentos</a>
+            <a href="/Admin/Configuracion">Configuracion</a>
+            <a href="/Admin/Perfil">Perfil</a>
+        </aside>
+
+        <main>
+            @if (TempData["ErrorAgregar"] != null)
+            {
+                <div class="toast-msg error">
+                    <span>@TempData["ErrorAgregar"]</span>
+                    <button class="close-toast">&times;</button>
+                </div>
+            }
+            @if (TempData["SuccessAgregar"] != null)
+            {
+                <div class="toast-msg success">
+                    <span>@TempData["SuccessAgregar"]</span>
+                    <button class="close-toast">&times;</button>
+                </div>
+            }
+            @if (TempData["ErrorEditar"] != null)
+            {
+                <div class="toast-msg error">
+                    <span>@TempData["ErrorEditar"]</span>
+                    <button class="close-toast">&times;</button>
+                </div>
+            }
+            @if (TempData["SuccessEditar"] != null)
+            {
+                <div class="toast-msg success">
+                    <span>@TempData["SuccessEditar"]</span>
+                    <button class="close-toast">&times;</button>
+                </div>
+            }
+            @if (TempData["SuccessEliminar"] != null)
+            {
+                <div class="toast-msg success">
+                    <span>@TempData["SuccessEliminar"]</span>
+                    <button class="close-toast">&times;</button>
+                </div>
+            }
+
+            <table id="tablaDepto">
+                <tr>
+                    <th>Departamento</th>
+                    <th>Jefe</th>
+                    <th>Departamento Superior</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var dep in Model)
+                {
+                    <tr>
+                        <td>@dep.Nombre</td>
+                        <td>@dep.IdJefeNavigation?.Nombre</td>
+                        <td>@dep.IdDeptSuperiorNavigation?.Nombre</td>
+                        <td class="eliminarDep" data-id="@dep.Id" data-nombre="@dep.Nombre">🗑</td>
+                        <td class="editarDep" data-id="@dep.Id">🖉</td>
+                    </tr>
+                }
+            </table>
+
+            <!-- Modal Crear -->
+            <div class="modal" id="modalCrearDepto">
+                <form method="post" action="/Admin/Departamento/Agregar">
+                    <h3>Crear Departamento</h3>
+
+                    <label>Nombre</label>
+                    <input name="Departamento.Nombre" type="text" required /><br>
+
+                    <label>Jefe de Departamento</label>
+                    <select name="Departamento.IdJefe" required>
+                        <option disabled selected>Selecciona una opción</option>
+                        @foreach (var jefe in ViewBag.Empleados)
+                        {
+                            <option value="@jefe.Id">@jefe.Nombre</option>
+                        }
+                    </select><br>
+
+                    <label>Departamento Superior</label>
+                    <select name="Departamento.IdDeptSuperior">
+                        <option value="">Ninguno</option>
+                        @foreach (var sup in ViewBag.Departamentos)
+                        {
+                            <option value="@sup.Id">@sup.Nombre</option>
+                        }
+                    </select><br>
+
+                    <div class="buttons">
+                        <input type="button" value="Cancelar" onclick="cerrarModal('modalCrearDepto')">
+                        <input type="button" value="Confirmar" onclick="this.form.submit();">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Editar -->
+            <div class="modal" id="modalEditarDepto">
+                <form method="post" action="/Admin/Departamento/Editar">
+                    <h3>Editar Departamento</h3>
+
+                    <input type="hidden" name="Id" id="edit-id" />
+
+                    <label>Nombre</label>
+                    <input name="Nombre" id="edit-nombre" type="text" required /><br>
+
+                    <label>Jefe de Departamento</label>
+                    <select name="IdJefe" id="edit-jefe" required>
+                        <option disabled>Selecciona una opción</option>
+                        @foreach (var jefe in ViewBag.Empleados)
+                        {
+                            <option value="@jefe.Id">@jefe.Nombre</option>
+                        }
+                    </select><br>
+
+                    <label>Departamento Superior</label>
+                    <select name="IdDeptSuperior" id="edit-sup">
+                        <option value="">Ninguno</option>
+                        @foreach (var sup in ViewBag.Departamentos)
+                        {
+                            <option value="@sup.Id">@sup.Nombre</option>
+                        }
+                    </select><br>
+
+                    <div class="buttons">
+                        <input type="button" value="Cancelar" onclick="cerrarModal('modalEditarDepto')">
+                        <input type="button" value="Confirmar" onclick="this.form.submit();">
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const menu = document.querySelector('button');
+        const sidebar = document.querySelector('.sidebar');
+        const header = document.querySelector("header");
+
+        menu.addEventListener('click', () => sidebar.classList.toggle('active'));
+
+        document.querySelector("#crearDeptoBtn").addEventListener("click", () => {
+            document.getElementById("modalCrearDepto").style.display = "block";
+        });
+
+        document.querySelectorAll('.eliminarDep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const nombre = btn.dataset.nombre;
+                if (confirm(`¿Deseas eliminar el departamento ${nombre}?`)) {
+                    fetch(`/Admin/Departamento/EliminarConfirmado/${id}`, {
+                        method: 'POST'
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) location.reload();
+                        });
+                }
+            });
+        });
+
+        document.querySelectorAll('.editarDep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                fetch(`/Admin/Departamento/Editar/${id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById("edit-id").value = data.id;
+                        document.getElementById("edit-nombre").value = data.nombre;
+                        document.getElementById("edit-jefe").value = data.idJefe;
+                        document.getElementById("edit-sup").value = data.idDeptSuperior || "";
+
+                        const modal = document.getElementById("modalEditarDepto");
+                        modal.style.display = "block";
+                        modal.classList.add("active");
+                    });
+            });
+        });
+
+        function cerrarModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = 'none';
+                modal.classList.remove('active');
+            }
+        }
+
+        // Cierre de toasts
+        document.querySelectorAll('.close-toast').forEach(btn => {
+            btn.addEventListener('click', () => btn.parentElement.remove());
+        });
+
+        setTimeout(() => {
+            const toast = document.querySelector('.toast-msg');
+            if (toast) {
+                toast.style.transition = "opacity 0.5s ease-out";
+                toast.style.opacity = 0;
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
+
+
+
+@* @{
+    Layout = "_LayoutAdmin";
 
     </header>
 
@@ -198,7 +409,6 @@
 </script>
 
 
-</body>
-</html>
+ *@
 
 

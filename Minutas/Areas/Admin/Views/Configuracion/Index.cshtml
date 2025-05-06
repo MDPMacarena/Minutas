@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlock Base</title>
+    <link rel="stylesheet" href="/Modifi/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <header>
+        <div id="titulo">
+            <button class="menu">
+                <img id="imgMenu" src="/Modifi/588a64e0d06f6719692a2d10.png" alt="" srcset="">
+            </button>
+            <img src="/Modifi/logotec (weld).png">
+            <div>
+                <h1>MINUTAS</h1>
+                <p>Luis Carlos Esteban Longares Vidal</p>
+            </div>
+        </div>
+        <div id="seccion">
+            <input type="search" placeholder="">
+            <i id="buscar" class="material-icons">search</i>
+        </div>
+
+
+
+
+    </header>
+    <div class="content">
+        <aside class="sidebar">
+            <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
+            <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
+            <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
+            <a id="apartado-configuracion" href="/Admin/Configuracion">Configuracion</a>
+            <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
+
+
+
+        </aside>
+        <main>
+            <div class="minuta-content" id="minuta-config">
+                <label for="img">
+                    <img title="Editar encabezado" src="/Modifi/encabezado.png">
+                </label>
+                <input type="file" id="img" style="display: none;">
+                <h1>DDSC-0231</h1>
+                <!--<img  src="cuerpoMinuta.png">-->
+                <div>
+                    <p>
+                        <b>Objetivo:</b>Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario
+                        académico para el año 2025, asegurando una adecuada planificación de actividades escolares.
+                    </p><br>
+                    <p>
+                        <b>Orden del día:</b>Bienvenida y presentación del objetivo de la reunión, revisión del calendario académico propuesto
+                        para 2025, discusión sobre fechas clave (inicio y fin de clases, periodos de evaluación, vacaciones,
+                        etc.), propuestas y ajustes necesarios, votación y aprobación del calendario, conclusiones y cierre
+                        de la reunión.
+                    </p><br>
+                    <p>
+                        <b>Desarrollo de la reunión:</b>Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
+                        comunicadas oficialmente a la comunidad académica. Se programará una reunión de seguimiento en
+                        caso de requerir modificaciones.
+                    </p><br>
+                    <p><b>Compromisos y tareas:</b> </p>
+                    <ul>
+                        <li>Se ha logrado una planificación estructurada del calendario académico 2025.</li>
+                        <li>
+                            Las fechas clave han sido definidas considerando la viabilidad y necesidades de la institución,
+                            se espera que la implementación del calendario facilite una mejor organización de las actividades
+                            escolares.
+                        </li>
+                    </ul><br>
+
+                    <p><b>Lista de asistentes:</b></p>
+                    <table>
+                        <th>Nombre</th>
+                        <th>Firma</th>
+                        <th>Nombre</th>
+                        <th>Firma</th>
+                        <td>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                        </td>
+                    </table>
+                    <label for="img">
+                        <img title="Editar encabezado" src="encabezadoAbajo.png">
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+
+
+                </div>
+                
+
+
+        </main>
+
+    </div>
+    <script>
+          const menu = document.querySelector('.menu');
+          const sidebar = document.querySelector('.sidebar');
+          const header =document.querySelector("header");
+
+          document.querySelector("#buscar").addEventListener("click",function (){
+              console.log("sdfgh");
+              header.classList.toggle("buscar");
+          })
+          //Sidebar
+          menu.addEventListener('click', () => {
+              sidebar.classList.toggle('active');
+          });
+
+
+          const agregar = document.querySelector("#agregar");
+          sidebar.addEventListener("click", function(e){
+              if(e.target.tagName == "I"){
+                  agregar.style.visibility="visible";
+              }
+
+          });
+
+          //Filtros
+          let lasActiveCategory = null;
+          const categorias=document.querySelector('.filtros div');
+          categorias.addEventListener('click',(e)=>{
+              if(lasActiveCategory){
+                  lasActiveCategory.classList.remove('active');
+              }
+              lasActiveCategory=e.target;
+              e.target.classList.toggle('active');
+          });
+
+          //CambioEnMovilDeminuta
+          const Lista=document.querySelector('.minutas-list');
+          const minutasContent=document.querySelector('.minuta-content');
+          const minutas=document.querySelector('.minutas');
+
+          minutas.addEventListener('click',(e)=>{
+              if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
+
+                  minutasContent.classList.toggle('active');
+                  console.log(e.target.parentElement.classList.contains('filtros'));
+                  Lista.classList.toggle('inactive');
+              }
+          });
+
+
+
+
+          history.pushState(null, "", location.href);
+
+          window.addEventListener("popstate", function () {
+              Lista.classList.toggle('inactive');
+          console.log("Intento de salir con botón de retroceso");
+          history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
+          });
+
+
+
+          document.addEventListener("click", function (event) {
+        //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
+          //        minutasContent.classList.remove('active');
+            //      minutas.classList.remove('inactive');
+              //}
+              if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
+                  if (sidebar.classList.contains('active')) {
+                      sidebar.classList.remove('active');
+              console.log('click en sidebar');
+
+                  }
+              }
+          });
+
+
+          // mostrar iconos segun la categoria
+          const pendientes = document.querySelector("#minutas-pendientes");
+          const firmadas = document.querySelector("#minutas-firmadas");
+          const borradores = document.querySelector("#minutas-borradores");
+
+          document.addEventListener("DOMContentLoaded", function () {
+              pendientes.click();
+          });
+          pendientes.addEventListener("click", function () {
+              actualizarIconos(0);
+          });
+          firmadas.addEventListener("click", function () {
+              actualizarIconos(1);
+          });
+          borradores.addEventListener("click", function () {
+              actualizarIconos(2);
+          });
+          function actualizarIconos(activo){
+              document.querySelectorAll(".minuta").forEach(minuta => {
+                  let icons = minuta.querySelectorAll("a");
+
+                  icons.forEach((icon, index) => {
+                      if (index === activo) {
+                          icon.classList.add("active");
+                          icon.style.opacity = "1";
+                          icon.style.pointerEvents = "auto";
+                      } else {
+                          icon.classList.remove("active");
+                          icon.style.opacity = "0";
+                          icon.style.pointerEvents = "none";
+                      }
+                  });
+              });
+          }
+
+
+          document.getElementById("btnfiltros").addEventListener("click", function (e) {
+              const filtrar = document.querySelector(".filtrar");
+              e.target.classList.toggle("active");
+              filtrar.classList.toggle("active");
+          });
+    </script>
+</body>

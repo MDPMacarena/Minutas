@@ -42,6 +42,8 @@ public partial class DbminutasContext : DbContext
 
             entity.ToTable("departamento");
 
+            entity.HasIndex(e => e.IdJefe, "fkDepartamento_Usuario_idx");
+
             entity.HasIndex(e => e.IdDeptSuperior, "idDeptSuperior");
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -59,6 +61,10 @@ public partial class DbminutasContext : DbContext
                 .HasForeignKey(d => d.IdDeptSuperior)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("departamento_ibfk_1");
+
+            entity.HasOne(d => d.IdJefeNavigation).WithMany(p => p.Departamento)
+                .HasForeignKey(d => d.IdJefe)
+                .HasConstraintName("departamento_usfk");
         });
 
         modelBuilder.Entity<MinutaUsuario>(entity =>
@@ -98,15 +104,27 @@ public partial class DbminutasContext : DbContext
             entity.HasIndex(e => e.IdDepartamento, "idDepartamento");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Contenidos)
+            entity.Property(e => e.CompromisosYtareas)
                 .HasColumnType("json")
-                .HasColumnName("contenidos");
+                .HasColumnName("compromisosYtareas");
+            entity.Property(e => e.Desarrollo)
+                .HasColumnType("json")
+                .HasColumnName("desarrollo");
             entity.Property(e => e.Estado)
                 .HasColumnType("enum('PorFirmar','Firmada','Borrador')")
                 .HasColumnName("estado");
             entity.Property(e => e.FechaCreacion).HasColumnName("fechaCreacion");
             entity.Property(e => e.IdCreador).HasColumnName("idCreador");
             entity.Property(e => e.IdDepartamento).HasColumnName("idDepartamento");
+            entity.Property(e => e.Objetivo)
+                .HasColumnType("json")
+                .HasColumnName("objetivo");
+            entity.Property(e => e.OrdenDia)
+                .HasColumnType("json")
+                .HasColumnName("ordenDia");
+            entity.Property(e => e.Privadas)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("privadas");
 
             entity.HasOne(d => d.IdCreadorNavigation).WithMany(p => p.Minutas)
                 .HasForeignKey(d => d.IdCreador)

@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outlock Base</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="~/Modifi/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <header>
         <div id="titulo">
             <button class="menu">
-               <img id="imgMenu" src="588a64e0d06f6719692a2d10.png" alt="" srcset="">
+                <img id="imgMenu" src="~/Modifi/588a64e0d06f6719692a2d10.png" alt="" srcset="">
             </button>
-            <img src="logotec (weld).png">
+            <img src="~/Modifi/logotec (weld).png">
             <div> <h1>MINUTAS</h1>
                 <p>Mario Esteban Longares Cervantes</p>
             </div>
@@ -22,22 +22,23 @@
             <input type="search" placeholder="">
             <i id="buscar" class="material-icons">search</i>
         </div>
- 
-       
- 
-       
+
+
+
+
     </header>
     <div class="content">
         <aside class="sidebar">
             <a id="apartado-minutas" href="/Home">Minutas</a>
             <a id="apartado-configuracion" href="/Configuracion">Configuracion</a>
-            <a id="apartado-perfil" href="/Empleado">Perfil</a>
+            <a id="apartado-perfil" href="/Perfil">Perfil</a>
+
 
         </aside>
         <main>
             <div class="minuta-content" id="minuta-config">
                 <label for="img">
-                    <img title="Editar encabezado" src="encabezado.png"> 
+                    <img title="Editar encabezado" src="~/Modifi/encabezado.png">
                 </label>
                 <input type="file" id="img" style="display: none;">
                 <h1>DDSC-0231</h1>
@@ -59,7 +60,7 @@
                                 se espera que la implementación del calendario facilite una mejor organización de las actividades
                                 escolares.</li>
                         </ul><br>
-               
+
                     <p><b>Lista de asistentes:</b></p>
                     <table>
                         <th>Nombre</th>
@@ -78,19 +79,19 @@
                     </label>
                     <input type="file" id="img" style="display: none;">
 
-                   
+
                 </div>
 
 
 
         </main>
-   
+
     </div>
         <script>
         const menu = document.querySelector('.menu');
         const sidebar = document.querySelector('.sidebar');
         const header =document.querySelector("header");
- 
+
         document.querySelector("#buscar").addEventListener("click",function (){
             console.log("sdfgh");
             header.classList.toggle("buscar");
@@ -99,16 +100,16 @@
         menu.addEventListener('click', () => {
             sidebar.classList.toggle('active');
         });
- 
- 
+
+
         const agregar = document.querySelector("#agregar");
         sidebar.addEventListener("click", function(e){
             if(e.target.tagName == "I"){
                 agregar.style.visibility="visible";
             }
- 
+
         });
- 
+
         //Filtros
         let lasActiveCategory = null;
         const categorias=document.querySelector('.filtros div');
@@ -119,34 +120,34 @@
             lasActiveCategory=e.target;
             e.target.classList.toggle('active');
         });
- 
+
         //CambioEnMovilDeminuta
         const Lista=document.querySelector('.minutas-list');
         const minutasContent=document.querySelector('.minuta-content');
         const minutas=document.querySelector('.minutas');
- 
+
         minutas.addEventListener('click',(e)=>{
             if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
-               
+
                 minutasContent.classList.toggle('active');
                 console.log(e.target.parentElement.classList.contains('filtros'));
                 Lista.classList.toggle('inactive');
             }
         });
- 
- 
-       
- 
+
+
+
+
         history.pushState(null, "", location.href);
- 
+
         window.addEventListener("popstate", function () {
             Lista.classList.toggle('inactive');
         console.log("Intento de salir con botón de retroceso");
         history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
         });
- 
- 
- 
+
+
+
         document.addEventListener("click", function (event) {
       //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
         //        minutasContent.classList.remove('active');
@@ -156,17 +157,17 @@
                 if (sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
             console.log('click en sidebar');
- 
+
                 }
             }
         });
- 
- 
+
+
         // mostrar iconos segun la categoria
         const pendientes = document.querySelector("#minutas-pendientes");
         const firmadas = document.querySelector("#minutas-firmadas");
         const borradores = document.querySelector("#minutas-borradores");
- 
+
         document.addEventListener("DOMContentLoaded", function () {
             pendientes.click();
         });
@@ -182,7 +183,7 @@
         function actualizarIconos(activo){
             document.querySelectorAll(".minuta").forEach(minuta => {
                 let icons = minuta.querySelectorAll("a");
- 
+
                 icons.forEach((icon, index) => {
                     if (index === activo) {
                         icon.classList.add("active");
