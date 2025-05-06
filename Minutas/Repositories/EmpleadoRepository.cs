@@ -1,40 +1,96 @@
-﻿using Minutas.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Minutas.Models;
 using System.Text;
 
 namespace Minutas.Repositories
 {
-    public class EmpleadoRepository : Repository<Usuarios>
+    public class EmpleadoRepository
     {
-        public EmpleadoRepository(DbminutasContext context) : base(context)
+        private readonly DbminutasContext Context;
+
+        public EmpleadoRepository(DbminutasContext context)
         {
+            Context = context;
         }
-        public bool ValidarEmpleado(Usuarios empleado, out string errores)
+
+        public void Insert(Usuarios entity)
         {
-            var sb = new StringBuilder();
+            Context.Add(entity);
+            Context.SaveChanges();
+        }
 
-            // Si el rol es null, no lo validamos aún
-            if (empleado.IdRol == 0) // Verifica si es null
-            {
-                sb.AppendLine("El rol será asignado más tarde.");
+        public IEnumerable<Usuarios> GetAll()
+        {
+            return Context.Usuarios.Include(e => e.IdDepartamentoNavigation);
+        }
 
+        public Usuarios? Get(object id)
+        {
+            return Context.Usuarios
+                .Include(e => e.IdDepartamentoNavigation)
+                .FirstOrDefault(e => e.Id == (int)id);
+        }
 
-            }
+        public void Update(Usuarios entity)
+        {
+            Context.Update(entity);
+            Context.SaveChanges();
+        }
+
+        public void Delete(Usuarios entity)
+        {
+            Context.Remove(entity);
+            Context.SaveChanges();
+        }
+
+        public bool ValidarEmpleado(Usuarios empleado, out string errores, out string avisos)
+        {
+            var sbErrores = new StringBuilder();
+            var sbAvisos = new StringBuilder();
+
+            if (empleado.IdRol == 0)
+                sbAvisos.AppendLine("El rol será asignado más tarde.");
 
             if (string.IsNullOrWhiteSpace(empleado.NumEmpleado))
-                sb.AppendLine("El número de empleado está vacío.");
+            {
+                sbErrores.AppendLine("El número de empleado está vacío.");
+            }
+            else
+            {
+                var existeNumEmpleado = Context.Usuarios
+                    .Any(u => u.NumEmpleado == empleado.NumEmpleado && u.Id != empleado.Id);
+                if (existeNumEmpleado)
+                    sbErrores.AppendLine("El número de empleado ya está registrado.");
+            }
+
             if (string.IsNullOrWhiteSpace(empleado.Nombre))
-                sb.AppendLine("El nombre está vacío.");
+                sbErrores.AppendLine("El nombre está vacío.");
+
             if (string.IsNullOrWhiteSpace(empleado.Correo))
-                sb.AppendLine("El correo está vacío.");
+            {
+                sbErrores.AppendLine("El correo está vacío.");
+            }
+            else
+            {
+                // Validar formato del correo
+                var emailValidator = new System.ComponentModel.DataAnnotations.EmailAddressAttribute();
+                if (!emailValidator.IsValid(empleado.Correo))
+                    sbErrores.AppendLine("El formato del correo no es válido.");
+
+                var existeCorreo = Context.Usuarios
+                    .Any(u => u.Correo == empleado.Correo && u.Id != empleado.Id);
+                if (existeCorreo)
+                    sbErrores.AppendLine("El correo ya está registrado.");
+            }
+
             if (empleado.IdDepartamento <= 0)
-                sb.AppendLine("El ID del departamento no es válido.");
+                sbErrores.AppendLine("El ID del departamento no es válido.");
 
+            errores = sbErrores.ToString();
+            avisos = sbAvisos.ToString();
 
-
-            errores = sb.ToString();
             return errores.Length == 0;
         }
-
 
         public void Eliminar(Usuarios empleado)
         {
@@ -61,16 +117,18 @@ namespace Minutas.Repositories
                 emp.IdRol = empleado.IdRol;
                 emp.FechaNacimiento = empleado.FechaNacimiento;
 
+
                 Update(emp);
             }
         }
 
         public IEnumerable<Usuarios> GetEmpleadosActivos()
         {
-            return GetAll().Where(e => e.Activo == true).OrderBy(e => e.Nombre);
+            return Context.Usuarios
+                .Include(e => e.IdDepartamentoNavigation)
+                .Where(e => e.Activo == true)
+                .OrderBy(e => e.Nombre);
         }
-
-
     }
 
 }
