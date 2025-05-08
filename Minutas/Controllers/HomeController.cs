@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Minutas.Models;
+using MinutasManage.Models;
 using System.Security.Claims;
 
-namespace Minutas.Controllers
+namespace MinutasManage.Controllers
 {
     public class HomeController : Controller
     {

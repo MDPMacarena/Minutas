@@ -1,13 +1,13 @@
 
 using Microsoft.EntityFrameworkCore;
-using Minutas.Models;
-using Minutas.Repositories;
+using MinutasManage.Models;
+using MinutasManage.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMvc();
 // Configura el contexto de la base de datos
-builder.Services.AddDbContext<Minutas.Models.DbminutasContext>(options =>
+builder.Services.AddDbContext<MinutasManage.Models.DbminutasContext>(options =>
     options.UseMySql("server=localhost;user=root;password=root;database=dbminutas;port=3307", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.1.0-mysql")));
 
 

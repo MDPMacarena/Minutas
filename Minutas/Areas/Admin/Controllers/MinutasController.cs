@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Minutas.Areas.Admin.Controllers
+namespace MinutasManage.Areas.Admin.Controllers
 {
     public class MinutasController : Controller
     {

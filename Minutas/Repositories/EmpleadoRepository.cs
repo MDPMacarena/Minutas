@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minutas.Models;
+using MinutasManage.Models;
 using System.Text;
 
-namespace Minutas.Repositories
+namespace MinutasManage.Repositories
 {
     public class EmpleadoRepository
     {

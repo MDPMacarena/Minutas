@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minutas.Models;
-using Minutas.Repositories;
+using MinutasManage.Models;
+using MinutasManage.Repositories;
 using System.Text;
 
 public class DepartamentoRepository
