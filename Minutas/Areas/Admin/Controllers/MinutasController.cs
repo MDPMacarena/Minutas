@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MinutasManage.Controllers
+namespace MinutasManage.Areas.Admin.Controllers
 {
-    public class PerfilController : Controller
+    public class MinutasController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
+
+
+
+        
     }
 }

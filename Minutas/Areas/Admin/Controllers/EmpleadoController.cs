@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minutas.Areas.Admin.Models;
-using Minutas.Models;
-using Minutas.Repositories;
+using MinutasManage.Areas.Admin.Models;
+using MinutasManage.Models;
+using MinutasManage.Repositories;
 
 
-namespace Minutas.Areas.Admin.Controllers
+namespace MinutasManage.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class EmpleadoController : Controller

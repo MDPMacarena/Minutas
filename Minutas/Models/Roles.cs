@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Minutas.Models;
+namespace MinutasManage.Models;
 
 public partial class Roles
 {
