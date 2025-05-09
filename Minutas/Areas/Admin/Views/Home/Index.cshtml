@@ -319,9 +319,9 @@
                     <li>Eliza <button>X</button></li>
                     <li>Jose <button>X</button></li>
                 </ul>
-                <div id="opciones">
                     <label>Privada<input type="checkbox"></label>
-                    <input class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
+                <div id="opciones">
+                    <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
                     <input class="buttons" type="button" value="Cancelar">
                     <input class="buttons" type="button" value="Confirmar">
                 </div>
@@ -390,6 +390,36 @@
                 <input type="button" value="No">
             </form>
         </div>
+
+         <!--IA modal-->
+            <div id="modalIAMinuta" class="modal">
+                <form>
+                    <h3>Mejorado con IA</h3>
+                    <div>
+                        <label>Orden del día</label>
+                        <input type="button" class="material-icons" value="autorenew">
+                        <textarea placeholder="Escribir...">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard Lorem Ipsum is simply dummy 
+                        text of the printing and typesetting industry.
+                    </textarea><br>
+
+                    </div>
+                    <div>
+                        <label>Compromisos y tareas</label>
+                        <input type="button" class="material-icons" value="autorenew">
+                        <textarea>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard Lorem Ipsum is simply dummy 
+                        text of the printing and typesetting industry.
+                    </textarea>
+                    </div><br>
+                    <div class="buttons">
+                        <input class="material-symbols-outlined" type="button" value="arrow_left_alt">
+                        <input class="material-symbols-outlined" type="button" value="check">
+                    </div>
+                </form>
+            </div>
 
     </main>
 

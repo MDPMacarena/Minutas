@@ -27,7 +27,7 @@ header {
     background-color: white;
     display: flex;
     justify-content: space-between;
-   position: sticky;
+    position: sticky;
     top: 0;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
     z-index: 100;
@@ -308,30 +308,46 @@ main {
     width: 50vw;
 }
 /*tabla*/
-table {
-    background-color: #D9D9D9;
-    width: 100%;
+table{
+    display: block;
+    /*height: 80vh;*/
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: white;
     box-sizing: border-box;
     margin: 30px auto;
     font-size: 15px;
-    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
 }
 
     table th {
-        background-color: #CDCBCB;
+        background-color: #e7e5e5;
         color: #164057;
+        width: 20vw;
+        position: sticky;
+        z-index: 1;
+        top: 0;
     }
-
+    table th:nth-child(4), table th:nth-child(5){
+        width: 5vw;
+    }
     table tr {
-        height: 20px;
+        height: 4vh;
     }
-
+    table td:nth-of-type(1){
+        text-wrap: wrap;
+        text-align: center;
+    }
     table td:nth-child(4), table td:nth-child(5){
         font-size: 20px;
         color: #1D5371;
         cursor: pointer;
+        text-align: center;
     }
 
+#tablaDepto th:nth-child(1){
+    width: 30vw;
+}
 .minuta{
     width: 100%;
     background-color: #D9D9D9;
@@ -387,11 +403,6 @@ table {
 /* Formularios*/
 
 
- /*departamentos*/
- #tablaDepto, #tablaEmplea{
-    width: 80%;
-}
-
 /*fondo modal*/
 .modal{
     width: 100%;
@@ -403,6 +414,7 @@ table {
     display: flex;
     justify-items: center;
     padding: 0px;
+    z-index: 100;
 }
 /*modales, div para eliminar*/
 .modal form{
@@ -415,6 +427,7 @@ table {
     display: flex ;
     flex-wrap: wrap;
     justify-content: start;
+    z-index: 100;
 
 }
 .modal form div{
@@ -541,13 +554,15 @@ form label {
 }
 textarea{
     width: 80%;
+    max-width: 80%;
+    min-width: 80%;
     height: 80px;
     margin: 10px auto;
     display: block;
     border-radius: 5px;
     padding: 10px;
     border: 1px solid #ced0d0;
-    background-color: #D9D9D9;
+    background-color: #e7e5e5;
     text-align: left;
 }
 
@@ -723,20 +738,24 @@ li button{
     }
     #modalIAMinuta .buttons input{
         width: 20vw !important;
-    }}
-
-
-    
+    }
 }
 
 
-#opciones input{
-    width: 10%;
+
+
+
+#opciones input[type="button"]{
+    width:20%;
+    color: white;
+    height: 35px;
+    line-height: 25px;
+    background-color: #185C53;
 }
 #opciones input:hover{
-    background-color: #185C53;
+    background-color: white;
     cursor: pointer;
-    color: white;
+    color: #0e3a35;
 }
 input[type="checkbox"]{
     height: 20px;
