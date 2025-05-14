@@ -94,13 +94,26 @@ namespace MinutasManage.Repositories
 
         public void Eliminar(Usuarios empleado)
         {
-            if (empleado.Minutas.Any() || empleado.MinutaUsuario.Any())
+           
+            if (Context.Departamento.Any(d => d.IdJefe == empleado.Id) ||
+                empleado.Minutas.Any() ||
+                empleado.MinutaUsuario.Any())
             {
+               
                 empleado.Activo = false;
                 Update(empleado);
+
+               
+                var departamentos = Context.Departamento.Where(d => d.IdJefe == empleado.Id).ToList();
+                foreach (var depto in departamentos)
+                {
+                    depto.IdJefe = null; 
+                }
+                Context.SaveChanges();
             }
             else
             {
+               
                 Delete(empleado);
             }
         }

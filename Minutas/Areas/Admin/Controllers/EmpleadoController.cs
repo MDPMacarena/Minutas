@@ -103,17 +103,28 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult EliminarConfirmado(int id)
         {
-            var empleado = empRepository.Get(id);
-            if (empleado != null)
+            try
             {
-                string mensaje = $"Usuario {empleado.NumEmpleado}-{empleado.Nombre} eliminado correctamente.";
+                var empleado = empRepository.Get(id);
+                if (empleado == null)
+                    return Json(new { success = false, message = "Usuario no encontrado" });
+
+                bool eraJefe = Context.Departamento.Any(d => d.IdJefe == id);
                 empRepository.Eliminar(empleado);
+
+                string mensaje = eraJefe
+                    ? $"Usuario {empleado.NumEmpleado}-{empleado.Nombre} (jefe de departamento) ha sido desactivado"
+                    : $"Usuario {empleado.NumEmpleado}-{empleado.Nombre} eliminado correctamente";
+
                 TempData["SuccessEliminar"] = mensaje;
+                return Json(new { success = true });
             }
-
-            return Json(new { success = true });
+            catch (Exception ex)
+            {
+                TempData["ErrorEliminar"] = "Error al procesar la solicitud: " + ex.Message;
+                return Json(new { success = false });
+            }
         }
-
 
     }
 
