@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 
-namespace Minutas.Repositories
+namespace MinutasManage.Repositories
 {
     public class Repository<M> where M : class
     {

@@ -1,4 +1,6 @@
-﻿ @model IEnumerable<Minutas.Models.Usuarios>
+﻿ @model IEnumerable<MinutasManage.Models.Usuarios>
+@Html.AntiForgeryToken()
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -218,25 +220,44 @@
                   header.classList.toggle("buscar");
               });
 
-              // Eliminar empleado
-              document.querySelectorAll('.eliminarEmp').forEach(btn => {
-                  btn.addEventListener('click', () => {
-                      const id = btn.getAttribute('data-id');
-                      const nombre = btn.getAttribute('data-nombre');
-                      const numEmpleado = btn.getAttribute('data-numero');
+                     document.querySelectorAll('.eliminarEmp').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const nombre = btn.getAttribute('data-nombre');
+                const numEmpleado = btn.getAttribute('data-numero');
 
-                      const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
-                      if (confirm(mensaje)) {
-                          fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
-                              method: 'POST'
-                          })
-                          .then(response => response.json())
-                          .then(data => {
-                              if (data.success) location.reload();
-                          });
-                      }
-                  });
-              });
+                const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
+                if (confirm(mensaje)) {
+                    fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Error en la respuesta del servidor');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            // Mostrar mensaje de error si es necesario
+                            const toastError = document.createElement('div');
+                            toastError.className = 'toast-msg error';
+                            toastError.innerHTML = `
+                                <span>Error al eliminar el usuario</span>
+                                <button class="close-toast">&times;</button>
+                            `;
+                            document.querySelector('main').prepend(toastError);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        });
 
               // Editar empleado
                       document.querySelectorAll('.editarEmp').forEach(btn => {
@@ -254,7 +275,7 @@
                           document.getElementById("edit-dep").value = data.idDepartamento;
                           document.getElementById("edit-rol").value = data.idRol;
 
-                          // 👇 Este bloque fuerza que el modal se muestre
+                         
                           const modal = document.getElementById("modalEditarEmpleado");
                           modal.style.display = "block";
                           modal.classList.add("active");
@@ -335,13 +356,31 @@
           });
 
 
-                 function cerrarModal(id) {
-              const modal = document.getElementById(id);
-              if (modal) {
-                  modal.style.display = 'none';
-                  modal.classList.remove('active');
-              }
-          }
+                       function cerrarModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                if (id === 'modalCrearEmpleado') {
+                    // Limpiar campos de texto
+                    const nombreInput = modal.querySelector('input[name="Usuario.Nombre"]');
+                    const correoInput = modal.querySelector('input[name="Usuario.Correo"]');
+                    const numInput = modal.querySelector('input[name="Usuario.NumEmpleado"]');
+                    const fechaInput = modal.querySelector('input[name="Usuario.FechaNacimiento"]');
+
+                    if (nombreInput) nombreInput.value = '';
+                    if (correoInput) correoInput.value = '';
+                    if (numInput) numInput.value = '';
+                    if (fechaInput) fechaInput.value = '';
+
+                    // Resetear select de departamento
+                    const selectDepartamento = modal.querySelector('select[name="Usuario.IdDepartamento"]');
+                    if (selectDepartamento) selectDepartamento.selectedIndex = 0;
+                }
+
+                modal.style.display = 'none';
+                modal.classList.remove('active');
+            }
+        }
+        
 
     </script>
 

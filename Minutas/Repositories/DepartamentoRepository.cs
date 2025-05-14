@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minutas.Models;
-using Minutas.Repositories;
+using MinutasManage.Models;
+using MinutasManage.Repositories;
 using System.Text;
 
 public class DepartamentoRepository
@@ -21,6 +21,7 @@ public class DepartamentoRepository
     public IEnumerable<Departamento> GetAll()
     {
         return Context.Departamento
+                      .AsNoTracking()
                       .Include(d => d.IdJefeNavigation)
                       .Include(d => d.IdDeptSuperiorNavigation)
                       .ToList();
@@ -31,13 +32,24 @@ public class DepartamentoRepository
         return Context.Departamento
                       .Include(d => d.IdJefeNavigation)
                       .Include(d => d.IdDeptSuperiorNavigation)
+                      .Include(d => d.Usuarios) // ← Agregado
+                      .Include(d => d.Minutas) // ← Si quieres validar también minutas
+                      .Include(d => d.InverseIdDeptSuperiorNavigation) // ← Hijos
                       .FirstOrDefault(d => d.Id == (int)id);
     }
 
     public void Update(Departamento dep)
     {
-        Context.Departamento.Update(dep);
-        Context.SaveChanges();
+        var original = Context.Departamento.FirstOrDefault(d => d.Id == dep.Id);
+        if (original != null)
+        {
+            original.Nombre = dep.Nombre;
+            original.IdJefe = dep.IdJefe;
+            original.IdDeptSuperior = dep.IdDeptSuperior;
+            // ... cualquier otro campo
+
+            Context.SaveChanges(); // EF ya está haciendo tracking del original
+        }
     }
 
     public void Delete(Departamento dep)
@@ -48,29 +60,33 @@ public class DepartamentoRepository
 
     public void Eliminar(Departamento dep)
     {
-        if (dep.Minutas.Any() || dep.Usuarios.Any() || dep.InverseIdDeptSuperiorNavigation.Any())
+        // En este punto ya se asume que la validación se hizo afuera
+        if (dep.Minutas.Any() || dep.InverseIdDeptSuperiorNavigation.Any())
         {
             dep.Activo = false;
-            Update(dep); // borrado lógico
+            Update(dep);
         }
         else
         {
-            Delete(dep); // borrado físico
+            Delete(dep);
         }
     }
 
+
+
+
     public void EditarDepartamento(Departamento dep)
     {
-        var departamento = Get(dep.Id);
+        var departamento = Context.Departamento.FirstOrDefault(d => d.Id == dep.Id);
         if (departamento != null)
         {
             departamento.Nombre = dep.Nombre;
             departamento.IdJefe = dep.IdJefe;
             departamento.IdDeptSuperior = dep.IdDeptSuperior;
-            Update(departamento);
+            // ¡No asignes dep.IdJefeNavigation ni dep.IdDeptSuperiorNavigation!
+            Context.SaveChanges();
         }
     }
-
     public IEnumerable<Departamento> GetDepartamentosActivos()
     {
         return Context.Departamento
@@ -81,28 +97,51 @@ public class DepartamentoRepository
                       .ToList();
     }
 
-    public bool ValidarDepartamento(Departamento dep, out string errores, out string avisos)
+    public bool ValidarDepartamento(
+     Departamento dep,
+     out string errores,
+     out string avisos,
+     List<Departamento> departamentosExistentes,
+     bool esEliminacion = false)
     {
         var sbErrores = new StringBuilder();
         var sbAvisos = new StringBuilder();
 
-        if (string.IsNullOrWhiteSpace(dep.Nombre))
-            sbErrores.AppendLine("El nombre del departamento está vacío.");
+        if (!esEliminacion)
+        {
+            if (string.IsNullOrWhiteSpace(dep.Nombre))
+                sbErrores.AppendLine("El nombre del departamento está vacío.");
 
-        if (dep.IdJefe <= 0)
-            sbErrores.AppendLine("El Id del jefe no es válido.");
+            if (departamentosExistentes.Any(d =>
+                d.Nombre.Equals(dep.Nombre, StringComparison.OrdinalIgnoreCase) && d.Id != dep.Id))
+            {
+                sbErrores.AppendLine("Ya existe un departamento con ese nombre.");
+            }
 
-        if (dep.IdDeptSuperior.HasValue && dep.IdDeptSuperior <= 0)
-            sbErrores.AppendLine("El Id del departamento superior no es válido.");
+            if (dep.IdJefe <= 0)
+                sbErrores.AppendLine("El Id del jefe no es válido.");
 
-        // Opcional: validar que no se autorefiera
-        if (dep.IdDeptSuperior == dep.Id)
-            sbErrores.AppendLine("El departamento no puede ser su propio superior.");
+            if (dep.IdDeptSuperior.HasValue && dep.IdDeptSuperior <= 0)
+                sbErrores.AppendLine("El Id del departamento superior no es válido.");
+
+            if (dep.IdDeptSuperior == dep.Id)
+                sbErrores.AppendLine("El departamento no puede ser su propio superior.");
+        }
+        else
+        {
+            int empleadosACargo = dep.Usuarios?.Count ?? 0;
+
+            if (empleadosACargo > 0)
+            {
+                sbErrores.AppendLine($"No se puede eliminar el departamento '{dep.Nombre}' porque tiene {empleadosACargo} empleado{(empleadosACargo > 1 ? "s" : "")} a su cargo.");
+            }
+        }
 
         errores = sbErrores.ToString();
         avisos = sbAvisos.ToString();
-
         return errores.Length == 0;
     }
+
+
 }
 

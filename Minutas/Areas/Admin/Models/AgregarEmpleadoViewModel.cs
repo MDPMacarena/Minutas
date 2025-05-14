@@ -1,6 +1,6 @@
-﻿using Minutas.Models;
+﻿using MinutasManage.Models;
 
-namespace Minutas.Areas.Admin.Models
+namespace MinutasManage.Areas.Admin.Models
 {
     public class AgregarEmpleadoViewModel
     {
