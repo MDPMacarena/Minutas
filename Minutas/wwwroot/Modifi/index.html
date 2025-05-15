@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
-
+    <style>
+    </style>
 </head>
 <body>
     <header>
@@ -17,15 +17,22 @@
                <img id="imgMenu" src="588a64e0d06f6719692a2d10.png" alt="" srcset="">
             </button>
             <img src="logotec (weld).png">
-            <div> <h1>MINUTAS</h1>
-            <p>Luis Carlos Longares Vidal</p>
+            <div> 
+                <h1>MINUTAS</h1>
+                <p>Luis Carlos Longares Vidal</p>
             </div>
         </div>
         <div id="seccion">
-            <input type="search"  placeholder="">
+            <div id="rectangulo" class="oculto">
+                <input id="buscador" type="search" placeholder="Buscar minuta...">
+                <ul>
+                  <li><b>DDC18</b> - SISTEMAS - MINUTAS</li>
+                  <li><b>DDC18</b> - SISTEMAS - MINUTAS</li>
+                  <li><b>DDC18</b> - SISTEMAS - MINUTAS</li>
+                </ul>
+              </div>
             <i id="buscar" class="material-icons">search</i>
             <i id="crearMinutaBtn" class="material-icons" >note_add</i>
-
         </div>
  
        
@@ -43,372 +50,393 @@
      
         </aside>
         <main>
-           <!-- <input type="button"  class="float-btn hover" value="Crear minuta">-->
-            <div class="minutas-list">
-                <div class="filtros">
-                    <div>
-                        <button id="minutas-pendientes">Pendientes</button>
-                        <button id="minutas-firmadas">Firmadas</button>
-                        <button id="minutas-borradores">Borradores</button>
- 
-                    </div>
-                   
- 
-                        <button id="btnfiltros">Filter</button>
- 
- 
+        <!-- <input type="button"  class="float-btn hover" value="Crear minuta">-->
+        <div class="minutas-list">
+            <div class="filtros">
+                <div>
+                    <button id="minutas-pendientes">Pendientes</button>
+                    <button id="minutas-firmadas">Firmadas</button>
+                    <button id="minutas-borradores">Borradores</button>
+
                 </div>
-                <div class="filtrar">
-                    <form>
-                          
-                        <label>Departamento:</label>
-                        <select>
-                            <option>Sistemas</option>
-                            <option>Vinculación</option>
-                            <option>Planeación</option>
-                            <option>Administración</option>
-                            <option>Industrial</option>
-                            <option>Coordinación</option>
-                        </select>
-                        <label>Empleados:</label>
-                        <select>
-                            <option>Oscar</option>
-                            <option>Adriana</option>
-                            <option>Ernestina</option>
-                            <option>Hector</option>
-                        </select>
-                        <label>Desde:</label>
-                        <input type="date">
-                        <label>Hasta:</label>
-                        <input type="date">
-                    </form>
-                </div>
-                <div class="minutas">
 
 
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                       
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                       
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>                
-                   
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                    <div class="minuta">
-                        <h3>DDSC-0231</h3>
-                        <div>
-                            <p> Por medio edlPor medio edlPor medio edl...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                </div>
+                <button id="btnfiltros">Filter</button>
+
+
             </div>
-                <div class="minuta-content">
-                    <h1>DDSC-0231</h1>
-               
-                    <div>
-                        <p><b>Objetivo:</b>Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario 
-                            académico para el año 2025, asegurando una adecuada planificación de actividades escolares.</p><br>
-                        <p><b>Desarrollo de la reunión:</b>Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
-                        comunicadas oficialmente a la comunidad académica. Se programará una reunión de seguimiento en
-                        caso de requerir modificaciones.</p><br>
-                        <p><b>Orden del día:</b>
-                            <ul>
-                                <li>Bienvenida y presentación del objetivo de la reunión</li>
-                                <li>Revisión del calendario académico propuesto para 2025</li>
-                                <li>Discusión sobre fechas clave (inicio y fin de clases, periodos de evaluación, vacaciones, etc.)</li>
-                                <li>Propuestas y ajustes necesarios</li>
-                                <li>Votación y aprobación del calendario</li>
-                                <li>Conclusiones y cierre de la reunión</li>
-                            </ul>
-                        </p><br>
-                        <p><b>Compromisos y tareas:</b> </p>
-                            <ul>
-                                <li>Se ha logrado una planificación estructurada del calendario académico 2025.</li>
-                                <li>Las fechas clave han sido definidas considerando la viabilidad y necesidades de la institución,
-                                    se espera que la implementación del calendario facilite una mejor organización de las actividades
-                                    escolares.</li>
-                            </ul><br>
-                   
-                        <p><b>Lista de asistentes:</b></p>
-                        <table class="minuta-table">
-                            <thead>
-                                <th>Nombre</th>
-                                <th>Firma</th>
-                                <th>Nombre</th>
-                                <th>Firma</th>
-                            </thead>
-                            <tbody>
-                                <td>
-                                    <tr></tr>
-                                </td>
-                            </tbody>
-                        </table>
- 
- 
-                        <div class="buttons">
-                            <input type="button" value="Cancelar">
-                            <input type="button" value="Firmar">
-                        </div>
-           
- 
-                       
-                    </div>
-            </div>
-            <div id="modalCrearMinuta" class="modal">
+            <div class="filtrar">
                 <form>
-                    <h3>Crear Minuta</h3>
-                    <label>Objetivo</label>
-                    <textarea placeholder="Escribir..."></textarea><br>
-                    <label>Desarrollo de la reunión</label>
-                    <textarea placeholder="Escribir..."></textarea><br>
-                        <div>
-                            <label>Orden del día</label>
-                            <input type="text" placeholder="Escribir...">
-                            <input class="material-icons" type="button" value="add">
-                        </div>
-                            <ul>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                               
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                            </ul>
-                            
-                        <div>
-                            <label>Compromisos y tareas</label>
-                            <input type="text" placeholder="Escribir...">
-                            <input class="material-icons" type="button" value="add">
-                        </div>
-                            <ul>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                            </ul>
-                            
-                        <div>
-                            <label>Lista de asistentes</label>
-                            <input type="text" placeholder="Buscar...">
-                            <input class="material-icons" type="button" value="search">
-                        </div>
-                            <ul>
-                                <li>Sandra <button>X</button></li>
-                                <li>Eliza <button>X</button></li>
-                                <li>Jose <button>X</button></li>
-                            </ul>
-                    <div id="opciones">
-                        <label>Privada<input type="checkbox"></label>
-                        <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
-                        <input class="buttons" type="button" value="Cancelar">
-                        <input class="buttons" type="button" value="Confirmar">
-                    </div>
-                    
+
+                    <label>Departamento:</label>
+                    <select>
+                        <option>Sistemas</option>
+                        <option>Vinculación</option>
+                        <option>Planeación</option>
+                        <option>Administración</option>
+                        <option>Industrial</option>
+                        <option>Coordinación</option>
+                    </select>
+                    <label>Empleados:</label>
+                    <select>
+                        <option>Oscar</option>
+                        <option>Adriana</option>
+                        <option>Ernestina</option>
+                        <option>Hector</option>
+                    </select>
+                    <label>Desde:</label>
+                    <input type="date">
+                    <label>Hasta:</label>
+                    <input type="date">
                 </form>
             </div>
-           
-            <!--editar minuta-->
-            <div id="modalEditarMinuta" class="modal">
-                <form>
-                    <h3>Editar Minuta</h3>
-                    <label>Objetivo</label>
-                    <textarea placeholder="Escribir..."></textarea><br>
-                    <label>Desarrollo de la reunión</label>
-                    <textarea placeholder="Escribir..."></textarea><br>
-                        <div>
-                            <label>Orden del día</label>
-                            <input type="text" placeholder="Escribir...">
-                            <input class="material-icons" type="button" value="add">
-                        </div>
-                            <ul>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                               
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                            </ul>
-                            
-                        <div>
-                            <label>Compromisos y tareas</label>
-                            <input type="text" placeholder="Escribir...">
-                            <input class="material-icons" type="button" value="add">
-                        </div>
-                            <ul>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                                <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                            </ul>
-                            
-                        <div>
-                            <label>Lista de asistentes</label>
-                            <input type="text" placeholder="Buscar...">
-                            <input class="material-icons" type="button" value="search">
-                        </div>
-                            <ul>
-                                <li>Sandra <button>X</button></li>
-                                <li>Eliza <button>X</button></li>
-                                <li>Jose <button>X</button></li>
-                            </ul>
-                    <div id="opciones">
-                        <label>Privada<input type="checkbox"></label>
-                        <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
-                        <input class="buttons" type="button" value="Cancelar">
-                        <input class="buttons" type="button" value="Confirmar">
-                    </div>
-                    
-                </form>
-            </div>
+            <div class="minutas">
 
-             <!--Eliminar empleado-->
+
+                <div class="minuta">
+                    <!--la fecha de la minuta y dos numeros adicionales-->
+                    <h3>DDSC-10052501</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-05022502</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-08052503</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13042504</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052505</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052506</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052507</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052508</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+
+                <div class="minuta">
+                    <h3>DDSC-13052509</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052510</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052511</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052512</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052513</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052514</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052515</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052516</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052517</h3>
+                    <div>
+                        <p>Por medio del presente escrito, informam...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+                <div class="minuta">
+                    <h3>DDSC-13052518</h3>
+                    <div>
+                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                        <a><i class="material-icons">draw</i></a>
+                        <a><i class="material-icons">delete</i></a>
+                        <a><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="minuta-content-inactive">
+            <label>Seleccione una minuta</label>
+        </div>
+
+        <div class="minuta-content">
+            <h1>DDSC-13052500</h1>
+
+            <div>
+                <p>
+                    <b>Objetivo:</b>Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario
+                    académico para el año 2025, asegurando una adecuada planificación de actividades escolares.
+                </p><br>
+                <p>
+                    <b>Desarrollo de la reunión:</b>Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
+                    comunicadas oficialmente a la comunidad académica. Se programará una reunión de seguimiento en
+                    caso de requerir modificaciones.
+                </p><br>
+                <p>
+                    <b>Orden del día:</b>
+                    <ul>
+                        <li>Bienvenida y presentación del objetivo de la reunión</li>
+                        <li>Revisión del calendario académico propuesto para 2025</li>
+                        <li>Discusión sobre fechas clave (inicio y fin de clases, periodos de evaluación, vacaciones, etc.)</li>
+                        <li>Propuestas y ajustes necesarios</li>
+                        <li>Votación y aprobación del calendario</li>
+                        <li>Conclusiones y cierre de la reunión</li>
+                    </ul>
+                </p><br>
+                <p><b>Compromisos y tareas:</b> </p>
+                <ul>
+                    <li>Se ha logrado una planificación estructurada del calendario académico 2025.</li>
+                    <li>
+                        Las fechas clave han sido definidas considerando la viabilidad y necesidades de la institución,
+                        se espera que la implementación del calendario facilite una mejor organización de las actividades
+                        escolares.
+                    </li>
+                </ul><br>
+
+                <p><b>Lista de asistentes:</b></p>
+                <table id="firmas">
+                    <thead>
+                        <th>Nombre</th>
+                        <th>Firma</th>
+                        <th>Nombre</th>
+                        <th>Firma</th>
+                    </thead>
+                    <tbody>
+                        <tr style="display: none;">
+                            <td>Juana Maria si</td>
+                            <td>Juanita544523234</td>
+                            <td></td>
+                            <td></td>
+                        </tr>   
+                    </tbody>
+                   
+                </table>
+
+
+                <div class="buttons" >
+                    <input id="btnPendientes" type="button" value="Firmar">
+                    <input id="btnFirmadas" type="button" value="Eliminar">
+                    <input id="btnBorradores" type="button" value="Editar">
+                    
+                </div>
+              
+
+
+
+            </div>
+        </div>
+        <div id="modalCrearMinuta" class="modal">
+            <form>
+                <h3>Crear Minuta</h3>
+                <label>Objetivo</label>
+                <textarea placeholder="Escribir..."></textarea><br>
+                <label>Desarrollo de la reunión</label>
+                <textarea placeholder="Escribir..."></textarea><br>
+                <div>
+                    <label>Orden del día</label>
+                    <input type="text" placeholder="Escribir...">
+                    <input class="material-icons" type="button" value="add">
+                </div>
+                <ul>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                </ul>
+
+                <div>
+                    <label>Compromisos y tareas</label>
+                    <input type="text" placeholder="Escribir...">
+                    <input class="material-icons" type="button" value="add">
+                </div>
+                <ul>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                </ul>
+
+                <div>
+                    <label>Lista de asistentes</label>
+                    <input type="text" placeholder="Buscar...">
+                    <input class="material-icons" type="button" value="search">
+                </div>
+                <ul>
+                    <li>Sandra <button>X</button></li>
+                    <li>Eliza <button>X</button></li>
+                    <li>Jose <button>X</button></li>
+                </ul>
+                <div id="opciones">
+                    <label>Privada<input type="checkbox"></label>
+                    <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
+                    <input class="buttons" type="button" value="Cancelar">
+                    <input class="buttons" type="button" value="Confirmar">
+                </div>
+
+            </form>
+        </div>
+
+        <!--editar minuta-->
+        <div id="modalEditarMinuta" class="modal">
+            <form>
+                <h3>Editar Minuta</h3>
+                <label>Objetivo</label>
+                <textarea placeholder="Escribir..."></textarea><br>
+                <label>Desarrollo de la reunión</label>
+                <textarea placeholder="Escribir..."></textarea><br>
+                <div>
+                    <label>Orden del día</label>
+                    <input type="text" placeholder="Escribir...">
+                    <input class="material-icons" type="button" value="add">
+                </div>
+                <ul>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                </ul>
+
+                <div>
+                    <label>Compromisos y tareas</label>
+                    <input type="text" placeholder="Escribir...">
+                    <input class="material-icons" type="button" value="add">
+                </div>
+                <ul>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                </ul>
+
+                <div>
+                    <label>Lista de asistentes</label>
+                    <input type="text" placeholder="Buscar...">
+                    <input class="material-icons" type="button" value="search">
+                </div>
+                <ul>
+                    <li>Sandra <button>X</button></li>
+                    <li>Eliza <button>X</button></li>
+                    <li>Jose <button>X</button></li>
+                </ul>
+                <div id="opciones">
+                    <label>Privada<input type="checkbox"></label>
+                    <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
+                    <input class="buttons" type="button" value="Cancelar">
+                    <input class="buttons" type="button" value="Confirmar">
+                </div>
+
+            </form>
+        </div>
+
+
+        <!--Eliminar empleado-->
         <div id="modalEliminarMinuta" class="modal">
             <form class="botonesForm">
                 <label>¿Desea eliminar esta Minuta?</label><br>
@@ -417,78 +445,119 @@
             </form>
         </div>
 
-        <!--IA modal-->
-        <div id="modalIAMinuta" class="modal">
-            <form>
-                <h3>Mejorado con IA</h3>
-                <div>
-                    <label>Orden del día</label>
-                    <input type="button" class="material-icons" value="autorenew">
-                    <textarea placeholder="Escribir...">
+         <!--IA modal-->
+            <div id="modalIAMinuta" class="modal">
+                <form>
+                    <span style="background: linear-gradient(to right, #1D5371,#185C53); width: 100%;display: grid;">                        
+                        <input style="grid-column: 10; width: 3vw; color: white; margin: 10px -30px 0 0; background-color: #185C53;border-radius: 0; cursor: pointer;" class="material-symbols-outlined buttons" type="button" value="close">
+                        <h2 style="grid-column: 7; color: white; line-height: 70px; grid-row: 1;">Mejorado con IA</h2>
+                    </span>
+                    <div>
+                        <label>Orden del día</label>
+                        <input type="button" class="material-icons" value="autorenew">
+                        <textarea placeholder="Escribir...">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         Lorem Ipsum has been the industry's standard Lorem Ipsum is simply dummy 
                         text of the printing and typesetting industry.
                     </textarea><br>
-                    
-                </div>
-                <div>
-                    <label>Compromisos y tareas</label>
-                    <input type="button" class="material-icons" value="autorenew">
-                    <textarea>
+
+                    </div>
+                    <div>
+                        <label>Compromisos y tareas</label>
+                        <input type="button" class="material-icons" value="autorenew">
+                        <textarea>
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         Lorem Ipsum has been the industry's standard Lorem Ipsum is simply dummy 
                         text of the printing and typesetting industry.
                     </textarea>
-                </div><br>
-                <div class="buttons">
-                    <input class="material-symbols-outlined" type="button" value="arrow_left_alt">
-                    <input class="material-symbols-outlined" type="button" value="check">
-                </div>
-            </form>
-        </div>
-
+                    </div><br>
+                    <div class="buttons">
+                        <input type="button" value="Guardar">
+                    </div>
+                </form>
+            </div>
 
         </main>
    
     </div>
         <script>
+        const min = document.querySelector(".minutas");
         const menu = document.querySelector('.menu');
         const sidebar = document.querySelector('.sidebar');
         const header =document.querySelector("header");
-       
 
 
+        const desactivar = document.querySelector(".minuta-content-inactive");
+        const activar = document.querySelector(".minuta-content");
 
-        document.querySelector("#crearMinutaBtn").addEventListener("click",function(){
-            console.log("ss");
-            document.querySelector("#modalCrearMinuta").classList.toggle("active");
-        
+        min.addEventListener("click", function(e){
+            if(e.target.closest(".minuta") && e.target.classList.contains("minuta")){
+                desactivar.style.display="none";
+                activar.style.display="block";
+            }
+        });
+
+        // modales
+        const modCrearMin = document.querySelector("#modalCrearMinuta");
+        const modEditarMin = document.querySelector("#modalEditarMinuta")
+        const modElimMin = document.querySelector("#modalEliminarMinuta");
+        const modFirmMin = document.querySelector("#btnPendientes");
+
+        modFirmMin.addEventListener("click", function(){
+            document.querySelector("#firmas tr").style.display = "block";
+        });
+
+        document.querySelector("#crearMinutaBtn").addEventListener("click", function () {
+            console.log("ss"); 
+            modCrearMin.classList.toggle("active");
+        });
+
+        modCrearMin.addEventListener("click", function (e) {
+            if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
+                modCrearMin.classList.remove("active");
+            }
+        });
+
+        modEditarMin.addEventListener("click", function (e) {
+            if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
+                modEditarMin.style.display="none";
+            }
         });
 
         // abrir menu de IA
         let ia = document.querySelector("#modalIAMinuta");
-        let buttons = document.querySelector("#modalIAMinuta .buttons");
+        let buttons = document.querySelectorAll("#modalIAMinuta .buttons");
 
         document.querySelector("#ia").addEventListener("click",function(){
             ia.style.display = "block";
         });
 
-        buttons.addEventListener("click",function(e){
-            if(e.target.tagName==="INPUT"){
+        ia.addEventListener("click", function(e) {
+            if (e.target.tagName === "INPUT" && e.target.type === "button") {
                 ia.style.display = "none";
             }
-                
-        }); 
+        });
 
+        //buscador
         const buscar = document.querySelector("#seccion input[type=search]");
+        const rectangulo = document.querySelector("#rectangulo");
  
- document.querySelector("#buscar").addEventListener("click",function (){
-     buscar.click();
-     buscar.focus();
-     
-     console.log("sdfgh");
-     header.classList.toggle("buscar");
- })
+        document.querySelector("#buscar").addEventListener("click",function (){
+        buscar.click();
+        buscar.focus();
+        header.classList.toggle("buscar");
+        rectangulo.classList.toggle("visible");
+        });
+
+        document.addEventListener("click", function (e) {
+        // Si el clic fue fuera del rectángulo y fuera del ícono de buscar
+        if(!rectangulo.contains(e.target) && !document.querySelector("#buscar").contains(e.target)){
+            rectangulo.classList.remove("visible");
+            header.classList.remove("buscar");
+            }
+        });
+
+
  
       
         //Sidebar
@@ -566,18 +635,47 @@
         const pendientes = document.querySelector("#minutas-pendientes");
         const firmadas = document.querySelector("#minutas-firmadas");
         const borradores = document.querySelector("#minutas-borradores");
- 
+
+        const btnPendientes = document.querySelector("#btnPendientes");
+        const btnFirmadas = document.querySelector("#btnFirmadas");
+        const btnBorradores = document.querySelector("#btnBorradores");
+        
+        // editar minuta
+        btnBorradores.addEventListener("click", function(){
+            document.querySelector("#modalEditarMinuta").style.display="block";
+        });
+        // eliminar min
+        btnFirmadas.addEventListener("click", function(){
+            document.querySelector("#modalEliminarMinuta").style.display="block";
+        });
+
+        modElimMin.addEventListener("click", function(e) {
+            if (e.target.tagName === "INPUT" && e.target.type === "button") {
+                modElimMin.style.display = "none";
+            }
+        });
+
+        
         document.addEventListener("DOMContentLoaded", function () {
             pendientes.click();
         });
         pendientes.addEventListener("click", function () {
             actualizarIconos(0);
+            btnPendientes.style.display = "block";
+            btnBorradores.style.display = "none";
+            btnFirmadas.style.display = "none";
         });
         firmadas.addEventListener("click", function () {
             actualizarIconos(1);
+            btnFirmadas.style.display = "block";
+            btnBorradores.style.display = "none";
+            btnPendientes.style.display = "none";
         });
         borradores.addEventListener("click", function () {
             actualizarIconos(2);
+            btnBorradores.style.display = "block";
+            btnFirmadas.style.display = "none";
+            btnPendientes.style.display = "none";
         });
 //hola Karlaa
         function actualizarIconos(activo){
@@ -605,10 +703,9 @@
             filtrar.classList.toggle("active");
         });
 
-//asasas
 
- 
- 
+        
+//asasas
     </script>
 </body>
 </html>

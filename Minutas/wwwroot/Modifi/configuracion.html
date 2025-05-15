@@ -32,14 +32,14 @@
                 <a id="apartado-minutas" href="index.html">Minutas</a>
                 <a id="apartado-empleados" href="Empleados.html">Empleados</a>
                 <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
-                <a id="apartado-configuracion" href="departamento.html">Configuracion</a>
+                <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
                 <a id="apartado-perfil" href="perfil.html">Perfil</a>
 
  
      
         </aside>
         <main>
-            <div class="minuta-content" id="minuta-config">
+            <div class="minuta-content" id="minuta-config" style="display: block;">
                 <label for="img">
                     <img title="Editar encabezado" src="encabezado.png"> 
                 </label>
@@ -90,10 +90,11 @@
                         <img title="Editar encabezado" src="/Modifi/encabezadoAbajo.png">
                     </label>
                     <input type="file" id="img" style="display: none;">
-
                    
                 </div>
-
+            <div class="buttons">
+                <input type="button" value="Guardar cambios">
+            </div>
 
 
         </main>
@@ -105,7 +106,7 @@
         const header =document.querySelector("header");
  
         document.querySelector("#buscar").addEventListener("click",function (){
-            console.log("sdfgh");
+
             header.classList.toggle("buscar");
         })
         //Sidebar

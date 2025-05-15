@@ -10,6 +10,9 @@ html {
     background-color: #f3f3f3;
   /*  background: linear-gradient(to right, #1D5371,#185C53);*/
 }
+a, input:hover{
+    cursor: pointer;
+}
 body {
     font-family: Arial, sans-serif;
    width: 100%;
@@ -66,8 +69,45 @@ header {
     opacity: 1;
     transition: all 1s;
 }
+  
+
+  /*seccion del buscador*/
+  #rectangulo.visible {
+    max-height: 200px; /* Ajusta según contenido */
+    opacity: 1;
+  }
+  #rectangulo {
+    position: absolute;
+    top: 50px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 0;
+    z-index: 10;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    
+  } 
+  #rectangulo ul{
+    list-style: none;
+    color:#333;
+    width: 100%;
+  }
+  #rectangulo li{
+      margin: 10px;
+  }
+#rectangulo input {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 6px;
+  }
 /*le puse el margin-right para el espacio*/
 #seccion{
+    position: relative;
     transition: all 1s;
     display: flex;
     align-items: center;
@@ -264,7 +304,18 @@ main {
 #btnfiltros.active{
     background-color: #185C53;
 }
+
+/*vista cuando no este seleccionada una minuta*/
+.minuta-content-inactive{
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    margin: auto;
+}
+
+/*contendio de una minuta seleccionada*/
 .minuta-content {
+    display: none;
     width: 60%;
     background-color: white;
     overflow-y: auto;
@@ -318,8 +369,12 @@ table{
     margin: 30px auto;
     font-size: 15px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    border-collapse: collapse;
 }
-
+table td{
+        padding: 15px;
+        border: 2px solid #e7e5e5;
+}
     table th {
         background-color: #e7e5e5;
         color: #164057;
@@ -332,11 +387,10 @@ table{
         width: 5vw;
     }
     table tr {
-        height: 4vh;
+        height: 4.5vh;
     }
     table td:nth-of-type(1){
         text-wrap: wrap;
-        text-align: center;
     }
     table td:nth-child(4), table td:nth-child(5){
         font-size: 20px;
@@ -345,8 +399,12 @@ table{
         text-align: center;
     }
 
-#tablaDepto th:nth-child(1){
+/*1er columna de la tabla depto         3er columna de la tabla empleados*/
+#tablaDepto th:nth-child(1), #tablaEmplea th:nth-child(3){
     width: 30vw;
+}
+#tablaEmplea th:nth-child(1){
+    width: 10vw;
 }
 .minuta{
     width: 100%;
@@ -366,6 +424,7 @@ table{
 }
 .minuta p{
     text-wrap: nowrap;
+    width: 90%;
     overflow: hidden;
 }
 .minuta h3{
@@ -486,17 +545,39 @@ form label{
 #modalIAMinuta{
     display: none;
 }
+#modalEditarPerfil{
+    display: none;
+}
 
-#modalCrearMinuta.active{
+#modalCrearMinuta.active, #modalEditarMinuta.active{
     display: block;
 }
+
 
 #modalCrearMiuta input.material-icons{
    
 }
-
-
-
+/* modal de PERFIL*/
+#modalEditarPerfil form{
+    width: 60vw;
+    gap: 20px;
+}
+#modalEditarPerfil input{
+    width: auto;
+    margin: auto 40px;
+}
+#modalEditarPerfil .buttons{
+    justify-content:flex-end;
+    display: flex;
+    width: 95%;
+    margin: 20px 0;
+}
+#modalEditarPerfil .buttons input{
+    width: 10vw;
+}
+#modalEditarPerfil div{
+    display: inline-block;
+}
 /*eliminar selo agg jejej*/
 .botonesForm{
     border-radius: 10px;
@@ -582,6 +663,10 @@ input[type="search"] {
     width: 100%;
     padding: vh 10vw;
 }
+#perfil input{
+    background-color: transparent;
+    border: none;
+}
 #perfil h3{
     padding: 3vh 10vw;
     display: flex;
@@ -595,12 +680,7 @@ input[type="search"] {
     text-decoration: none;
     color: #11384d;
 }
-#perfil [type="button"]{
-    background-color:darkred;
-    color: white;
-    width: auto;
-    margin-top: 5vh;
-}
+
 
 /*crearminuta*/
 #verMinuta{
@@ -693,8 +773,7 @@ li button{
         min-width: 0;
     }
 
-    .minuta-content {
-        
+    .minuta-content{
         min-width: 100%;
         width: 100%;
         padding: 0px;

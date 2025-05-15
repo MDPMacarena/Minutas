@@ -35,12 +35,12 @@
             <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
             <a id="apartado-configuracion" href="/Admin/Configuracion">Configuracion</a>
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
-
+            <a id="apartado-sesion" href="/Admin/login.html">Cerrar Sesión</a>
 
 
         </aside>
         <main>
-            <div class="minuta-content" id="minuta-config">
+            <div class="minuta-content" id="minuta-config" style="display:block;">
                 <label for="img">
                     <img title="Editar encabezado" src="/Modifi/encabezado.png">
                 </label>
@@ -76,26 +76,29 @@
                     <p><b>Lista de asistentes:</b></p>
                     <table>
                         <thead>
-                            <th>Nombre</th>
-                            <th>Firma</th>
-                            <th>Nombre</th>
-                            <th>Firma</th>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Firma</th>
+                                <th>Nombre</th>
+                                <th>Firma</th>
+                            </tr>               
                         </thead>
                         <tbody>
-                            <td>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                            </td>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                     <label for="img">
                         <img title="Editar encabezado" src="/Modifi/encabezadoAbajo.png">
                     </label>
                     <input type="file" id="img" style="display: none;">
-
-
+                </div>
+                <div class="buttons">
+                    <input type="button" value="Guardar cambios">
                 </div>
                 
 

@@ -27,12 +27,12 @@
     <div class="content">
         <aside class="sidebar">
             <a id="apartado-minutas" href="/Home">Minutas</a>
-            <a id="apartado-configuracion" href="/Configuracion">Configuracion</a>
             <a id="apartado-perfil" href="/Perfil">Perfil</a>
+            <a id="apartado-sesion" href="/login.html">Cerrar Sesión</a>
         </aside>
         <main>
             <form id="perfil">
-                <h3><span>#4455 </span>EMPLEADO <a class="material-icons" href="editarPerfilEmpleado.html">edit</a></h3>
+                <h3><span>#4455 </span>EMPLEADO <a id="btnEditarPerfil" class="material-icons">edit</a></h3>
                 <div>
                     <label>Departamento</label>
                     <input type="text" value="Recursos Humanos" disabled>
@@ -45,15 +45,58 @@
                     <label>Contraseña</label>
                     <input type="password" value="contraseña" disabled>
                 </div>
-                <input type="button" value="Cerrar Sesión">
             </form>
+
+            <!--Editar perfil-->
+            <div id="modalEditarPerfil" class="modal">
+                <form>
+                    <h3>Editar Perfil</h3>
+                    <div>
+                        <div>
+                            <label>Nombre</label>
+                            <input type="text" value="Luis Carlos Longares Vidal">
+                        </div>
+                        <div>
+                            <label>Correo Electronico</label>
+                            <input type="text" value="lglv@rcarbonifera.tecnm.mx">
+                        </div>
+                        <div>
+                            <label>Fecha de Nacimiento</label>
+                            <input type="datetime" placeholder="02/03/85" disabled>
+                        </div>
+                        <div>
+                            <label>Contraseña</label>
+                            <input type="password" value="contraseña">
+                        </div>
+
+                    </div><br>
+                    <div class="buttons">
+                        <input type="button" value="Cancelar">
+                        <input type="button" value="Guardar cambios">
+                    </div>
+
+                </form>
+            </div>
         </main>
     </div>
     <script>
           const menu = document.querySelector('.menu');
           const sidebar = document.querySelector('.sidebar');
           const header =document.querySelector("header");
+          const modEditPerfil =  document.querySelector("#modalEditarPerfil");
 
+            // editar perfil
+            document.querySelector("#btnEditarPerfil").addEventListener("click", function(){
+                modEditPerfil.style.display="block";
+            });
+            // cerrar perfil
+            modEditPerfil.addEventListener("click", function(e){
+                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
+                    modEditPerfil.style.display = "none";
+                }
+            });
+
+        
           document.querySelector("#buscar").addEventListener("click",function (){
               console.log("sdfgh");
               header.classList.toggle("buscar");

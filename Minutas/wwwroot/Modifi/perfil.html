@@ -19,7 +19,7 @@
             </div>
         </div>
         <div id="seccion">
-            <input type="search" placeholder="">
+            <input id="buscador" type="search" placeholder="">
             <i id="buscar" class="material-icons">search</i>
         </div>
     </header>
@@ -28,34 +28,90 @@
             <a id="apartado-minutas" href="index.html">Minutas</a>
             <a id="apartado-empleados" href="Empleados.html">Empleados</a>
             <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
-            <a id="apartado-configuracion" href="departamento.html">Configuracion</a>
+            <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
             <a id="apartado-perfil" href="perfil.html">Perfil</a>
+            <a id="apartado-sesion" href="login.html">Cerrar Sesión</a>
         </aside>
         <main>
             <form id="perfil">
-                <h3><span>#4455 </span>ADMINISTRADOR <a class="material-icons" href="editarPerfil.html">edit</a></h3>
+                <h3><span>#4455 </span>ADMINISTRADOR <a id="btnEditarPerfil" class="material-icons">edit</a></h3>
                 <div>
                     <label>Nombre</label>
                     <input type="text" value="Luis Carlos Longares Vidal" disabled>
                     <label>Correo Electrónico</label>
-                    <input type="text" value="lglv@rcarbonifera.tecnm.mx" disabled> 
+                    <input type="text" value="lglv@rcarbonifera.tecnm.mx" disabled>
                     <label>Fecha de Nacimiento</label>
-                    <input type="datetime" placeholder="02/03/85" disabled>
+                    <input type="datetime" value="02/03/85" disabled>
                     <label>Contraseña</label>
                     <input type="password" value="contraseña" disabled>
                 </div>
-                <input type="button" value="Cerrar Sesión">
             </form>
+
+            <!--Editar perfil-->
+            <div id="modalEditarPerfil" class="modal">
+                <form>
+                    <h3>Editar Perfil</h3>
+                    <div>
+                        <div>
+                            <label>Nombre</label>
+                            <input type="text" value="Luis Carlos Longares Vidal">
+                        </div>
+                        <div>
+                            <label>Correo Electronico</label>
+                            <input type="text" value="lglv@rcarbonifera.tecnm.mx"> 
+                        </div>
+                        <div>
+                            <label>Fecha de Nacimiento</label>
+                            <input type="datetime" placeholder="02/03/85" disabled>
+                        </div>
+                        <div>
+                             <label>Contraseña</label>
+                            <input type="password" value="contraseña">
+                        </div>
+                       
+                    </div><br>
+                    <div class="buttons">
+                        <input type="button" value="Cancelar">
+                        <input type="button" value="Guardar cambios">
+                    </div>
+                    
+                </form>
+            </div>
+            
         </main>
     </div>
         <script>
         const menu = document.querySelector('.menu');
         const sidebar = document.querySelector('.sidebar');
         const header =document.querySelector("header");
- 
+        const modEditPerfil =  document.querySelector("#modalEditarPerfil");
+        // editar perfil
+        document.querySelector("#btnEditarPerfil").addEventListener("click", function(){
+            modEditPerfil.style.display="block";
+        });
+        // cerrar perfil
+        modEditPerfil.addEventListener("click", function(e){
+            if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
+                modEditPerfil.style.display = "none";
+            }
+        });
+        
+
+
         document.querySelector("#buscar").addEventListener("click",function (){
-            console.log("sdfgh");
             header.classList.toggle("buscar");
+           
+        });
+
+        // este es solo de MUESTRA al momento de usar el buscador
+        const buscador = document.querySelector("#buscador");
+        buscador.addEventListener("input", function(){
+             if (buscador.value.length > 0) {
+                setTimeout(function(){
+                    window.location.href = "index.html";
+                }, 1000);
+                
+            }
         })
         //Sidebar
         menu.addEventListener('click', () => {
