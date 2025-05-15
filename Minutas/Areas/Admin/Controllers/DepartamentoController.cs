@@ -60,13 +60,16 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarDepartamentoViewModel vm)
         {
-            if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos))
+            // Aseguramos que la lista de departamentos esté actualizada
+            var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+
+            if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
             {
                 TempData["ErrorAgregar"] = errores;
                 return RedirectToAction("Index");
             }
 
-            _depaRepo.Insert(vm.Departamento); // Insertar nuevo departamento
+            _depaRepo.Insert(vm.Departamento);
             TempData["SuccessAgregar"] = "Departamento agregado correctamente.";
 
             if (!string.IsNullOrEmpty(avisos))
@@ -74,6 +77,8 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+
 
         // **Formulario para editar departamento**
         [HttpGet]
@@ -96,39 +101,69 @@ namespace MinutasManage.Areas.Admin.Controllers
 
         // **Lógica para editar departamento**
         [HttpPost]
-        public IActionResult Editar(Departamento departamento)
+        public IActionResult Editar(AgregarDepartamentoViewModel vm)
         {
-            if (!_depaRepo.ValidarDepartamento(departamento, out string errores, out string avisos))
+            var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+
+            if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
             {
                 TempData["ErrorEditar"] = errores;
                 return RedirectToAction("Index");
             }
 
-            _depaRepo.EditarDepartamento(departamento);
+            _depaRepo.Update(vm.Departamento); // Actualizar el departamento
+            TempData["SuccessEditar"] = "Departamento actualizado correctamente.";
 
-            TempData["SuccessEditar"] = "Departamento editado correctamente." +
-                (!string.IsNullOrEmpty(avisos) ? " | " + avisos : "");
+            if (!string.IsNullOrEmpty(avisos))
+                TempData["SuccessEditar"] += " | " + avisos;
 
             return RedirectToAction("Index");
         }
+
+
 
         // **Confirmación de eliminación del departamento**
         [HttpPost]
         public IActionResult EliminarConfirmado(int id)
         {
-            var departamento = _depaRepo.Get(id);
-            if (departamento != null)
+            try
             {
-                _depaRepo.Eliminar(departamento);  // Eliminación o desactivación lógica
-                TempData["SuccessEliminar"] = $"Departamento {departamento.Nombre} eliminado correctamente.";
+                var departamento = _depaRepo.Get(id);
+                if (departamento == null)
+                    return Json(new { success = false, message = "Departamento no encontrado" });
+
+                var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+
+                if (!_depaRepo.ValidarDepartamento(departamento, out string errores, out _, departamentosExistentes.ToList(), esEliminacion: true))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = errores,
+                        showToast = true // Indicador para mostrar toast en el cliente
+                    });
+                }
+
+                _depaRepo.Eliminar(departamento);
+                return Json(new
+                {
+                    success = true,
+                    message = $"Departamento '{departamento.Nombre}' eliminado correctamente.",
+                    showToast = true
+                });
             }
-
-            return Json(new { success = true });
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error inesperado: " + ex.Message,
+                    showToast = true
+                });
+            }
         }
+
+
     }
-
-
-
-
 
 }
