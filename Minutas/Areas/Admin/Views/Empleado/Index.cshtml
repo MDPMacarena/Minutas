@@ -43,11 +43,14 @@
 
             @if (TempData["ErrorAgregar"] != null)
             {
-                <div class="toast-msg error">
-                    <span>@TempData["ErrorAgregar"]</span>
-                    <button class="close-toast">&times;</button>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        mostrarToast('@TempData["ErrorAgregar"]', 'error');
+                        document.getElementById("modalCrearEmpleado").style.display = "block";
+                    });
+                </script>
             }
+
             @if (TempData["SuccessAgregar"] != null)
             {
                 <div class="toast-msg success">
@@ -117,32 +120,34 @@
                     <h3>Dar de alta empleados</h3>
 
                     <label>Nombre completo:</label>
-                    <input name="Usuario.Nombre" type="text" placeholder="Escribir..." required />
+                    <input name="Usuario.Nombre" type="text" placeholder="Escribir..." required
+                           value="@TempData["Nombre"]" />
 
                     <label>Correo electrónico:</label>
-                    <input name="Usuario.Correo" type="email" placeholder="Escribir..." required />
+                    <input name="Usuario.Correo" type="email" placeholder="Escribir..." required
+                           value="@TempData["Correo"]" />
 
                     <label>Departamento:</label>
                     <select name="Usuario.IdDepartamento" required>
-                        <option disabled selected>Selecciona una opción</option>
+                        <option disabled @(TempData["Departamento"] == null ? "selected" : "")>Selecciona una opción</option>
                         @foreach (var dep in ViewBag.Departamentos)
                         {
-                            <option value="@dep.Id">@dep.Nombre</option>
+                            var selected = TempData["Departamento"]?.ToString() == dep.Id.ToString() ? "selected" : "";
+                            <option value="@dep.Id" @selected>@dep.Nombre</option>
                         }
                     </select>
 
                     <label>Número de empleado:</label>
-                    <input name="Usuario.NumEmpleado" type="number" placeholder="Escribir..." required />
+                    <input name="Usuario.NumEmpleado" type="number" placeholder="Escribir..." required
+                           value="@TempData["NumEmpleado"]" />
 
                     <label>Fecha de Nacimiento:</label>
-                    <input name="Usuario.FechaNacimiento" type="date" required />
-
-
+                    <input name="Usuario.FechaNacimiento" type="date" required
+                           value="@TempData["FechaNacimiento"]" />
 
                     <div class="buttons">
                         <input type="button" value="Cancelar" onclick="cerrarModal('modalCrearEmpleado');">
                         <input type="button" value="Confirmar" onclick="this.form.submit();">
-
                     </div>
                 </form>
             </div>
@@ -201,167 +206,162 @@
     </div>
 
     <script>
-              // Sidebar y acciones de UI
-              const menu = document.querySelector('button');
-              const sidebar = document.querySelector('.sidebar');
-              const header = document.querySelector("header");
+        // Sidebar y acciones de UI
+        document.addEventListener('DOMContentLoaded', function () {
+            const menu = document.querySelector('button');
+            const sidebar = document.querySelector('.sidebar');
+            const header = document.querySelector("header");
 
-              menu.addEventListener('click', () => {
-                  sidebar.classList.toggle('active');
-              });
+            if (menu && sidebar) {
+                menu.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
 
-              document.querySelector("#crearEmpleadoBtn").addEventListener("click",function(){
-                 let crearDep = document.querySelector("#modalCrearEmpleado");
-                 crearDep.style.display= "block";
-              })
+            const crearBtn = document.querySelector("#crearEmpleadoBtn");
+            if (crearBtn) {
+                crearBtn.addEventListener("click", function () {
+                    const modal = document.querySelector("#modalCrearEmpleado");
+                    if (modal) modal.style.display = "block";
+                });
+            }
 
-              // Buscar (solo una vez)
-              document.querySelector("#buscar").addEventListener("click", function () {
-                  console.log("Buscar activado");
-                  header.classList.toggle("buscar");
-              });
+            // Buscar (solo una vez)
+            const buscarBtn = document.querySelector("#buscar");
+            if (buscarBtn) {
+                buscarBtn.addEventListener("click", function () {
+                    header.classList.toggle("buscar");
+                });
+            }
 
-                     document.querySelectorAll('.eliminarEmp').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = btn.getAttribute('data-id');
-                const nombre = btn.getAttribute('data-nombre');
-                const numEmpleado = btn.getAttribute('data-numero');
+            document.querySelectorAll('.eliminarEmp').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    const nombre = btn.getAttribute('data-nombre');
+                    const numEmpleado = btn.getAttribute('data-numero');
 
-                const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
-                if (confirm(mensaje)) {
-                    fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
-                        method: 'POST',
-                        headers: {
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Error en la respuesta del servidor');
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            // Mostrar mensaje de error si es necesario
-                            const toastError = document.createElement('div');
-                            toastError.className = 'toast-msg error';
-                            toastError.innerHTML = `
-                                <span>Error al eliminar el usuario</span>
-                                <button class="close-toast">&times;</button>
-                            `;
-                            document.querySelector('main').prepend(toastError);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                    const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
+                    if (confirm(mensaje)) {
+                        fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
+                            method: 'POST',
+                            headers: {
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Error en la respuesta del servidor');
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            } else {
+                                // Mostrar mensaje de error si es necesario
+                                const toastError = document.createElement('div');
+                                toastError.className = 'toast-msg error';
+                                toastError.innerHTML = `
+                                    <span>Error al eliminar el usuario</span>
+                                    <button class="close-toast">&times;</button>
+                                `;
+                                document.querySelector('main').prepend(toastError);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    }
+                });
+            });
+
+            // Editar empleado
+            document.querySelectorAll('.editarEmp').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+
+                    fetch(`/Admin/Empleado/Editar/${id}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById("edit-id").value = data.id;
+                            document.getElementById("edit-nombre").value = data.nombre;
+                            document.getElementById("edit-correo").value = data.correo;
+                            document.getElementById("edit-num").value = data.numEmpleado;
+                            document.getElementById("edit-nac").value = data.fechaNacimiento.substring(0, 10);
+                            document.getElementById("edit-dep").value = data.idDepartamento;
+                            document.getElementById("edit-rol").value = data.idRol;
+
+                            const modal = document.getElementById("modalEditarEmpleado");
+                            modal.style.display = "block";
+                            modal.classList.add("active");
+                        });
+                });
+            });
+
+            // Cierre de toast manual
+            document.querySelectorAll('.close-toast').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.parentElement.remove();
+                });
+            });
+
+            // Cierre de toast automático
+            setTimeout(() => {
+                const toast = document.querySelector('.toast-msg');
+                if (toast) {
+                    toast.style.transition = "opacity 0.5s ease-out";
+                    toast.style.opacity = 0;
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 3000);
+
+            // Filtros
+            let lasActiveCategory = null;
+            const categorias = document.querySelector('.filtros div');
+            if (categorias) {
+                categorias.addEventListener('click', (e) => {
+                    if (lasActiveCategory) {
+                        lasActiveCategory.classList.remove('active');
+                    }
+                    lasActiveCategory = e.target;
+                    e.target.classList.toggle('active');
+                });
+            }
+
+            // Cambio en móvil de minuta
+            const minutas = document.querySelector('.minutas-list');
+            const minutasContent = document.querySelector('.minuta-content');
+
+            if (minutas && minutasContent) {
+                minutas.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('filtros')) {
+                        minutasContent.classList.toggle('active');
+                        console.log('click en minuta');
+                        minutas.classList.toggle('inactive');
+                    }
+                });
+
+                history.pushState(null, "", location.href);
+                window.addEventListener("popstate", function () {
+                    minutas.classList.toggle('inactive');
+                    console.log("Intento de salir con botón de retroceso");
+                    history.pushState(null, "", location.href); // Reagrega el estado
+                });
+            }
+
+            // Cierre sidebar si clic fuera
+            document.addEventListener("click", function (event) {
+                if (!sidebar.contains(event.target) && !menu.contains(event.target)) {
+                    if (sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                        console.log('click en sidebar');
+                    }
                 }
             });
         });
 
-              // Editar empleado
-                      document.querySelectorAll('.editarEmp').forEach(btn => {
-              btn.addEventListener('click', () => {
-                  const id = btn.dataset.id;
-
-                  fetch(`/Admin/Empleado/Editar/${id}`)
-                      .then(res => res.json())
-                      .then(data => {
-                          document.getElementById("edit-id").value = data.id;
-                          document.getElementById("edit-nombre").value = data.nombre;
-                          document.getElementById("edit-correo").value = data.correo;
-                          document.getElementById("edit-num").value = data.numEmpleado;
-                          document.getElementById("edit-nac").value = data.fechaNacimiento.substring(0, 10);
-                          document.getElementById("edit-dep").value = data.idDepartamento;
-                          document.getElementById("edit-rol").value = data.idRol;
-
-                         
-                          const modal = document.getElementById("modalEditarEmpleado");
-                          modal.style.display = "block";
-                          modal.classList.add("active");
-                      });
-              });
-          });
-
-
-              // Cierre de toast manual
-              document.querySelectorAll('.close-toast').forEach(btn => {
-                  btn.addEventListener('click', () => {
-                      btn.parentElement.remove();
-                  });
-              });
-
-              // Cierre de toast automático
-              setTimeout(() => {
-                  const toast = document.querySelector('.toast-msg');
-                  if (toast) {
-                      toast.style.transition = "opacity 0.5s ease-out";
-                      toast.style.opacity = 0;
-                      setTimeout(() => toast.remove(), 500);
-                  }
-              }, 3000);
-
-
-
-
-
-          //Filtros
-          let lasActiveCategory = null;
-          const categorias=document.querySelector('.filtros div');
-          categorias.addEventListener('click',(e)=>{
-              if(lasActiveCategory){
-                  lasActiveCategory.classList.remove('active');
-              }
-              lasActiveCategory=e.target;
-              e.target.classList.toggle('active');
-          });
-
-          //CambioEnMovilDeminuta
-          const minutas=document.querySelector('.minutas-list');
-          const minutasContent=document.querySelector('.minuta-content');
-
-          minutas.addEventListener('click',(e)=>{
-              if(!e.target.classList.contains('filtros')){
-                  minutasContent.classList.toggle('active');
-                  console.log('click en minuta');
-                  minutas.classList.toggle('inactive');
-              }
-          });
-
-
-
-
-          history.pushState(null, "", location.href);
-
-          window.addEventListener("popstate", function () {
-              minutas.classList.toggle('inactive');
-          console.log("Intento de salir con botón de retroceso");
-          history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
-          });
-
-
-
-          document.addEventListener("click", function (event) {
-        //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
-          //        minutasContent.classList.remove('active');
-            //      minutas.classList.remove('inactive');
-              //}
-              if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
-                  if (sidebar.classList.contains('active')) {
-                      sidebar.classList.remove('active');
-              console.log('click en sidebar');
-
-                  }
-              }
-          });
-
-
-                       function cerrarModal(id) {
+        function cerrarModal(id) {
             const modal = document.getElementById(id);
             if (modal) {
                 if (id === 'modalCrearEmpleado') {
-                    // Limpiar campos de texto
                     const nombreInput = modal.querySelector('input[name="Usuario.Nombre"]');
                     const correoInput = modal.querySelector('input[name="Usuario.Correo"]');
                     const numInput = modal.querySelector('input[name="Usuario.NumEmpleado"]');
@@ -372,7 +372,6 @@
                     if (numInput) numInput.value = '';
                     if (fechaInput) fechaInput.value = '';
 
-                    // Resetear select de departamento
                     const selectDepartamento = modal.querySelector('select[name="Usuario.IdDepartamento"]');
                     if (selectDepartamento) selectDepartamento.selectedIndex = 0;
                 }
@@ -381,9 +380,31 @@
                 modal.classList.remove('active');
             }
         }
-        
 
+        function mostrarToast(mensaje, tipo) {
+            document.querySelectorAll('.toast-msg').forEach(el => el.remove());
+
+            const toast = document.createElement('div');
+            toast.className = `toast-msg ${tipo}`;
+            toast.innerHTML = `
+                <span>${mensaje}</span>
+                <button class="close-toast">&times;</button>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.transition = "opacity 0.5s ease-out";
+                toast.style.opacity = 0;
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+
+            toast.querySelector('.close-toast').addEventListener('click', () => {
+                toast.remove();
+            });
+        }
     </script>
+
 
 
 </body>

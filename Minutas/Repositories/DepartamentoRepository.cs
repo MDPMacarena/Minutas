@@ -24,6 +24,7 @@ public class DepartamentoRepository
                       .AsNoTracking()
                       .Include(d => d.IdJefeNavigation)
                       .Include(d => d.IdDeptSuperiorNavigation)
+                     .OrderBy(d => d.Nombre)
                       .ToList();
     }
 
@@ -111,6 +112,10 @@ public class DepartamentoRepository
         {
             if (string.IsNullOrWhiteSpace(dep.Nombre))
                 sbErrores.AppendLine("El nombre del departamento está vacío.");
+
+            // Nueva validación para longitud del nombre
+            if (!string.IsNullOrEmpty(dep.Nombre) && dep.Nombre.Length > 100)
+                sbErrores.AppendLine("Nombre del departamento demasiado grande.");
 
             if (departamentosExistentes.Any(d =>
                 d.Nombre.Equals(dep.Nombre, StringComparison.OrdinalIgnoreCase) && d.Id != dep.Id))

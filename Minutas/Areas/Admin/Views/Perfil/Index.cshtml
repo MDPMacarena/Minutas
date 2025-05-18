@@ -36,7 +36,7 @@
         </aside>
         <main>
             <form id="perfil">
-                <h3><span>#4455 </span>ADMINISTRADOR <a id="btneditarPerfil" class="material-icons">edit</a></h3>
+                <h3><span>#4455 </span>ADMINISTRADOR <a id="btnEditarPerfil" class="material-icons">edit</a></h3>
                 <div>
                     <label>Nombre</label>
                     <input type="text" value="Luis Carlos Longares Vidal" disabled>
@@ -86,16 +86,19 @@
           const sidebar = document.querySelector('.sidebar');
           const header =document.querySelector("header");
           const modEditPerfil =  document.querySelector("#modalEditarPerfil");
-          // editar perfil
-          document.querySelector("#btnEditarPerfil").addEventListener("click", function(){
-              modEditPerfil.style.display="block";
-          });
-          // cerrar perfil
-          modEditPerfil.addEventListener("click", function(e){
-              if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
-                  modEditPerfil.style.display = "none";
-              }
-          });
+
+            // editar perfil
+            document.querySelector("#btnEditarPerfil").addEventListener("click", function(){
+                modEditPerfil.style.display="block";
+            });
+            // cerrar perfil
+            modEditPerfil.addEventListener("click", function(e){
+                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
+                    modEditPerfil.style.display = "none";
+                }
+            });
+
+          
 
 
 
@@ -105,7 +108,7 @@
           });
 
           // este es solo de MUESTRA al momento de usar el buscador
-          const buscador = document.querySelector("#buscador");
+          const buscador = document.querySelector("#buscar");
           buscador.addEventListener("input", function(){
                if (buscador.value.length > 0) {
                   setTimeout(function(){

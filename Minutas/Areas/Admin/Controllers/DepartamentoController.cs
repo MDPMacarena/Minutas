@@ -60,12 +60,18 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarDepartamentoViewModel vm)
         {
-            // Aseguramos que la lista de departamentos esté actualizada
             var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
 
             if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
             {
                 TempData["ErrorAgregar"] = errores;
+                TempData["AbrirModalCrear"] = true;
+
+                // GUARDAR datos del formulario
+                TempData["DepNombre"] = vm.Departamento.Nombre;
+                TempData["DepJefe"] = vm.Departamento.IdJefe;
+                TempData["DepSup"] = vm.Departamento.IdDeptSuperior;
+
                 return RedirectToAction("Index");
             }
 
@@ -77,6 +83,7 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
 
 
 

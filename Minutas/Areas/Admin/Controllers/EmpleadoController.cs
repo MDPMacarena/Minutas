@@ -44,22 +44,37 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarEmpleadoViewModel vm)
         {
+            // Validación del empleado
             if (!empRepository.ValidarEmpleado(vm.Usuario, out string errores, out string aviso))
             {
                 TempData["ErrorAgregar"] = errores;
+                TempData["AbrirModalCrearUsuario"] = true;
+
+                // Persistencia de datos en TempData para rellenar el formulario
+                TempData["Nombre"] = vm.Usuario.Nombre;
+                TempData["Correo"] = vm.Usuario.Correo;
+                TempData["Departamento"] = vm.Usuario.IdDepartamento;
+                TempData["Rol"] = vm.Usuario.IdRol;
+                TempData["NumEmpleado"] = vm.Usuario.NumEmpleado;
+                TempData["FechaNacimiento"] = vm.Usuario.FechaNacimiento.ToString("yyyy-MM-dd");
+
                 return RedirectToAction("Index");
             }
 
-            vm.Usuario.ContraseñaHash = "REUNIONES";
-            vm.Usuario.IdRol = 3;
+            // Setear campos que no vienen del formulario
+            vm.Usuario.ContraseñaHash = "REUNIONES"; // ¡Psst! Esto debería ser un hash real, no una palabra secreta visible 😅
+            vm.Usuario.IdRol = 3; // Rol por defecto (puede ser redundante si ya lo mandas desde el form)
+
             empRepository.Insert(vm.Usuario);
 
+            // Toast de éxito
             TempData["SuccessAgregar"] = "Empleado agregado correctamente";
-            if (!string.IsNullOrEmpty(aviso))
-                TempData["SuccessAgregar"] += " | " + aviso;
+            if (!string.IsNullOrWhiteSpace(aviso))
+                TempData["SuccessAgregar"] += $" | {aviso}";
 
             return RedirectToAction("Index");
         }
+
 
         [HttpGet]
         public IActionResult Editar(int id)

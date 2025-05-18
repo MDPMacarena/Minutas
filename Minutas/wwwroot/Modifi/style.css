@@ -919,14 +919,14 @@ input[type="checkbox"]{
 
 .toast-msg {
     position: fixed;
-    top: 20px;
+    top: 70px; /* ✅ Ajusta aquí la distancia desde arriba */
     right: 20px;
     background-color: #185C53;
     color: white;
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    z-index: 999;
+    z-index: 9999; /* asegúrate de que sea alto */
     display: flex;
     align-items: center;
     gap: 10px;

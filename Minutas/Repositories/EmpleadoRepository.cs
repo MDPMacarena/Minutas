@@ -57,14 +57,26 @@ namespace MinutasManage.Repositories
             }
             else
             {
+                if (empleado.NumEmpleado.Length < 4)
+                {
+                    sbErrores.AppendLine("El número de empleado debe tener al menos 4 caracteres.");
+                }
+
                 var existeNumEmpleado = Context.Usuarios
                     .Any(u => u.NumEmpleado == empleado.NumEmpleado && u.Id != empleado.Id);
                 if (existeNumEmpleado)
                     sbErrores.AppendLine("El número de empleado ya está registrado.");
             }
 
+
             if (string.IsNullOrWhiteSpace(empleado.Nombre))
                 sbErrores.AppendLine("El nombre está vacío.");
+            else
+            {
+                // Validación nueva: longitud del nombre
+                if (empleado.Nombre.Length > 100)
+                    sbErrores.AppendLine("Nombre del empleado demasiado grande.");
+            }
 
             if (string.IsNullOrWhiteSpace(empleado.Correo))
             {
@@ -85,6 +97,18 @@ namespace MinutasManage.Repositories
 
             if (empleado.IdDepartamento <= 0)
                 sbErrores.AppendLine("El ID del departamento no es válido.");
+
+            if (empleado.FechaNacimiento == DateOnly.MinValue)
+            {
+                sbErrores.AppendLine("La fecha de nacimiento no puede estar vacía.");
+            }
+            else if (empleado.FechaNacimiento > DateOnly.FromDateTime(DateTime.Today))
+            {
+                sbErrores.AppendLine("La fecha de nacimiento no puede ser mayor a la fecha actual.");
+            }
+
+
+
 
             errores = sbErrores.ToString();
             avisos = sbAvisos.ToString();

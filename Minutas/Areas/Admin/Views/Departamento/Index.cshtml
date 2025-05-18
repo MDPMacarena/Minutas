@@ -42,31 +42,40 @@
         <main>
             @if (TempData["ErrorAgregar"] != null)
             {
-                <div class="toast-msg error">
-                    <span>@TempData["ErrorAgregar"]</span>
-                    <button class="close-toast">&times;</button>
-                </div>
+                <script>
+                    window.errorAlAgregar = true;
+                    document.addEventListener('DOMContentLoaded', function () {
+                        mostrarToast('@TempData["ErrorAgregar"]', 'error');
+                        document.getElementById("modalCrearDepto").style.display = "block";
+                    });
+                </script>
             }
+
+
             @if (TempData["SuccessAgregar"] != null)
             {
-                <div class="toast-msg success">
-                    <span>@TempData["SuccessAgregar"]</span>
-                    <button class="close-toast">&times;</button>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        mostrarToast('@TempData["SuccessAgregar"]', 'success');
+                    });
+                </script>
             }
             @if (TempData["ErrorEditar"] != null)
             {
-                <div class="toast-msg error">
-                    <span>@TempData["ErrorEditar"]</span>
-                    <button class="close-toast">&times;</button>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        mostrarToast('@TempData["ErrorEditar"]', 'error');
+                        document.getElementById("modalEditarDepto").style.display = "block";
+                    });
+                </script>
             }
             @if (TempData["SuccessEditar"] != null)
             {
-                <div class="toast-msg success">
-                    <span>@TempData["SuccessEditar"]</span>
-                    <button class="close-toast">&times;</button>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        mostrarToast('@TempData["SuccessEditar"]', 'success');
+                    });
+                </script>
             }
            
 
@@ -96,25 +105,28 @@
                     <h3>Crear Departamento</h3>
 
                     <label>Nombre</label>
-                    <input name="Departamento.Nombre" type="text" required /><br>
+                    <input name="Departamento.Nombre" type="text" required
+                           value="@TempData["DepNombre"]" />
 
                     <label>Jefe de Departamento</label>
                     <select name="Departamento.IdJefe" required>
-                        <option disabled selected>Selecciona una opción</option>
+                        <option disabled @(TempData["DepJefe"] == null ? "selected" : "")>Selecciona una opción</option>
                         @foreach (var jefe in ViewBag.Empleados)
                         {
-                            <option value="@jefe.Id">@jefe.Nombre</option>
+                            var selected = TempData["DepJefe"]?.ToString() == jefe.Id.ToString() ? "selected" : "";
+                            <option value="@jefe.Id" @selected>@jefe.Nombre</option>
                         }
-                    </select><br>
+                    </select>
 
                     <label>Departamento Superior</label>
                     <select name="Departamento.IdDeptSuperior">
-                        <option value="">Ninguno</option>
+                        <option value="" @(TempData["DepSup"] == null ? "selected" : "")>Ninguno</option>
                         @foreach (var sup in ViewBag.Departamentos)
                         {
-                            <option value="@sup.Id">@sup.Nombre</option>
+                            var selected = TempData["DepSup"]?.ToString() == sup.Id.ToString() ? "selected" : "";
+                            <option value="@sup.Id" @selected>@sup.Nombre</option>
                         }
-                    </select><br>
+                    </select>
 
                     <div class="buttons">
                         <input type="button" value="Cancelar" onclick="cerrarModal('modalCrearDepto')">
@@ -134,8 +146,8 @@
                     <input name="Departamento.Nombre" id="edit-nombre" type="text" required /><br>
 
                     <label>Jefe de Departamento</label>
-                    <select name="Departamento.IdJefe" id="edit-jefe" required>
-                        <option disabled>Selecciona una opción</option>
+                    <select name="Departamento.IdJefe" id="edit-jefe">
+                        <option value="">Selecciona una opción</option>
                         @foreach (var jefe in ViewBag.Empleados)
                         {
                             <option value="@jefe.Id">@jefe.Nombre</option>
@@ -144,7 +156,7 @@
 
                     <label>Departamento Superior</label>
                     <select name="Departamento.IdDeptSuperior" id="edit-sup">
-                        <option value="">Ninguno</option>
+                        <option value="">Seleccione una opción</option>
                         @foreach (var sup in ViewBag.Departamentos)
                         {
                             <option value="@sup.Id">@sup.Nombre</option>
@@ -205,30 +217,34 @@
     });
 });
 
-function mostrarToast(mensaje, tipo) {
-    // Eliminar toasts existentes primero
-    document.querySelectorAll('.toast-msg').forEach(toast => toast.remove());
-    
+        function mostrarToast(mensaje, tipo) {
+    // Eliminar toasts anteriores
+    document.querySelectorAll('.toast-msg').forEach(el => el.remove());
+
     const toast = document.createElement('div');
     toast.className = `toast-msg ${tipo}`;
     toast.innerHTML = `
         <span>${mensaje}</span>
         <button class="close-toast">&times;</button>
     `;
-    document.querySelector('main').prepend(toast);
-    
+
+    // 👇 ¡Clave! Insertarlo en el BODY para que el "top" funcione correctamente
+    document.body.appendChild(toast);
+
     // Cierre automático
     setTimeout(() => {
         toast.style.transition = "opacity 0.5s ease-out";
         toast.style.opacity = 0;
         setTimeout(() => toast.remove(), 500);
     }, 3000);
-    
+
     // Cierre manual
     toast.querySelector('.close-toast').addEventListener('click', () => {
         toast.remove();
     });
 }
+
+
         
 
 
