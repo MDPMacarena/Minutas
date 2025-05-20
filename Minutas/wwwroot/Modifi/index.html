@@ -46,6 +46,7 @@
             <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
             <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
             <a id="apartado-perfil" href="perfil.html">Perfil</a>
+            <a id="apartado-configu" href="configuuuu.html" class="material-icons">settings</a>
  
      
         </aside>
@@ -491,7 +492,8 @@
         const activar = document.querySelector(".minuta-content");
 
         min.addEventListener("click", function(e){
-            if(e.target.closest(".minuta") && e.target.classList.contains("minuta")){
+            const clickedMinuta = e.target.closest(".minuta");
+            if (clickedMinuta) {
                 desactivar.style.display="none";
                 activar.style.display="block";
             }

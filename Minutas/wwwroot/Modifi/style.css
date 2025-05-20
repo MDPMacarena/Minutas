@@ -548,11 +548,15 @@ form label{
 #modalEditarPerfil{
     display: none;
 }
-
+#modalEditarCorreo{
+    display: none;
+}
 #modalCrearMinuta.active, #modalEditarMinuta.active{
     display: block;
 }
-
+#modalEditarCorreo form{
+    width: 50vw;
+}
 
 #modalCrearMiuta input.material-icons{
    
@@ -659,15 +663,15 @@ input[type="search"] {
 
 
 
-#perfil{
+#perfil, #correos{
     width: 100%;
     padding: vh 10vw;
 }
-#perfil input{
+#perfil input, #correos input, #correos select{
     background-color: transparent;
     border: none;
 }
-#perfil h3{
+#correos h3, #perfil h3{
     padding: 3vh 10vw;
     display: flex;
     height: 8vh;
