@@ -57,6 +57,11 @@ namespace MinutasManage.Repositories
             }
             else
             {
+                if(empleado.NumEmpleado.Length > 20)
+                {
+                    sbErrores.AppendLine("Número de empleado demasiado grande.");
+                }
+
                 if (empleado.NumEmpleado.Length < 4)
                 {
                     sbErrores.AppendLine("El número de empleado debe tener al menos 4 caracteres.");
@@ -84,6 +89,11 @@ namespace MinutasManage.Repositories
             }
             else
             {
+                if(empleado.Correo.Length > 100)
+                {
+                    sbErrores.AppendLine("El correo es demasiado largo.");
+                }
+
                 // Validar formato del correo
                 var emailValidator = new System.ComponentModel.DataAnnotations.EmailAddressAttribute();
                 if (!emailValidator.IsValid(empleado.Correo))
