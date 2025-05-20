@@ -104,27 +104,17 @@ public partial class DbminutasContext : DbContext
             entity.HasIndex(e => e.IdDepartamento, "idDepartamento");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CompromisosYtareas)
-                .HasColumnType("json")
-                .HasColumnName("compromisosYtareas");
-            entity.Property(e => e.Desarrollo)
-                .HasColumnType("json")
-                .HasColumnName("desarrollo");
+            entity.Property(e => e.Contenido).HasColumnType("json");
             entity.Property(e => e.Estado)
                 .HasColumnType("enum('PorFirmar','Firmada','Borrador')")
                 .HasColumnName("estado");
             entity.Property(e => e.FechaCreacion).HasColumnName("fechaCreacion");
             entity.Property(e => e.IdCreador).HasColumnName("idCreador");
             entity.Property(e => e.IdDepartamento).HasColumnName("idDepartamento");
-            entity.Property(e => e.Objetivo)
-                .HasColumnType("json")
-                .HasColumnName("objetivo");
-            entity.Property(e => e.OrdenDia)
-                .HasColumnType("json")
-                .HasColumnName("ordenDia");
-            entity.Property(e => e.Privadas)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("privadas");
+            entity.Property(e => e.Privada).HasColumnName("privada");
+            entity.Property(e => e.Titulo)
+                .HasMaxLength(45)
+                .HasColumnName("titulo");
 
             entity.HasOne(d => d.IdCreadorNavigation).WithMany(p => p.Minutas)
                 .HasForeignKey(d => d.IdCreador)

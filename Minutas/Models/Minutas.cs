@@ -15,15 +15,11 @@ public partial class Minutas
 
     public int IdDepartamento { get; set; }
 
-    public string Objetivo { get; set; } = null!;
+    public string Contenido { get; set; } = null!;
 
-    public string OrdenDia { get; set; } = null!;
+    public sbyte Privada { get; set; }
 
-    public string Desarrollo { get; set; } = null!;
-
-    public string CompromisosYtareas { get; set; } = null!;
-
-    public sbyte? Privadas { get; set; }
+    public string Titulo { get; set; } = null!;
 
     public virtual Usuarios IdCreadorNavigation { get; set; } = null!;
 
