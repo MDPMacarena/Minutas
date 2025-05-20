@@ -390,6 +390,8 @@
 
            modCrearMin.addEventListener("click", function (e) {
                 if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
+      formulario.reset(); // Opcional: reiniciar el formulario después de enviar
+
                    modCrearMin.classList.remove("active");
                }
             });
@@ -429,6 +431,7 @@
       .catch(error => {
         console.error('Error:', error);
       });
+	  formulario.reset(); // Opcional: reiniciar el formulario después de enviar
     });
 
 
