@@ -17,6 +17,7 @@ builder.Services.AddScoped<DepartamentoRepository>();
 
 builder.Services.AddScoped<EmpleadoRepository>();
 
+builder.Services.AddScoped<MinutasRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
