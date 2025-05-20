@@ -69,7 +69,7 @@ namespace MinutasManage.Areas.Admin.Controllers
 
 
 
-            return View();
+            return Json(min);
         }
 
     }

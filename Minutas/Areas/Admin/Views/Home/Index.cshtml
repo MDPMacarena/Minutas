@@ -308,6 +308,8 @@
     // Cambiar el color del icono de la bar
     
     async function CargarMinutas(){
+        const modCrearMin = document.querySelector("#modalCrearMinuta");
+
 
 		const response = await fetch('/Admin/Minutas/Minutas');
 
@@ -328,6 +330,7 @@
 			const minutasList = document.querySelector(".minutas");
 			minutasList.appendChild(clone);
 		}
+         modCrearMin.classList.remove("active");
          actualizarIconos(0);
 
 
@@ -385,11 +388,11 @@
                 modCrearMin.classList.toggle("active");
             });
 
-            // modCrearMin.addEventListener("click", function (e) {
-            //     if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
-            //         modCrearMin.classList.remove("active");
-            //     }
-            // });
+           modCrearMin.addEventListener("click", function (e) {
+                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
+                   modCrearMin.classList.remove("active");
+               }
+            });
 
 
 
