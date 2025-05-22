@@ -8,13 +8,18 @@ namespace MinutasManage.Areas.Admin.Controllers
     [Area("Admin")]
     public class DepartamentoController : Controller
     {
-        private readonly DepartamentoRepository _depaRepo;
+        private readonly Repository<Departamento> _depaRepo;
         private readonly EmpleadoRepository _empleadoRepo;
 
-        public DepartamentoController(DepartamentoRepository depaRepo, EmpleadoRepository empleadoRepo)
+        private DbminutasContext Context { get; }
+
+        public DepartamentoController(DbminutasContext context, EmpleadoRepository empleadoRepository)
         {
-            _depaRepo = depaRepo;
-            _empleadoRepo = empleadoRepo;
+
+           
+            Context = context;
+            _depaRepo = new Repository<Departamento>(context);
+            _empleadoRepo = empleadoRepository;
         }
 
         // **Vista principal para listar departamentos**
@@ -23,7 +28,7 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             try
             {
-                var departamentos = _depaRepo.GetDepartamentosActivos();
+                var departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
                 var empleados = _empleadoRepo.GetEmpleadosActivos();
                 ViewBag.Empleados = empleados;
                 ViewBag.Departamentos = departamentos;
@@ -39,7 +44,7 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpGet("Lista")]
         public IActionResult GetDepartamentos()
         {
-            var departamentos = _depaRepo.GetDepartamentosActivos();
+            var departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x=>x.Nombre);
             return Json(departamentos);
         }
 
@@ -50,7 +55,8 @@ namespace MinutasManage.Areas.Admin.Controllers
             var vm = new AgregarDepartamentoViewModel
             {
                 Empleados = _empleadoRepo.GetEmpleadosActivos(),  // Para elegir un jefe
-                Departamentos = _depaRepo.GetDepartamentosActivos() // Para elegir un departamento superior
+                Departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre)
+                // Para elegir un departamento superior
             };
 
             return View(vm);
@@ -60,26 +66,27 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarDepartamentoViewModel vm)
         {
-            var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+            var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x=>x.Nombre);
 
-            if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
-            {
-                TempData["ErrorAgregar"] = errores;
-                TempData["AbrirModalCrear"] = true;
 
-                // GUARDAR datos del formulario
-                TempData["DepNombre"] = vm.Departamento.Nombre;
-                TempData["DepJefe"] = vm.Departamento.IdJefe;
-                TempData["DepSup"] = vm.Departamento.IdDeptSuperior;
+            //if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
+            //{
+            //    TempData["ErrorAgregar"] = errores;
+            //    TempData["AbrirModalCrear"] = true;
 
-                return RedirectToAction("Index");
-            }
+            //    // GUARDAR datos del formulario
+            //    TempData["DepNombre"] = vm.Departamento.Nombre;
+            //    TempData["DepJefe"] = vm.Departamento.IdJefe;
+            //    TempData["DepSup"] = vm.Departamento.IdDeptSuperior;
+
+            //    return RedirectToAction("Index");
+            //}
 
             _depaRepo.Insert(vm.Departamento);
-            TempData["SuccessAgregar"] = "Departamento agregado correctamente.";
+            //TempData["SuccessAgregar"] = "Departamento agregado correctamente.";
 
-            if (!string.IsNullOrEmpty(avisos))
-                TempData["SuccessAgregar"] += " | " + avisos;
+            //if (!string.IsNullOrEmpty(avisos))
+            //    TempData["SuccessAgregar"] += " | " + avisos;
 
             return RedirectToAction("Index");
         }
@@ -110,19 +117,19 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(AgregarDepartamentoViewModel vm)
         {
-            var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+            var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
 
-            if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
-            {
-                TempData["ErrorEditar"] = errores;
-                return RedirectToAction("Index");
-            }
+            //if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
+            //{
+            //    TempData["ErrorEditar"] = errores;
+            //    return RedirectToAction("Index");
+            //}
 
             _depaRepo.Update(vm.Departamento); // Actualizar el departamento
-            TempData["SuccessEditar"] = "Departamento actualizado correctamente.";
+            //TempData["SuccessEditar"] = "Departamento actualizado correctamente.";
 
-            if (!string.IsNullOrEmpty(avisos))
-                TempData["SuccessEditar"] += " | " + avisos;
+            //if (!string.IsNullOrEmpty(avisos))
+            //    TempData["SuccessEditar"] += " | " + avisos;
 
             return RedirectToAction("Index");
         }
@@ -139,19 +146,20 @@ namespace MinutasManage.Areas.Admin.Controllers
                 if (departamento == null)
                     return Json(new { success = false, message = "Departamento no encontrado" });
 
-                var departamentosExistentes = _depaRepo.GetDepartamentosActivos();
+                var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
 
-                if (!_depaRepo.ValidarDepartamento(departamento, out string errores, out _, departamentosExistentes.ToList(), esEliminacion: true))
-                {
-                    return Json(new
-                    {
-                        success = false,
-                        message = errores,
-                        showToast = true // Indicador para mostrar toast en el cliente
-                    });
-                }
 
-                _depaRepo.Eliminar(departamento);
+                //if (!_depaRepo.ValidarDepartamento(departamento, out string errores, out _, departamentosExistentes.ToList(), esEliminacion: true))
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        message = errores,
+                //        showToast = true // Indicador para mostrar toast en el cliente
+                //    });
+                //}
+
+                _depaRepo.Delete(departamento);
                 return Json(new
                 {
                     success = true,
