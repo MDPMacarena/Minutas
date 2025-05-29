@@ -111,26 +111,26 @@ public class DepartamentoRepository
         if (!esEliminacion)
         {
             if (string.IsNullOrWhiteSpace(dep.Nombre))
-                sbErrores.AppendLine("El nombre del departamento está vacío.");
+                sbErrores.AppendLine("El campo 'Nombre del departamento' es obligatorio. Por favor, ingrese un nombre válido.");
 
             // Nueva validación para longitud del nombre
             if (!string.IsNullOrEmpty(dep.Nombre) && dep.Nombre.Length > 100)
-                sbErrores.AppendLine("Nombre del departamento demasiado grande.");
+                sbErrores.AppendLine("El nombre del departamento excede la longitud máxima permitida. Por favor, verifique e intente de nuevo.");
 
             if (departamentosExistentes.Any(d =>
                 d.Nombre.Equals(dep.Nombre, StringComparison.OrdinalIgnoreCase) && d.Id != dep.Id))
             {
-                sbErrores.AppendLine("Ya existe un departamento con ese nombre.");
+                sbErrores.AppendLine("Ya existe un departamento registrado con el mismo nombre. Por favor, utilice un nombre diferente.");
             }
 
             if (dep.IdJefe <= 0)
-                sbErrores.AppendLine("El Id del jefe no es válido.");
+                sbErrores.AppendLine("Debe asignar un jefe válido al departamento.Por favor, verifique e intente de nuevo.");
 
             if (dep.IdDeptSuperior.HasValue && dep.IdDeptSuperior <= 0)
-                sbErrores.AppendLine("El Id del departamento superior no es válido.");
+                sbErrores.AppendLine("Debe especificar un departamento superior válido.Por favor, verifique e intente de nuevo. ");
 
             if (dep.IdDeptSuperior == dep.Id)
-                sbErrores.AppendLine("El departamento no puede ser su propio superior.");
+                sbErrores.AppendLine("Un departamento no puede establecerse como su propio superior. Por favor, seleccione otro departamento superior.");
         }
         else
         {
@@ -138,7 +138,7 @@ public class DepartamentoRepository
 
             if (empleadosACargo > 0)
             {
-                sbErrores.AppendLine($"No se puede eliminar el departamento '{dep.Nombre}' porque tiene {empleadosACargo} empleado{(empleadosACargo > 1 ? "s" : "")} a su cargo.");
+                sbErrores.AppendLine($"No es posible eliminar el departamento '{dep.Nombre}' porque tiene {empleadosACargo} empleado{(empleadosACargo > 1 ? "s" : "")} a su cargo.");
             }
         }
 
