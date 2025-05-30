@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MinutasManage.Areas.Admin.Controllers
 {
+    [Authorize]
     [Area("Admin")]
+
     public class HomeController : Controller
     {
         [Route("/admin/home/index")]

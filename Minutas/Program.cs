@@ -26,16 +26,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
         options.SlidingExpiration = true;
 
-        options.LoginPath = "/Home";
-        //options.LogoutPath = "/Home/Logout";
-        options.AccessDeniedPath = "/Home/Index";
+        options.LoginPath = "/Account/Login"; // Ruta al Login
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Ruta para acceso denegado
 
     }
     );
 
+
 var app = builder.Build();
 
 app.UseStaticFiles();
+app.UseAuthentication();  // Middleware de autenticación
+app.UseAuthorization();   // Middleware de autorización
+
 app.UseRouting();
 
 app.UseStaticFiles();

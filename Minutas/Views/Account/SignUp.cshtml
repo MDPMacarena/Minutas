@@ -1,0 +1,44 @@
+﻿@model MinutasManage.Models.Usuarios
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h2>Crear cuenta</h2>
+
+<form asp-action="SignUp" method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Nombre" required />
+    </div>
+    <div>
+        <label>Correo:</label>
+        <input asp-for="Correo" type="email" required />
+    </div>
+    <div>
+        <label>NumEmpleado:</label>
+        <input asp-for="NumEmpleado" required />
+    </div>
+    <div>
+        <label>Fecha de nacimiento:</label>
+        <input asp-for="FechaNacimiento" type="date" required />
+    </div>
+    <div>
+        <label>Departamento (ID):</label>
+        <input asp-for="IdDepartamento" type="number" required />
+    </div>
+    <div>
+        <label>Contraseña:</label>
+        <input name="contraseña" type="password" required />
+    </div>
+    <button type="submit">Registrarse</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="color:red;">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
