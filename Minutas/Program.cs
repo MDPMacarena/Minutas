@@ -13,7 +13,6 @@ builder.Services.AddDbContext<MinutasManage.Models.DbminutasContext>(options =>
 
 
 // Agrega esta línea para registrar los repositorios
-builder.Services.AddScoped<DepartamentoRepository>();
 
 builder.Services.AddScoped<EmpleadoRepository>();
 

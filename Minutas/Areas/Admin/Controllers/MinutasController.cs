@@ -10,10 +10,10 @@ namespace MinutasManage.Areas.Admin.Controllers
 
     public class MinutasController : Controller
     {
-        private readonly MinutasRepository _minutaRepo;
-        private readonly EmpleadoRepository _empleadoRepo;
-        private readonly DepartamentoRepository _departamentoRepo;
-        public MinutasController(DepartamentoRepository dep, EmpleadoRepository emp, MinutasRepository min)
+        private readonly Repository<Minutas> _minutaRepo;
+        private readonly Repository<Usuarios> _empleadoRepo;
+        private readonly Repository<Departamento> _departamentoRepo;
+        public MinutasController(Repository<Departamento> dep, Repository<Usuarios> emp, Repository<Minutas> min)
         {
             _minutaRepo = min;
             _empleadoRepo = emp;
@@ -45,22 +45,29 @@ namespace MinutasManage.Areas.Admin.Controllers
         public IActionResult Agregar(AgregarMinutaViewModel minuta)
         {
             User.Claims.ToList();
-            //int id = int.Parse(User.FindFirst("Id")?.Value);
-            int id = 10;
+            int id = int.Parse(User.FindFirst("Id")?.Value);
+            var empleado = _empleadoRepo.Get(id);
+            var departamento = _departamentoRepo.Get(empleado.IdDepartamento);
+            string[] nombre= departamento.Nombre.Split(' ');
+            string titulo = "";
+            foreach(string n in nombre)
+            {
+                titulo += n + " ";
+            }
+            titulo += "-" + DateTime.Now.ToString("yy/MM/dd").Replace("/","");
+            Random rnd = new Random();
+            titulo += "-" + rnd.Next(1000, 9999).ToString("000");
+
+
             Minutas min = new Minutas()
             {
-                IdCreador = id,
+                IdCreador = empleado.Id,
                 FechaCreacion = DateOnly.FromDateTime(DateTime.Today),
                 Estado = "PorFirmar",
-
-                IdDepartamento = 10,
+                IdDepartamento = empleado.IdDepartamento,
                 Contenido = minuta.Contenido,
-
-                Privada = 0,
-                Titulo = "Pruebaaa1"
-
-
-
+                Privada = minuta.Privada,
+                Titulo = titulo
             };
             //agregar lista de externos a contenido da igual ponerlo allí porque solo se usa para visualizar
 

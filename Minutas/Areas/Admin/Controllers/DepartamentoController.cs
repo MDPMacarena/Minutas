@@ -9,11 +9,11 @@ namespace MinutasManage.Areas.Admin.Controllers
     public class DepartamentoController : Controller
     {
         private readonly Repository<Departamento> _depaRepo;
-        private readonly EmpleadoRepository _empleadoRepo;
+        private readonly Repository<Usuarios> _empleadoRepo;
 
         private DbminutasContext Context { get; }
 
-        public DepartamentoController(DbminutasContext context, EmpleadoRepository empleadoRepository)
+        public DepartamentoController(DbminutasContext context, Repository<Usuarios> empleadoRepository)
         {
 
            
@@ -29,7 +29,7 @@ namespace MinutasManage.Areas.Admin.Controllers
             try
             {
                 var departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
-                var empleados = _empleadoRepo.GetEmpleadosActivos();
+                var empleados = _empleadoRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
                 ViewBag.Empleados = empleados;
                 ViewBag.Departamentos = departamentos;
                 return View(departamentos);
@@ -54,7 +54,7 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             var vm = new AgregarDepartamentoViewModel
             {
-                Empleados = _empleadoRepo.GetEmpleadosActivos(),  // Para elegir un jefe
+                Empleados = _empleadoRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre),
                 Departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre)
                 // Para elegir un departamento superior
             };

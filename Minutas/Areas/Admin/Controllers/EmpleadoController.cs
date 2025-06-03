@@ -9,11 +9,11 @@ namespace MinutasManage.Areas.Admin.Controllers
     [Area("Admin")]
     public class EmpleadoController : Controller
     {
-        public EmpleadoRepository empRepository { get; }
-        public DepartamentoRepository depaRepository { get; }
+        public Repository<Usuarios> empRepository { get; }
+        public Repository<Departamento> depaRepository { get; }
         public DbminutasContext Context { get; }
 
-        public EmpleadoController(EmpleadoRepository empleadoRepository, DepartamentoRepository departamentoRepository, DbminutasContext context)
+        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, DbminutasContext context)
         {
             empRepository = empleadoRepository;
             depaRepository = departamentoRepository;
@@ -22,8 +22,8 @@ namespace MinutasManage.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var empleados = empRepository.GetEmpleadosActivos();
-            ViewBag.Departamentos = depaRepository.GetDepartamentosActivos(); // Para el modal
+            var empleados = empRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
+            ViewBag.Departamentos = depaRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre); // Para el modal
             ViewBag.Roles = Context.Roles.Select(r => new { r.Id, r.Nombre }).ToList();
 
             return View(empleados);
@@ -34,7 +34,7 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             var vm = new AgregarEmpleadoViewModel
             {
-                Departamento = depaRepository.GetDepartamentosActivos()
+                Departamento = depaRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre)
             };
 
             return View(vm);
@@ -44,22 +44,22 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarEmpleadoViewModel vm)
         {
-            // Validación del empleado
-            if (!empRepository.ValidarEmpleado(vm.Usuario, out string errores, out string aviso))
-            {
-                TempData["ErrorAgregar"] = errores;
-                TempData["AbrirModalCrearUsuario"] = true;
+            //// Validación del empleado
+            //if (!empRepository.ValidarEmpleado(vm.Usuario, out string errores, out string aviso))
+            //{
+            //    TempData["ErrorAgregar"] = errores;
+            //    TempData["AbrirModalCrearUsuario"] = true;
 
-                // Persistencia de datos en TempData para rellenar el formulario
-                TempData["Nombre"] = vm.Usuario.Nombre;
-                TempData["Correo"] = vm.Usuario.Correo;
-                TempData["Departamento"] = vm.Usuario.IdDepartamento;
-                TempData["Rol"] = vm.Usuario.IdRol;
-                TempData["NumEmpleado"] = vm.Usuario.NumEmpleado;
-                TempData["FechaNacimiento"] = vm.Usuario.FechaNacimiento.ToString("yyyy-MM-dd");
+            //    // Persistencia de datos en TempData para rellenar el formulario
+            //    TempData["Nombre"] = vm.Usuario.Nombre;
+            //    TempData["Correo"] = vm.Usuario.Correo;
+            //    TempData["Departamento"] = vm.Usuario.IdDepartamento;
+            //    TempData["Rol"] = vm.Usuario.IdRol;
+            //    TempData["NumEmpleado"] = vm.Usuario.NumEmpleado;
+            //    TempData["FechaNacimiento"] = vm.Usuario.FechaNacimiento.ToString("yyyy-MM-dd");
 
-                return RedirectToAction("Index");
-            }
+            //    return RedirectToAction("Index");
+            //}
 
             // Setear campos que no vienen del formulario
             vm.Usuario.ContraseñaHash = "REUNIONES"; // ¡Psst! Esto debería ser un hash real, no una palabra secreta visible 😅
@@ -69,8 +69,8 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             // Toast de éxito
             TempData["SuccessAgregar"] = "Empleado agregado correctamente";
-            if (!string.IsNullOrWhiteSpace(aviso))
-                TempData["SuccessAgregar"] += $" | {aviso}";
+            //if (!string.IsNullOrWhiteSpace(aviso))
+            //    TempData["SuccessAgregar"] += $" | {aviso}";
 
             return RedirectToAction("Index");
         }
@@ -100,16 +100,16 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(Usuarios empleado)
         {
-            if (!empRepository.ValidarEmpleado(empleado, out string errores, out string aviso))
-            {
-                TempData["ErrorEditar"] = errores;
-                return RedirectToAction("Index");
-            }
+            //if (!empRepository.ValidarEmpleado(empleado, out string errores, out string aviso))
+            //{
+            //    TempData["ErrorEditar"] = errores;
+            //    return RedirectToAction("Index");
+            //}
 
-            empRepository.EditarEmpleado(empleado);
+            empRepository.Update(empleado);
 
-            TempData["SuccessEditar"] = "Empleado editado correctamente" +
-                (!string.IsNullOrEmpty(aviso) ? " | " + aviso : "");
+            //TempData["SuccessEditar"] = "Empleado editado correctamente" +
+            //    (!string.IsNullOrEmpty(aviso) ? " | " + aviso : "");
 
             return RedirectToAction("Index");
         }
@@ -125,7 +125,7 @@ namespace MinutasManage.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Usuario no encontrado" });
 
                 bool eraJefe = Context.Departamento.Any(d => d.IdJefe == id);
-                empRepository.Eliminar(empleado);
+                empRepository.Delete(empleado);
 
                 string mensaje = eraJefe
                     ? $"Usuario {empleado.NumEmpleado}-{empleado.Nombre} (jefe de departamento) ha sido desactivado"

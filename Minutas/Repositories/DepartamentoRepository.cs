@@ -3,11 +3,11 @@ using MinutasManage.Models;
 using MinutasManage.Repositories;
 using System.Text;
 
-public class DepartamentoRepository
+public class DepartamentoRepository1
 {
     private readonly DbminutasContext Context;
 
-    public DepartamentoRepository(DbminutasContext context)
+    public DepartamentoRepository1(DbminutasContext context)
     {
         Context = context;
     }
