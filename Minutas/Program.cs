@@ -35,26 +35,29 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 var app = builder.Build();
 
 app.UseStaticFiles();
-app.UseAuthentication();  // Middleware de autenticación
-app.UseAuthorization();   // Middleware de autorización
+//app.UseAuthentication();  // Middleware de autenticación
+//app.UseAuthorization();   // Middleware de autorización
 
 app.UseRouting();
 
 app.UseStaticFiles();
 
-app.MapAreaControllerRoute(
-    name: "Areas",
-    areaName: "Alumnos",
-    pattern: "{area:exists}/{controller=Alumnos}/{action=Index}/{id?}"
+//app.MapAreaControllerRoute(
+//    name: "Areas",
+//    areaName: "Alumnos",
+//    pattern: "{area:exists}/{controller=Alumnos}/{action=Index}/{id?}"
 
 
-    );
+//    );
 
-app.MapAreaControllerRoute(
-    name: "areas",
-    areaName: "Admin",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
+//app.MapAreaControllerRoute(
+//    name: "areas",
+//    areaName: "Admin",
+//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+//    );
+
+
 app.MapDefaultControllerRoute();
+app.MapControllers();
 
 app.Run();
