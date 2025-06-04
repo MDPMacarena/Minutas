@@ -5,59 +5,48 @@ using MinutasManage.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMvc();
-// Configura el contexto de la base de datos
-builder.Services.AddDbContext<MinutasManage.Models.DbminutasContext>(options =>
-    options.UseMySql("server=localhost;user=root;password=root;database=dbminutas;port=3307", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.1.0-mysql")));
+// Habilita MVC
+builder.Services.AddControllersWithViews();
+
+// Configura el contexto de base de datos con MySQL
+builder.Services.AddDbContext<DbminutasContext>(options =>
+    options.UseMySql(
+        "server=localhost;user=root;password=root;database=dbminutas;port=3307",
+        ServerVersion.Parse("8.1.0-mysql")
+    )
+);
+
+// Inyección de dependencias para los repositorios
+builder.Services.AddScoped(typeof(Repository<>), typeof(Repository<>));
 
 
-
-// Agrega esta línea para registrar los repositorios
-
-builder.Services.AddScoped<EmpleadoRepository>();
-
-builder.Services.AddScoped<MinutasRepository>();
-
+// Configura la autenticación por cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-
         options.SlidingExpiration = true;
-
-        options.LoginPath = "/Account/Login"; // Ruta al Login
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Ruta para acceso denegado
-
-    }
-    );
-
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
 
 var app = builder.Build();
 
+// Middleware para servir archivos estáticos (css, js, etc.)
 app.UseStaticFiles();
-//app.UseAuthentication();  // Middleware de autenticación
-//app.UseAuthorization();   // Middleware de autorización
 
 app.UseRouting();
 
-app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 
-//app.MapAreaControllerRoute(
-//    name: "Areas",
-//    areaName: "Alumnos",
-//    pattern: "{area:exists}/{controller=Alumnos}/{action=Index}/{id?}"
-
-
-//    );
-
-//app.MapAreaControllerRoute(
-//    name: "areas",
-//    areaName: "Admin",
-//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-//    );
-
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapDefaultControllerRoute();
-app.MapControllers();
+
+app.Run();
+
 
 app.Run();

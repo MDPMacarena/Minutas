@@ -11,14 +11,11 @@ namespace MinutasManage.Areas.Admin.Controllers
         private readonly Repository<Departamento> _depaRepo;
         private readonly Repository<Usuarios> _empleadoRepo;
 
-        private DbminutasContext Context { get; }
 
-        public DepartamentoController(DbminutasContext context, Repository<Usuarios> empleadoRepository)
+        public DepartamentoController( Repository<Usuarios> empleadoRepository, Repository<Departamento> deprep)
         {
-
+            _depaRepo = deprep;
            
-            Context = context;
-            _depaRepo = new Repository<Departamento>(context);
             _empleadoRepo = empleadoRepository;
         }
 

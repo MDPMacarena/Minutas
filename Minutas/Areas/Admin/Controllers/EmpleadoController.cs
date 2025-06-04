@@ -11,20 +11,21 @@ namespace MinutasManage.Areas.Admin.Controllers
     {
         public Repository<Usuarios> empRepository { get; }
         public Repository<Departamento> depaRepository { get; }
-        public DbminutasContext Context { get; }
 
-        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, DbminutasContext context)
+        public Repository<Roles> rolRepository { get; }
+
+        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, Repository<Roles> repositoryr)
         {
+            rolRepository = repositoryr;
             empRepository = empleadoRepository;
             depaRepository = departamentoRepository;
-            Context = context;
         }
 
         public IActionResult Index()
         {
             var empleados = empRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
             ViewBag.Departamentos = depaRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre); // Para el modal
-            ViewBag.Roles = Context.Roles.Select(r => new { r.Id, r.Nombre }).ToList();
+            ViewBag.Roles = rolRepository.GetAll().Select(r => new { r.Id, r.Nombre }).ToList();
 
             return View(empleados);
         }
@@ -124,7 +125,7 @@ namespace MinutasManage.Areas.Admin.Controllers
                 if (empleado == null)
                     return Json(new { success = false, message = "Usuario no encontrado" });
 
-                bool eraJefe = Context.Departamento.Any(d => d.IdJefe == id);
+                bool eraJefe = depaRepository.GetAll().Any(d => d.IdJefe == id);
                 empRepository.Delete(empleado);
 
                 string mensaje = eraJefe

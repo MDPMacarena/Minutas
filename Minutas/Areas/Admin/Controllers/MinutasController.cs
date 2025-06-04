@@ -26,7 +26,7 @@ namespace MinutasManage.Areas.Admin.Controllers
         }
 
 
-
+        [HttpGet]
         public IActionResult Minutas()
         {
             var minutas = _minutaRepo.GetAll()
@@ -48,11 +48,11 @@ namespace MinutasManage.Areas.Admin.Controllers
             int id = int.Parse(User.FindFirst("Id")?.Value);
             var empleado = _empleadoRepo.Get(id);
             var departamento = _departamentoRepo.Get(empleado.IdDepartamento);
-            string[] nombre= departamento.Nombre.Split(' ');
+            string[] nombre= departamento.Nombre.Split(" ");
             string titulo = "";
             foreach(string n in nombre)
             {
-                titulo += n + " ";
+                titulo += n[0];
             }
             titulo += "-" + DateTime.Now.ToString("yy/MM/dd").Replace("/","");
             Random rnd = new Random();

@@ -48,8 +48,9 @@ namespace MinutasManage.Controllers
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            // Redirige a /Admin/Home/Index
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
 
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
