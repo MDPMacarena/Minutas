@@ -173,11 +173,14 @@
 
             <!--Eliminar departamento-->
             <div class="modal" id="modalEliminarDepto">
-                <form class="botonesForm">
-                    <label>¿Desea eliminar este departamento?</label><br>
-                    <input type="button" value="Si">
-                    <input type="button" value="No">
-                </form>
+                <div class="modal-content">
+                    <form class="botonesForm">
+                        <label id="modalMensaje">¿Deseas eliminar este departamento?</label>
+                        <input type="button" id="confirmarEliminar" value="Sí">
+                        <input type="button" id="cancelarEliminar" value="No">
+                    </form>
+                </div>
+
             </div>
         </main>
     </div>
@@ -193,16 +196,26 @@
             document.getElementById("modalCrearDepto").style.display = "block";
         });
 
-           document.querySelectorAll('.eliminarDep').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        const nombre = btn.dataset.nombre;
-        
-        if (confirm(`¿Deseas eliminar el departamento ${nombre}?`)) {
-            fetch(`/Admin/Departamento/EliminarConfirmado/${id}`, {
+        // para eliminar con modal
+        let idDeptoSeleccionado = null;
+
+        document.querySelectorAll('.eliminarDep').forEach(btn => {
+            btn.addEventListener('click', () => {
+                idDeptoSeleccionado = btn.dataset.id;
+                const nombre = btn.dataset.nombre;
+
+                document.getElementById("modalMensaje").textContent = `¿Deseas eliminar el departamento ${nombre}?`;
+                document.getElementById("modalEliminarDepto").style.display = "flex";
+            });
+        });
+
+        document.getElementById("confirmarEliminar").addEventListener("click", () => {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            fetch(`/Admin/Departamento/EliminarConfirmado/${idDeptoSeleccionado}`, {
                 method: 'POST',
                 headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    'RequestVerificationToken': token
                 }
             })
             .then(res => res.json())
@@ -222,9 +235,50 @@
                 mostrarToast('Error en la comunicación con el servidor', 'error');
                 console.error('Error:', error);
             });
-        }
-    });
-});
+
+            document.getElementById("modalEliminarDepto").style.display = "none";
+            idDeptoSeleccionado = null;
+            });
+
+        document.getElementById("cancelarEliminar").addEventListener("click", () => {
+            document.getElementById("modalEliminarDepto").style.display = "none";
+            idDeptoSeleccionado = null;
+        });
+
+
+
+//            document.querySelectorAll('.eliminarDep').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         const id = btn.dataset.id;
+//         const nombre = btn.dataset.nombre;
+        
+//         if (confirm(`¿Deseas eliminar el departamento ${nombre}?`)) {
+//             fetch(`/Admin/Departamento/EliminarConfirmado/${id}`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+//                 }
+//             })
+//             .then(res => res.json())
+//             .then(data => {
+//                 if (data.success) {
+//                     if (data.showToast) {
+//                         mostrarToast(data.message, 'success');
+//                     }
+//                     setTimeout(() => location.reload(), 1500);
+//                 } else {
+//                     if (data.showToast) {
+//                         mostrarToast(data.message, 'error');
+//                     }
+//                 }
+//             })
+//             .catch(error => {
+//                 mostrarToast('Error en la comunicación con el servidor', 'error');
+//                 console.error('Error:', error);
+//             });
+//         }
+//     });
+// });
 
         function mostrarToast(mensaje, tipo) {
     // Eliminar toasts anteriores

@@ -203,13 +203,14 @@
 
             <!--Eliminar empleado-->
             <div id="modalEliminarEmpleado" class="modal">
-                <form class="botonesForm">
-                    <label>¿Desea eliminar a este empleado?</label><br>
-                    <input type="button" value="Si">
-                    <input type="button" value="No">
-                </form>
+                <div class="modal-content">
+                    <form class="botonesForm">
+                        <label id="modalEliminarMensaje">¿Desea eliminar a este empleado?</label>
+                        <input type="button" id="btnEliminarSi" value="Sí">
+                        <input type="button" id="btnEliminarNo" value="No">
+                    </form>
+                </div>
             </div>
-
         </main>
     </div>
 
@@ -242,44 +243,107 @@
                 });
             }
 
-            document.querySelectorAll('.eliminarEmp').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-id');
-                    const nombre = btn.getAttribute('data-nombre');
-                    const numEmpleado = btn.getAttribute('data-numero');
+        // eliminar con modal
+        let idEmpAEliminar = null;           
+        const modalEmp = document.getElementById("modalEliminarEmpleado");
+        const txtEmp = document.getElementById("modalEliminarMensaje");
+        const btnEmpSi = document.querySelector("#btnEliminarSi");
+        const btnEmpNo = document.querySelector("#btnEliminarNo");
 
-                    const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
-                    if (confirm(mensaje)) {
-                        fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
-                            method: 'POST',
-                            headers: {
-                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                            }
-                        })
-                        .then(response => {
-                            if (!response.ok) throw new Error('Error en la respuesta del servidor');
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                location.reload();
-                            } else {
-                                // Mostrar mensaje de error si es necesario
-                                const toastError = document.createElement('div');
-                                toastError.className = 'toast-msg error';
-                                toastError.innerHTML = `
-                                    <span>Error al eliminar el usuario</span>
-                                    <button class="close-toast">&times;</button>
-                                `;
-                                document.querySelector('main').prepend(toastError);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    }
-                });
+        document.querySelectorAll('.eliminarEmp').forEach(btn => {
+            btn.addEventListener('click', () => {
+                idEmpAEliminar = btn.dataset.id;
+                const nombre   = btn.dataset.nombre;
+                const numero   = btn.dataset.numero;
+
+                txtEmp.textContent =
+                    `¿Deseas eliminar al usuario ${numero} – ${nombre}?`;
+
+                modalEmp.style.display = 'flex';
             });
+        });
+        btnEmpSi.addEventListener('click', () => {
+            if(!idEmpAEliminar) return;
+
+            fetch(`/Admin/Empleado/EliminarConfirmado/${idEmpAEliminar}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken':
+                      document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                modalEmp.style.display = 'none';
+                idEmpAEliminar = null;
+
+                if (data.success){
+                    mostrarToast(data.message ?? 'Empleado eliminado' , 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    mostrarToast(data.message ?? 'No se pudo eliminar', 'error');
+                }
+            })
+            .catch(err => {
+                modalEmp.style.display = 'none';
+                idEmpAEliminar = null;
+                mostrarToast('Error de comunicación con el servidor','error');
+            });
+        });
+
+        btnEmpNo.addEventListener('click', () => {
+            modalEmp.style.display = 'none';
+            idEmpAEliminar = null;
+        });
+
+        window.addEventListener('click', e => {
+            if (e.target === modalEmp){
+                modalEmp.style.display = 'none';
+                idEmpAEliminar = null;
+            }
+        });
+
+
+            // codigo anterioooorr para eliminar con alert
+
+            // document.querySelectorAll('.eliminarEmp').forEach(btn => {
+            //     btn.addEventListener('click', () => {
+            //         const id = btn.getAttribute('data-id');
+            //         const nombre = btn.getAttribute('data-nombre');
+            //         const numEmpleado = btn.getAttribute('data-numero');
+
+            //         const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
+            //         if (confirm(mensaje)) {
+            //             fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            //                 }
+            //             })
+            //             .then(response => {
+            //                 if (!response.ok) throw new Error('Error en la respuesta del servidor');
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 if (data.success) {
+            //                     location.reload();
+            //                 } else {
+            //                     // Mostrar mensaje de error si es necesario
+            //                     const toastError = document.createElement('div');
+            //                     toastError.className = 'toast-msg error';
+            //                     toastError.innerHTML = `
+            //                         <span>Error al eliminar el usuario</span>
+            //                         <button class="close-toast">&times;</button>
+            //                     `;
+            //                     document.querySelector('main').prepend(toastError);
+            //                 }
+            //             })
+            //             .catch(error => {
+            //                 console.error('Error:', error);
+            //             });
+            //         }
+            //     });
+            // });
 
             // Editar empleado
             document.querySelectorAll('.editarEmp').forEach(btn => {
