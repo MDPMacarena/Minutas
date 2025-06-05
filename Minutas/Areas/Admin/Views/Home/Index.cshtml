@@ -189,8 +189,8 @@
 
                 <div>
                     <label>Lista de asistentes</label>
-                    <input type="text" placeholder="Buscar...">
-                    <input class="material-icons" type="button" value="search">
+                    <input id="inUsuarios" type="text" placeholder="Buscar...">
+                    <input id="btnUsuarios" class="material-icons" type="button" value="search">
                 </div>
                 <ul>
                     <li>Sandra <button>X</button></li>
@@ -398,6 +398,15 @@
 
 
 
+            let listaAsistentes=[];
+			const inUsuarios=document.getElementById("inUsuarios");
+			document.getElementById("btnUsuarios").addEventListener("click",function(){
+				if(inUsuarios.value.trim() !== ""){
+					listaAsistentes.push(inUsuarios.value.trim());
+				};
+            });
+
+
               const formulario = document.getElementById('miFormulario');
 
     formulario.addEventListener('submit', function(event) {
@@ -408,8 +417,10 @@
       // Extraer los campos que queremos agrupar
       const contenido = {
           Orden: formData.get('orden'),
-      Desarrollo: formData.get('desarrollo')
-            
+      Desarrollo: formData.get('desarrollo'),
+	  Compromisos: formData.get('compromisos'),
+		  Objetivo: formData.get('objetivo'),
+		  
 
 
       };
@@ -417,6 +428,12 @@
       // Crear nuevo form data con los campos finales
       const dataFinal = new FormData();
       dataFinal.append('Contenido', JSON.stringify(contenido));
+	  dataFinal.append('Privada', formData.get('privada') ? 'true' : 'false');
+	  dataFinal.append('Asistentes', listaAsistentes); // Si tienes una lista de asistentes
+	  // dataFinal.append('fecha', formData.get('fecha')); // Si tienes un campo de fecha
+	  // dataFinal.append('hora', formData.get('hora')); // Si tienes un campo de hora
+	  // dataFinal.append('lugar', formData.get('lugar')); // Si tienes un campo de lugar
+	  // dataFinal.append('departamento', formData.get('departamento')); // Si tienes un campo de departamento
      // dataFinal.append('ciudad', formData.get('ciudad'));
 
       // Enviar con fetch o XMLHttpRequest

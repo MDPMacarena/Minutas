@@ -6,6 +6,7 @@ namespace MinutasManage.Areas.Admin.Models
     {
         public string Contenido { get; set; }
         public int[] AsistentesIds { get; set; }
+        public string[] Asistentes { get; set; }
         public sbyte Privada { get; set; }
     }
 }

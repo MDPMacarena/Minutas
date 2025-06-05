@@ -13,8 +13,11 @@ namespace MinutasManage.Areas.Admin.Controllers
         private readonly Repository<Minutas> _minutaRepo;
         private readonly Repository<Usuarios> _empleadoRepo;
         private readonly Repository<Departamento> _departamentoRepo;
-        public MinutasController(Repository<Departamento> dep, Repository<Usuarios> emp, Repository<Minutas> min)
+        private readonly Repository<MinutaUsuario> _minutaUsuario;
+
+        public MinutasController(Repository<MinutaUsuario> minusr, Repository<Departamento> dep, Repository<Usuarios> emp, Repository<Minutas> min)
         {
+            _minutaUsuario = minusr;
             _minutaRepo = min;
             _empleadoRepo = emp;
             _departamentoRepo = dep;
@@ -48,7 +51,7 @@ namespace MinutasManage.Areas.Admin.Controllers
             int id = int.Parse(User.FindFirst("Id")?.Value);
             var empleado = _empleadoRepo.Get(id);
             var departamento = _departamentoRepo.Get(empleado.IdDepartamento);
-            string[] nombre= departamento.Nombre.Split(" ");
+            string[] nombre= departamento.Nombre.ToUpper().Split(" ");
             string titulo = "";
             foreach(string n in nombre)
             {
@@ -72,6 +75,24 @@ namespace MinutasManage.Areas.Admin.Controllers
             //agregar lista de externos a contenido da igual ponerlo allí porque solo se usa para visualizar
 
             _minutaRepo.Insert(min);
+
+            minuta.Asistentes = minuta.Asistentes[0].Split(",");
+            //agregar asistentes
+            foreach(var usr in minuta.Asistentes)
+            {
+                var usuario = _empleadoRepo.GetAll().FirstOrDefault(x => x.NumEmpleado == usr);
+                if (usuario != null)
+                {
+                    MinutaUsuario mu = new MinutaUsuario()
+                    {
+                        IdMinuta = min.Id,
+                        IdUsuario = usuario.Id
+                    };
+                    _minutaUsuario.Insert(mu);
+                }
+            }
+
+
 
 
 
