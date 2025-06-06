@@ -301,8 +301,8 @@
 			const h3 = clone.querySelector("h3");
 			const p = clone.querySelector("p");
 			h3.textContent = minuta.titulo;
-			p.textContent = minuta.descripcion;
-            p.textContent = "asdasdas";
+            console.log(JSON.parse(minuta.contenido));
+			p.textContent =  JSON.parse(minuta.contenido).Orden;
 
 			const minutasList = document.querySelector(".minutas");
 			minutasList.appendChild(clone);
