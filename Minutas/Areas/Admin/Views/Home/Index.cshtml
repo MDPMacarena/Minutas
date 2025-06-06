@@ -156,13 +156,13 @@
             <form id="miFormulario" action="/Admin/Minutas/Agregar" method="POST">
                 <h3>Crear Minuta</h3>
                 <label>Objetivo</label>
-                <textarea name="objetivo" placeholder="Escribir..."></textarea><br>
+                <textarea id="objetivo" name="objetivo" placeholder="Escribir..."></textarea><br>
                 <label>Desarrollo de la reunión</label>
-                <textarea name="desarrollo" placeholder="Escribir..."></textarea><br>
+                <textarea id="desarrollo" name="desarrollo" placeholder="Escribir..."></textarea><br>
                 <label>Orden del dia</label>
-                <textarea name="orden" placeholder="Escribir..."></textarea><br>
+                <textarea id="orden" name="orden" placeholder="Escribir..."></textarea><br>
                 <label>Compromisos y tareas</label>
-                <textarea name="compromisos" placeholder="Escribir..."></textarea><br>
+                <textarea id="compromisos" name="compromisos" placeholder="Escribir..."></textarea><br>
               
 
 
@@ -174,7 +174,8 @@
                 <ul id="lstUsrs">
                     
                 </ul>
-                    <label>Privada<input type="checkbox"></label>
+                <label>Privada<input id="privada" type="checkbox" name="privada"></label>
+
                 <div id="opciones">
                     <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
                     <input class="buttons" type="button" value="Cancelar">
@@ -221,7 +222,7 @@
                     <input type="text" placeholder="Buscar...">
                     <input class="material-icons" type="button" value="search">
                 </div>
-                <ul id="lstUsrs">
+                <ul>
                     <li>Sandra <button>X</button></li>
                     <li>Eliza <button>X</button></li>
                     <li>Jose <button>X</button></li>
@@ -366,7 +367,7 @@
             });
 
            modCrearMin.addEventListener("click", function (e) {
-                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Confirmar")) {
+                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar")) {
       formulario.reset(); // Opcional: reiniciar el formulario después de enviar
 
                    modCrearMin.classList.remove("active");
@@ -388,50 +389,54 @@
             });
 
 
-              const formulario = document.getElementById('miFormulario');
+            const formulario = document.getElementById('miFormulario');
 
-    formulario.addEventListener('submit', function(event) {
-      event.preventDefault(); // Evita el envío normal del formulario
+
+    formulario.addEventListener('submit', function (event) {
+      event.preventDefault();
 
       const formData = new FormData(formulario);
 
-      // Extraer los campos que queremos agrupar
+      // Validación robusta
+   
+      console.log(document.getElementById("objetivo").value);
       const contenido = {
-          Orden: formData.get('orden'),
-      Desarrollo: formData.get('desarrollo'),
-	  Compromisos: formData.get('compromisos'),
-		  Objetivo: formData.get('objetivo'),
-		  
-
-
+        Objetivo: document.getElementById("objetivo").value,
+        Desarrollo: document.getElementById("desarrollo").value,
+        Orden: document.getElementById("orden").value,
+        Compromisos: document.getElementById("compromisos").value
       };
-
-      // Crear nuevo form data con los campos finales
+      console.log(contenido);
       const dataFinal = new FormData();
       dataFinal.append('Contenido', JSON.stringify(contenido));
-	  dataFinal.append('Privada', formData.get('privada') ? 'true' : 'false');
-	  dataFinal.append('Asistentes', listaAsistentes); // Si tienes una lista de asistentes
-	  // dataFinal.append('fecha', formData.get('fecha')); // Si tienes un campo de fecha
-	  // dataFinal.append('hora', formData.get('hora')); // Si tienes un campo de hora
-	  // dataFinal.append('lugar', formData.get('lugar')); // Si tienes un campo de lugar
-	  // dataFinal.append('departamento', formData.get('departamento')); // Si tienes un campo de departamento
-     // dataFinal.append('ciudad', formData.get('ciudad'));
 
-      // Enviar con fetch o XMLHttpRequest
+      const checkboxPrivada = document.getElementById("privada");
+      dataFinal.append('Privada', checkboxPrivada?.checked ? 1 : 0);
+      dataFinal.append('Asistentes',JSON.stringify(listaAsistentes));
+
       fetch(formulario.action, {
         method: formulario.method,
         body: dataFinal
       })
-      .then(response => response.text())
+      .then(response => {
+        if (!response.ok) throw new Error('Error en la respuesta del servidor');
+        return response.text();
+      })
       .then(data => {
-        console.log('Respuesta del servidor:', data);
+        console.log('Respuesta:', data);
+        alert('Minuta enviada correctamente.');
+        formulario.reset();
       })
       .catch(error => {
         console.error('Error:', error);
-      });
-	  formulario.reset(); // Opcional: reiniciar el formulario después de enviar
-    });
+        //alert('Error al enviar la minuta.');
+        formulario.reset();
+        
 
+      });
+      CargarMinutas()
+      location.reload();
+    });
 
 
 
