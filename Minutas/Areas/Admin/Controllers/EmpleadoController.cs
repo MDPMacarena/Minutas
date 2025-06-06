@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MinutasManage.Areas.Admin.Models;
 using MinutasManage.Models;
 using MinutasManage.Repositories;
@@ -20,10 +21,13 @@ namespace MinutasManage.Areas.Admin.Controllers
             empRepository = empleadoRepository;
             depaRepository = departamentoRepository;
         }
-
+        public IActionResult GetEmpleados()
+        {
+            return Json(empRepository.GetAll().Where(x=>x.Activo==true));
+        }
         public IActionResult Index()
         {
-            var empleados = empRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
+            var empleados = empRepository.GetAll().AsQueryable<Usuarios>().Include(x=>x.IdDepartamentoNavigation).Include(x=>x.IdRolNavigation).Where(x => x.Activo == true).OrderBy(x => x.Nombre);
             ViewBag.Departamentos = depaRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre); // Para el modal
             ViewBag.Roles = rolRepository.GetAll().Select(r => new { r.Id, r.Nombre }).ToList();
 
