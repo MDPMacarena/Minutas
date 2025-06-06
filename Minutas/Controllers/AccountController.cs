@@ -87,5 +87,7 @@ namespace MinutasManage.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
+
+        
     }
 }
