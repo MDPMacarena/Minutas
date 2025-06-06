@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MinutasManage.Areas.Admin.Models;
 using MinutasManage.Models;
+using MinutasManage.Models.Validators;
 using MinutasManage.Repositories;
 
 
@@ -14,20 +15,23 @@ namespace MinutasManage.Areas.Admin.Controllers
         public Repository<Departamento> depaRepository { get; }
 
         public Repository<Roles> rolRepository { get; }
+        public EmpleadoValidator Validator { get; }
 
-        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, Repository<Roles> repositoryr)
+        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, Repository<Roles> repositoryr, EmpleadoValidator validator)
         {
             rolRepository = repositoryr;
+            Validator = validator;
             empRepository = empleadoRepository;
             depaRepository = departamentoRepository;
+
+
         }
-        public IActionResult GetEmpleados()
-        {
-            return Json(empRepository.GetAll().Where(x=>x.Activo==true));
-        }
+
+
+
         public IActionResult Index()
         {
-            var empleados = empRepository.GetAll().AsQueryable<Usuarios>().Include(x=>x.IdDepartamentoNavigation).Include(x=>x.IdRolNavigation).Where(x => x.Activo == true).OrderBy(x => x.Nombre);
+            var empleados = empRepository.GetAll().AsQueryable<Usuarios>().Include(x => x.IdDepartamentoNavigation).Where(x => x.Activo == true).OrderBy(x => x.Nombre);
             ViewBag.Departamentos = depaRepository.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre); // Para el modal
             ViewBag.Roles = rolRepository.GetAll().Select(r => new { r.Id, r.Nombre }).ToList();
 
@@ -49,22 +53,22 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AgregarEmpleadoViewModel vm)
         {
-            //// Validación del empleado
-            //if (!empRepository.ValidarEmpleado(vm.Usuario, out string errores, out string aviso))
-            //{
-            //    TempData["ErrorAgregar"] = errores;
-            //    TempData["AbrirModalCrearUsuario"] = true;
+            // Validación del empleado
+            if (!Validator.ValidarEmpleado(vm.Usuario, out string errores, out string aviso))
+            {
+                TempData["ErrorAgregar"] = errores;
+                TempData["AbrirModalCrearUsuario"] = true;
 
-            //    // Persistencia de datos en TempData para rellenar el formulario
-            //    TempData["Nombre"] = vm.Usuario.Nombre;
-            //    TempData["Correo"] = vm.Usuario.Correo;
-            //    TempData["Departamento"] = vm.Usuario.IdDepartamento;
-            //    TempData["Rol"] = vm.Usuario.IdRol;
-            //    TempData["NumEmpleado"] = vm.Usuario.NumEmpleado;
-            //    TempData["FechaNacimiento"] = vm.Usuario.FechaNacimiento.ToString("yyyy-MM-dd");
+                // Persistencia de datos en TempData para rellenar el formulario
+                TempData["Nombre"] = vm.Usuario.Nombre;
+                TempData["Correo"] = vm.Usuario.Correo;
+                TempData["Departamento"] = vm.Usuario.IdDepartamento;
+                TempData["Rol"] = vm.Usuario.IdRol;
+                TempData["NumEmpleado"] = vm.Usuario.NumEmpleado;
+                TempData["FechaNacimiento"] = vm.Usuario.FechaNacimiento.ToString("yyyy-MM-dd");
 
-            //    return RedirectToAction("Index");
-            //}
+                return RedirectToAction("Index");
+            }
 
             // Setear campos que no vienen del formulario
             vm.Usuario.ContraseñaHash = "REUNIONES"; // ¡Psst! Esto debería ser un hash real, no una palabra secreta visible 😅
@@ -74,8 +78,8 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             // Toast de éxito
             TempData["SuccessAgregar"] = "Empleado agregado correctamente";
-            //if (!string.IsNullOrWhiteSpace(aviso))
-            //    TempData["SuccessAgregar"] += $" | {aviso}";
+            if (!string.IsNullOrWhiteSpace(aviso))
+                TempData["SuccessAgregar"] += $" | {aviso}";
 
             return RedirectToAction("Index");
         }
@@ -105,16 +109,16 @@ namespace MinutasManage.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(Usuarios empleado)
         {
-            //if (!empRepository.ValidarEmpleado(empleado, out string errores, out string aviso))
-            //{
-            //    TempData["ErrorEditar"] = errores;
-            //    return RedirectToAction("Index");
-            //}
+            if (!Validator.ValidarEmpleado(empleado, out string errores, out string aviso))
+            {
+                TempData["ErrorEditar"] = errores;
+                return RedirectToAction("Index");
+            }
 
             empRepository.Update(empleado);
 
-            //TempData["SuccessEditar"] = "Empleado editado correctamente" +
-            //    (!string.IsNullOrEmpty(aviso) ? " | " + aviso : "");
+            TempData["SuccessEditar"] = "Empleado editado correctamente" +
+                (!string.IsNullOrEmpty(aviso) ? " | " + aviso : "");
 
             return RedirectToAction("Index");
         }

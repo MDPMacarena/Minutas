@@ -2,6 +2,8 @@
 using MinutasManage.Models;
 using MinutasManage.Repositories;
 using MinutasManage.Areas.Admin.Models;
+using MinutasManage.Models.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace MinutasManage.Areas.Admin.Controllers
 {
@@ -11,11 +13,13 @@ namespace MinutasManage.Areas.Admin.Controllers
         private readonly Repository<Departamento> _depaRepo;
         private readonly Repository<Usuarios> _empleadoRepo;
 
+        public DepartamentoValidator Validator { get; }
 
-        public DepartamentoController( Repository<Usuarios> empleadoRepository, Repository<Departamento> deprep)
+        public DepartamentoController( Repository<Usuarios> empleadoRepository, Repository<Departamento> deprep,DepartamentoValidator validator)
         {
             _depaRepo = deprep;
-           
+            Validator = validator;
+            
             _empleadoRepo = empleadoRepository;
         }
 
@@ -25,8 +29,8 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             try
             {
-                var departamentos = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
-                var empleados = _empleadoRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
+                var departamentos = _depaRepo.GetAll().AsQueryable<Departamento>().Include(x=>x.IdDeptSuperiorNavigation).Include(x=>x.InverseIdDeptSuperiorNavigation).Include(x=>x.IdJefeNavigation).Where(x => x.Activo == true).OrderBy(x => x.Nombre);
+                var empleados = _empleadoRepo.GetAll().AsQueryable<Usuarios>().Include(x => x.IdDepartamentoNavigation).Where(x => x.Activo == true).OrderBy(x => x.Nombre);
                 ViewBag.Empleados = empleados;
                 ViewBag.Departamentos = departamentos;
                 return View(departamentos);
@@ -66,24 +70,24 @@ namespace MinutasManage.Areas.Admin.Controllers
             var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x=>x.Nombre);
 
 
-            //if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
-            //{
-            //    TempData["ErrorAgregar"] = errores;
-            //    TempData["AbrirModalCrear"] = true;
+            if (!Validator.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
+            {
+                TempData["ErrorAgregar"] = errores;
+                TempData["AbrirModalCrear"] = true;
 
-            //    // GUARDAR datos del formulario
-            //    TempData["DepNombre"] = vm.Departamento.Nombre;
-            //    TempData["DepJefe"] = vm.Departamento.IdJefe;
-            //    TempData["DepSup"] = vm.Departamento.IdDeptSuperior;
+                // GUARDAR datos del formulario
+                TempData["DepNombre"] = vm.Departamento.Nombre;
+                TempData["DepJefe"] = vm.Departamento.IdJefe;
+                TempData["DepSup"] = vm.Departamento.IdDeptSuperior;
 
-            //    return RedirectToAction("Index");
-            //}
+                return RedirectToAction("Index");
+            }
 
             _depaRepo.Insert(vm.Departamento);
-            //TempData["SuccessAgregar"] = "Departamento agregado correctamente.";
+            TempData["SuccessAgregar"] = "Departamento agregado correctamente.";
 
-            //if (!string.IsNullOrEmpty(avisos))
-            //    TempData["SuccessAgregar"] += " | " + avisos;
+            if (!string.IsNullOrEmpty(avisos))
+                TempData["SuccessAgregar"] += " | " + avisos;
 
             return RedirectToAction("Index");
         }
@@ -116,17 +120,17 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
 
-            //if (!_depaRepo.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
-            //{
-            //    TempData["ErrorEditar"] = errores;
-            //    return RedirectToAction("Index");
-            //}
+            if (!Validator.ValidarDepartamento(vm.Departamento, out string errores, out string avisos, departamentosExistentes.ToList()))
+            {
+                TempData["ErrorEditar"] = errores;
+                return RedirectToAction("Index");
+            }
 
             _depaRepo.Update(vm.Departamento); // Actualizar el departamento
-            //TempData["SuccessEditar"] = "Departamento actualizado correctamente.";
+            TempData["SuccessEditar"] = "Departamento actualizado correctamente.";
 
-            //if (!string.IsNullOrEmpty(avisos))
-            //    TempData["SuccessEditar"] += " | " + avisos;
+            if (!string.IsNullOrEmpty(avisos))
+                TempData["SuccessEditar"] += " | " + avisos;
 
             return RedirectToAction("Index");
         }
@@ -146,15 +150,15 @@ namespace MinutasManage.Areas.Admin.Controllers
                 var departamentosExistentes = _depaRepo.GetAll().Where(x => x.Activo == true).OrderBy(x => x.Nombre);
 
 
-                //if (!_depaRepo.ValidarDepartamento(departamento, out string errores, out _, departamentosExistentes.ToList(), esEliminacion: true))
-                //{
-                //    return Json(new
-                //    {
-                //        success = false,
-                //        message = errores,
-                //        showToast = true // Indicador para mostrar toast en el cliente
-                //    });
-                //}
+                if (!Validator.ValidarDepartamento(departamento, out string errores, out _, departamentosExistentes.ToList(), esEliminacion: true))
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = errores,
+                        showToast = true // Indicador para mostrar toast en el cliente
+                    });
+                }
 
                 _depaRepo.Delete(departamento);
                 return Json(new

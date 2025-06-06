@@ -1,46 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MinutasManage.Models;
+﻿using MinutasManage.Repositories;
 using System.Text;
 
-namespace MinutasManage.Repositories
+namespace MinutasManage.Models.Validators
 {
-    public class EmpleadoRepository
+    public class EmpleadoValidator
     {
-        private readonly DbminutasContext Context;
+        private readonly Repository<Usuarios> repository;
 
-        public EmpleadoRepository(DbminutasContext context)
+        public EmpleadoValidator(Repository<Usuarios> repository)
         {
-            Context = context;
-        }
-
-        public void Insert(Usuarios entity)
-        {
-            Context.Add(entity);
-            Context.SaveChanges();
-        }
-
-        public IEnumerable<Usuarios> GetAll()
-        {
-            return Context.Usuarios.Include(e => e.IdDepartamentoNavigation);
-        }
-
-        public Usuarios? Get(object id)
-        {
-            return Context.Usuarios
-                .Include(e => e.IdDepartamentoNavigation)
-                .FirstOrDefault(e => e.Id == (int)id);
-        }
-
-        public void Update(Usuarios entity)
-        {
-            Context.Update(entity);
-            Context.SaveChanges();
-        }
-
-        public void Delete(Usuarios entity)
-        {
-            Context.Remove(entity);
-            Context.SaveChanges();
+            this.repository = repository;
         }
 
         public bool ValidarEmpleado(Usuarios empleado, out string errores, out string avisos)
@@ -57,7 +26,7 @@ namespace MinutasManage.Repositories
             }
             else
             {
-                if(empleado.NumEmpleado.Length > 20)
+                if (empleado.NumEmpleado.Length > 20)
                 {
                     sbErrores.AppendLine("El número de empleado excede la longitud máxima permitida.Por favor, verifique e intente de nuevo.");
                 }
@@ -67,7 +36,7 @@ namespace MinutasManage.Repositories
                     sbErrores.AppendLine("El número de empleado debe contener al menos 4 caracteres.Por favor, verifique e intente de nuevo.");
                 }
 
-                var existeNumEmpleado = Context.Usuarios
+                var existeNumEmpleado = repository.GetAll()
                     .Any(u => u.NumEmpleado == empleado.NumEmpleado && u.Id != empleado.Id);
                 if (existeNumEmpleado)
                     sbErrores.AppendLine("El número de empleado ingresado ya se encuentra registrado en el sistema.");
@@ -89,7 +58,7 @@ namespace MinutasManage.Repositories
             }
             else
             {
-                if(empleado.Correo.Length > 100)
+                if (empleado.Correo.Length > 100)
                 {
                     sbErrores.AppendLine("El correo electrónico excede la longitud máxima permitida.Por favor, verifique e intente de nuevo.");
                 }
@@ -99,7 +68,7 @@ namespace MinutasManage.Repositories
                 if (!emailValidator.IsValid(empleado.Correo))
                     sbErrores.AppendLine("El formato del correo electrónico no es válido, escribe un correo valido.");
 
-                var existeCorreo = Context.Usuarios
+                var existeCorreo = repository.GetAll()
                     .Any(u => u.Correo == empleado.Correo && u.Id != empleado.Id);
                 if (existeCorreo)
                     sbErrores.AppendLine("El correo electrónico ingresado ya está registrado en el sistema.Por favor, verifique e intente de nuevo.");
@@ -125,57 +94,5 @@ namespace MinutasManage.Repositories
 
             return errores.Length == 0;
         }
-
-        public void Eliminar(Usuarios empleado)
-        {
-           
-            if (Context.Departamento.Any(d => d.IdJefe == empleado.Id) ||
-                empleado.Minutas.Any() ||
-                empleado.MinutaUsuario.Any())
-            {
-               
-                empleado.Activo = false;
-                Update(empleado);
-
-               
-                var departamentos = Context.Departamento.Where(d => d.IdJefe == empleado.Id).ToList();
-                foreach (var depto in departamentos)
-                {
-                    depto.IdJefe = null; 
-                }
-                Context.SaveChanges();
-            }
-            else
-            {
-               
-                Delete(empleado);
-            }
-        }
-
-        public void EditarEmpleado(Usuarios empleado)
-        {
-            var emp = Get(empleado.Id);
-            if (emp != null)
-            {
-                emp.NumEmpleado = empleado.NumEmpleado;
-                emp.Nombre = empleado.Nombre;
-                emp.Correo = empleado.Correo;
-                emp.IdDepartamento = empleado.IdDepartamento;
-                emp.IdRol = empleado.IdRol;
-                emp.FechaNacimiento = empleado.FechaNacimiento;
-
-
-                Update(emp);
-            }
-        }
-
-        public IEnumerable<Usuarios> GetEmpleadosActivos()
-        {
-            return Context.Usuarios
-                .Include(e => e.IdDepartamentoNavigation)
-                .Where(e => e.Activo == true)
-                .OrderBy(e => e.Nombre);
-        }
     }
-
 }
