@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using MinutasManage.Models;
+using MinutasManage.Models.Validators;
 using MinutasManage.Repositories;
+using NuGet.Protocol.Core.Types;
+using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,12 @@ builder.Services.AddDbContext<DbminutasContext>(options =>
 
 // Inyección de dependencias para los repositorios
 builder.Services.AddScoped(typeof(Repository<>), typeof(Repository<>));
+
+//var empleados=Repository<Usuarios>.GetAll().AsQueryable<Usuarios>().Include(x=>x.IdDepartamentoNavigation);
+
+
+builder.Services.AddScoped(typeof(DepartamentoValidator));
+builder.Services.AddScoped(typeof(EmpleadoValidator));
 
 
 // Configura la autenticación por cookies
