@@ -163,39 +163,16 @@
                 <textarea name="orden" placeholder="Escribir..."></textarea><br>
                 <label>Compromisos y tareas</label>
                 <textarea name="compromisos" placeholder="Escribir..."></textarea><br>
-              @*   <div>
-                    <label>Orden del día</label>
-                    <input type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
-                </div>
-                <ul>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+              
 
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                </ul>
- *@
-               @*  <div>
-                    <label>Compromisos y tareas</label>
-                    <input type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
-                </div>
-                <ul>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                </ul> *@
 
                 <div>
                     <label>Lista de asistentes</label>
                     <input id="inUsuarios" type="text" placeholder="Buscar...">
                     <input id="btnUsuarios" class="material-icons" type="button" value="search">
                 </div>
-                <ul>
-                    <li>Sandra <button>X</button></li>
-                    <li>Eliza <button>X</button></li>
-                    <li>Jose <button>X</button></li>
+                <ul id="lstUsrs">
+                    
                 </ul>
                     <label>Privada<input type="checkbox"></label>
                 <div id="opciones">
@@ -244,7 +221,7 @@
                     <input type="text" placeholder="Buscar...">
                     <input class="material-icons" type="button" value="search">
                 </div>
-                <ul>
+                <ul id="lstUsrs">
                     <li>Sandra <button>X</button></li>
                     <li>Eliza <button>X</button></li>
                     <li>Jose <button>X</button></li>
@@ -397,13 +374,17 @@
             });
 
 
-
+            const lstUsuarios=document.getElementById("lstUsrs");
             let listaAsistentes=[];
 			const inUsuarios=document.getElementById("inUsuarios");
 			document.getElementById("btnUsuarios").addEventListener("click",function(){
 				if(inUsuarios.value.trim() !== ""){
 					listaAsistentes.push(inUsuarios.value.trim());
 				};
+                let li = document.createElement("li");
+                li.textContent=inUsuarios.value.trim();
+                lstUsuarios.append(li);
+
             });
 
 

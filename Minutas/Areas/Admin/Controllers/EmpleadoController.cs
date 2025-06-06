@@ -52,6 +52,10 @@ namespace MinutasManage.Areas.Admin.Controllers
         {
             return Json(empRepository.GetAll().Where(x => x.Activo == true));
         }
+        public IActionResult GetEmpleado(int id)
+        {
+            return Json(empRepository.Get(id));
+        }
 
         [HttpPost]
         public IActionResult Agregar(AgregarEmpleadoViewModel vm)
