@@ -521,7 +521,7 @@ form label{
     display: none;
 }
 #modalEliminarEmpleado{
-    display: block; 
+    display: none; 
 }
 /*Departamento*/
 #modalCrearDepto{
