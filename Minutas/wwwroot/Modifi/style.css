@@ -356,7 +356,43 @@ main {
     cursor: pointer;
 }
 #minuta-config{
-    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 20px;
+    width: 70%;
+    margin: 0 auto;
+}
+#minuta-config div{
+    margin-top: 20px;
+    box-shadow: 0px 1px 5px -1px gray;
+}
+#minuta-config label:nth-of-type(1){
+    width: 100%;
+    display: block;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #0e3a35;
+}
+.configuracion input.activo {
+    background-color: lightgray;
+    color: #0e3a35;
+    font-weight: bold;
+  }
+.upload-container a{
+    margin: 5px 50%;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    background-color: #0e3a35c4;
+}
+.upload-container img{
+    width: 30%;
+    margin: 5px auto -20px auto;
+    display: block;
 }
 /*tabla*/
 table{
@@ -609,7 +645,7 @@ form label{
     margin-top: 20px;
     padding-bottom: 10px;}
 
-.buttons input[type="button"]{
+.buttons input[type="button"], input[type="submit"]{
     background-color: #185C53;
     color: white;
     border: none;
@@ -661,24 +697,68 @@ input[type="search"] {
 
 
 
-
+/*#correos tmb estaba aqui ojo*/
 
 #perfil, #correos{
-    width: 100%;
+    width: 70%;
     padding: vh 10vw;
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
 }
-#perfil input, #correos input, #correos select{
+
+#perfil .campos-container, #correos .campos-container{
+    display:flex;
+    height: 40vh;
+}
+.datos{
+    width: 10vw;
+    margin-top: 3vh;
+    
+}
+.editables{
+    width: 40vw;
+    height: auto;
+    right: 15%;
+    padding: 0 30px 30px 0;
+    margin-top: 2vh;
+    background-color: lightgrey;
+    border-radius: 10px;
+    position: absolute;
+}
+/*buttons en perfil*/
+.GuardarPerfil, .CancelarPerfil, .GuardarCorreo, .CancelarCorreo{
+    display: none;
+}
+
+.editarbtns{
     background-color: transparent;
     border: none;
+    font-size: 17px;
+    cursor: pointer;
 }
-#correos h3, #perfil h3{
+/*cuando estan desactivados*/
+#perfil input, #correos label, #correos input, #correos select,#perfil label{
+    background-color: transparent;
+    border: none;
+    margin-top: 50px;
+    font-size: 16px;
+}
+
+/*cuando estan activos a editar*/
+#perfil input.active, #correos input.active, #correos select.active{
+    background-color: white;
+    border: 1px solid lightgray;
+}
+#perfil h3{
     padding: 3vh 10vw;
     display: flex;
     height: 8vh;
     justify-content: space-between;
     background: none;
     color: #11384d;
-    box-shadow: 0px 3px 5px #bbbbbb;
+    box-shadow: 0px 2px 10px #bbbbbb;
 }
  a{
     text-decoration: none;
@@ -686,6 +766,20 @@ input[type="search"] {
 }
 
 
+.configuracion{
+    gap: 80px;
+    cursor: pointer;
+    border: 1px solid gray;
+}
+.configuracion input{
+    width: 15vw;
+    height: 4vh;
+    border: 1px solid lightgray;
+}
+.configuracion input:hover{
+    background-color: lightgray;
+    transition:.5s all;
+}
 /*crearminuta*/
 #verMinuta{
     background-color: #11384d;

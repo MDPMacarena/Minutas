@@ -7,10 +7,9 @@
         <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
             <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
             <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
-            <a id="apartado-configuracion" href="/Admin/Configuracion">Encabezados</a>
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
             <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
-            <a id="apartado-configu" href="/Modifi/configuuuu.html" class="material-icons">settings</a>
+            <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
 
         
     </aside>
@@ -22,19 +21,15 @@
                     <button id="minutas-pendientes">Pendientes</button>
                     <button id="minutas-firmadas">Firmadas</button>
                     <button id="minutas-borradores">Borradores</button>
-
                 </div>
-
-
                 <button id="btnfiltros">Filter</button>
-
-
             </div>
             <div class="filtrar">
                 <form>
 
                     <label>Departamento:</label>
                     <select>
+                        <option>Ninguno</option>
                         <option>Sistemas</option>
                         <option>Vinculación</option>
                         <option>Planeación</option>
@@ -56,8 +51,6 @@
                 </form>
             </div>
             <div class="minutas">
-
-
                 <div class="minuta">
                     <h3>DDSC-10052501</h3>
                     <div>
@@ -66,19 +59,17 @@
                         <a><i class="material-icons">delete</i></a>
                         <a><i class="material-icons">edit</i></a>
                     </div>
-
                 </div>
-               
                 <template>
-                <div class="minuta">
-                    <h3>asd</h3>
-                    <div>
-                        <p>Se reúnen los abajo firmantes con el objetivo...</p>
-                        <a><i class="material-icons">draw</i></a>
-                        <a><i class="material-icons">delete</i></a>
-                        <a><i class="material-icons">edit</i></a>
+                    <div class="minuta">
+                        <h3>asd</h3>
+                        <div>
+                            <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                            <a><i class="material-icons">draw</i></a>
+                            <a><i class="material-icons">delete</i></a>
+                            <a><i class="material-icons">edit</i></a>
+                        </div>
                     </div>
-                </div>
                 </template>
             </div>
         </div>
@@ -140,14 +131,11 @@
                         </tr>
                     </tbody>
                 </table>
-
-
                 <div class="buttons">
                     <input id="btnPendientes" type="button" value="Firmar">
                     <input id="btnFirmadas" type="button" value="Eliminar">
                     <input id="btnBorradores" type="button" value="Editar">
                 </div>
-
 
 
             </div>
@@ -158,30 +146,38 @@
                 <label>Objetivo</label>
                 <textarea id="objetivo" name="objetivo" placeholder="Escribir..."></textarea><br>
                 <label>Desarrollo de la reunión</label>
-                <textarea id="desarrollo" name="desarrollo" placeholder="Escribir..."></textarea><br>
-                <label>Orden del dia</label>
-                <textarea id="orden" name="orden" placeholder="Escribir..."></textarea><br>
-                <label>Compromisos y tareas</label>
-                <textarea id="compromisos" name="compromisos" placeholder="Escribir..."></textarea><br>
-              
+                <textarea style="height:30vh" id="desarrollo" name="desarrollo" placeholder="Escribir..."></textarea><br>
+                <div>
+                    <label>Orden del día</label>
+                    <input id="orden" name="orden" type="text" placeholder="Escribir...">
+                    <input class="material-icons" type="button" value="add">
+                </div>
+                <ul id="lstOrden">
+                </ul>
+               <!-- <label>Orden del dia</label>
+                 <textarea id="orden" name="orden" placeholder="Escribir..."></textarea><br>-->
+                @* <textarea id="compromisos" name="compromisos" placeholder="Escribir..."></textarea><br> *@
+                <div>
+                    <label>Compromisos y tareas</label>
+                    <input id="compromisos" name="compromisos" type="text" placeholder="Escribir...">
+                    <input id="btnUsuarios" class="material-icons" type="button" value="add">
+                </div>
+                <ul id="lstCompromisos">
 
-
+                </ul>
                 <div>
                     <label>Lista de asistentes</label>
                     <input id="inUsuarios" type="text" placeholder="Buscar...">
                     <input id="btnUsuarios" class="material-icons" type="button" value="search">
                 </div>
                 <ul id="lstUsrs">
-                    
                 </ul>
                 <label>Privada<input id="privada" type="checkbox" name="privada"></label>
-
                 <div id="opciones">
                     <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
                     <input class="buttons" type="button" value="Cancelar">
                     <input class="buttons" type="submit" value="Confirmar">
                 </div>
-
             </form>
         </div>
 
@@ -192,13 +188,13 @@
                 <label>Objetivo</label>
                 <textarea placeholder="Escribir..."></textarea><br>
                 <label>Desarrollo de la reunión</label>
-                <textarea placeholder="Escribir..."></textarea><br>
+                <textarea style="height:30vh" id="desarrollo" name="desarrollo" placeholder="Escribir..."></textarea><br>
                 <div>
                     <label>Orden del día</label>
-                    <input type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
+                    <input id="orden" type="text" placeholder="Escribir...">
+                    <input id="btnOrden" class="material-icons" type="button" value="add">
                 </div>
-                <ul>
+                <ul id="lstOrden">
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
 
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
@@ -208,37 +204,32 @@
 
                 <div>
                     <label>Compromisos y tareas</label>
-                    <input type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
+                    <input id ="compromisos" type="text" placeholder="Escribir...">
+                    <input id="btnCompromisos" class="material-icons" type="button" value="add">
                 </div>
-                <ul>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-                    <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
+                <ul id="lstCompromisos">
                 </ul>
 
                 <div>
                     <label>Lista de asistentes</label>
-                    <input type="text" placeholder="Buscar...">
-                    <input class="material-icons" type="button" value="search">
+                    <input id="inUsuarios" type="text" placeholder="Buscar...">
+                    <input id="btnUsuarios" class="material-icons" type="button" value="search">
                 </div>
-                <ul>
+                <ul id="lstUsrs">
                     <li>Sandra <button>X</button></li>
                     <li>Eliza <button>X</button></li>
                     <li>Jose <button>X</button></li>
                 </ul>
                 <div id="opciones">
-                    <label>Privada<input type="checkbox"></label>
+                    <label>Privada<input id="privada" type="checkbox" name="privada"></label>
                     <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
                     <input class="buttons" type="button" value="Cancelar">
                     <input class="buttons" type="button" value="Confirmar">
                 </div>
-
             </form>
         </div>
 
-
-        <!--Eliminar empleado-->
+        <!--Eliminar minuta-->
         <div id="modalEliminarMinuta" class="modal">
             <form class="botonesForm">
                 <label>¿Desea eliminar esta Minuta?</label><br>
@@ -246,7 +237,6 @@
                 <input type="button" value="No">
             </form>
         </div>
-
          <!--IA modal-->
             <div id="modalIAMinuta" class="modal">
                 <form>
@@ -278,7 +268,6 @@
                     </div>
                 </form>
             </div>
-
     </main>
 
 </div>
@@ -311,27 +300,11 @@
          modCrearMin.classList.remove("active");
          actualizarIconos(0);
 
-
-
 	}
 
 	window.addEventListener('load', function() {
         CargarMinutas();
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -384,8 +357,16 @@
 				};
                 let li = document.createElement("li");
                 li.textContent=inUsuarios.value.trim();
-                lstUsuarios.append(li);
 
+                /*se agrego para q tuviera un icono de eliminar :D */
+                let btnEliminar = document.createElement("button");
+                btnEliminar.textContent = "X";
+                btnEliminar.addEventListener("click", function () {
+                    li.remove();
+                });
+                li.appendChild(btnEliminar);
+
+                lstUsuarios.append(li);
             });
 
 
@@ -483,14 +464,10 @@
                 }
             });
 
-
-
-
             //Sidebar
             menu.addEventListener('click', () => {
                 sidebar.classList.toggle('active');
             });
-
 
             const agregar = document.querySelector("#agregar");
             sidebar.addEventListener("click", function(e){
@@ -542,21 +519,13 @@
 
 
 
-            document.addEventListener("click", function (event) {
-          //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
-            //        minutasContent.classList.remove('active');
-              //      minutas.classList.remove('inactive');
-                //}
+            document.addEventListener("click", function (event) { 
                 if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
                     if (sidebar.classList.contains('active')) {
                         sidebar.classList.remove('active');
                 console.log('click en sidebar');
-
                     }
                 }
-
-
-
             });
 
 
@@ -625,8 +594,6 @@
                     });
                 });
             }
-
-
             document.getElementById("btnfiltros").addEventListener("click", function (e) {
                 const filtrar = document.querySelector(".filtrar");
                 e.target.classList.toggle("active");

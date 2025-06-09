@@ -34,10 +34,9 @@
             <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
             <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
             <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
-            <a id="apartado-configuracion" href="/Admin/Configuracion">Encabezados</a>
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
             <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
-            <a id="apartado-configu" href="/Modifi/configuuuu.html" class="material-icons">settings</a>
+            <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
         </aside>
 
         <main>
@@ -78,7 +77,7 @@
                     });
                 </script>
             }
-           
+
 
             <table id="tablaDepto">
                 <tr>
@@ -173,195 +172,187 @@
 
             <!--Eliminar departamento-->
             <div class="modal" id="modalEliminarDepto">
-                <div class="modal-content">
-                    <form class="botonesForm">
+                <form class="botonesForm" style="height:20vh">
                         <label id="modalMensaje">¿Deseas eliminar este departamento?</label>
                         <input type="button" id="confirmarEliminar" value="Sí">
                         <input type="button" id="cancelarEliminar" value="No">
                     </form>
-                </div>
-
             </div>
         </main>
     </div>
 
     <script>
-        const menu = document.querySelector('button');
-        const sidebar = document.querySelector('.sidebar');
-        const header = document.querySelector("header");
+                const menu = document.querySelector('button');
+                const sidebar = document.querySelector('.sidebar');
+                const header = document.querySelector("header");
 
-        menu.addEventListener('click', () => sidebar.classList.toggle('active'));
+                menu.addEventListener('click', () => sidebar.classList.toggle('active'));
 
-        document.querySelector("#crearDeptoBtn").addEventListener("click", () => {
-            document.getElementById("modalCrearDepto").style.display = "block";
-        });
+                document.querySelector("#crearDeptoBtn").addEventListener("click", () => {
+                    document.getElementById("modalCrearDepto").style.display = "block";
+                });
 
-        // para eliminar con modal
-        let idDeptoSeleccionado = null;
+                // para eliminar con modal
+                let idDeptoSeleccionado = null;
 
-        document.querySelectorAll('.eliminarDep').forEach(btn => {
-            btn.addEventListener('click', () => {
-                idDeptoSeleccionado = btn.dataset.id;
-                const nombre = btn.dataset.nombre;
+                document.querySelectorAll('.eliminarDep').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        idDeptoSeleccionado = btn.dataset.id;
+                        const nombre = btn.dataset.nombre;
 
-                document.getElementById("modalMensaje").textContent = `¿Deseas eliminar el departamento ${nombre}?`;
-                document.getElementById("modalEliminarDepto").style.display = "flex";
-            });
-        });
+                        document.getElementById("modalMensaje").textContent = `¿Deseas eliminar el departamento ${nombre}?`;
+                        document.getElementById("modalEliminarDepto").style.display = "flex";
+                    });
+                });
 
-        document.getElementById("confirmarEliminar").addEventListener("click", () => {
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                document.getElementById("confirmarEliminar").addEventListener("click", () => {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
-            fetch(`/Admin/Departamento/EliminarConfirmado/${idDeptoSeleccionado}`, {
-                method: 'POST',
-                headers: {
-                    'RequestVerificationToken': token
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    if (data.showToast) {
-                        mostrarToast(data.message, 'success');
-                    }
-                    setTimeout(() => location.reload(), 1500);
-                } else {
-                    if (data.showToast) {
-                        mostrarToast(data.message, 'error');
-                    }
-                }
-            })
-            .catch(error => {
-                mostrarToast('Error en la comunicación con el servidor', 'error');
-                console.error('Error:', error);
-            });
-
-            document.getElementById("modalEliminarDepto").style.display = "none";
-            idDeptoSeleccionado = null;
-            });
-
-        document.getElementById("cancelarEliminar").addEventListener("click", () => {
-            document.getElementById("modalEliminarDepto").style.display = "none";
-            idDeptoSeleccionado = null;
-        });
-
-
-
-//            document.querySelectorAll('.eliminarDep').forEach(btn => {
-//     btn.addEventListener('click', () => {
-//         const id = btn.dataset.id;
-//         const nombre = btn.dataset.nombre;
-        
-//         if (confirm(`¿Deseas eliminar el departamento ${nombre}?`)) {
-//             fetch(`/Admin/Departamento/EliminarConfirmado/${id}`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-//                 }
-//             })
-//             .then(res => res.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     if (data.showToast) {
-//                         mostrarToast(data.message, 'success');
-//                     }
-//                     setTimeout(() => location.reload(), 1500);
-//                 } else {
-//                     if (data.showToast) {
-//                         mostrarToast(data.message, 'error');
-//                     }
-//                 }
-//             })
-//             .catch(error => {
-//                 mostrarToast('Error en la comunicación con el servidor', 'error');
-//                 console.error('Error:', error);
-//             });
-//         }
-//     });
-// });
-
-        function mostrarToast(mensaje, tipo) {
-    // Eliminar toasts anteriores
-    document.querySelectorAll('.toast-msg').forEach(el => el.remove());
-
-    const toast = document.createElement('div');
-    toast.className = `toast-msg ${tipo}`;
-    toast.innerHTML = `
-        <span>${mensaje}</span>
-        <button class="close-toast">&times;</button>
-    `;
-
-    // 👇 ¡Clave! Insertarlo en el BODY para que el "top" funcione correctamente
-    document.body.appendChild(toast);
-
-    // Cierre automático
-    setTimeout(() => {
-        toast.style.transition = "opacity 0.5s ease-out";
-        toast.style.opacity = 0;
-        setTimeout(() => toast.remove(), 500);
-    }, 3000);
-
-    // Cierre manual
-    toast.querySelector('.close-toast').addEventListener('click', () => {
-        toast.remove();
-    });
-}
-
-
-        
-
-
-        document.querySelectorAll('.editarDep').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = btn.dataset.id;
-                fetch(`/Admin/Departamento/Editar/${id}`)
+                    fetch(`/Admin/Departamento/EliminarConfirmado/${idDeptoSeleccionado}`, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': token
+                        }
+                    })
                     .then(res => res.json())
                     .then(data => {
-                        document.getElementById("edit-id").value = data.id;
-                        document.getElementById("edit-nombre").value = data.nombre;
-                        document.getElementById("edit-jefe").value = data.idJefe;
-                        document.getElementById("edit-sup").value = data.idDeptSuperior || "";
-
-                        const modal = document.getElementById("modalEditarDepto");
-                        modal.style.display = "block";
-                        modal.classList.add("active");
+                        if (data.success) {
+                            if (data.showToast) {
+                                mostrarToast(data.message, 'success');
+                            }
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            if (data.showToast) {
+                                mostrarToast(data.message, 'error');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        mostrarToast('Error en la comunicación con el servidor', 'error');
+                        console.error('Error:', error);
                     });
-            });
-        });
-                function cerrarModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) {
-                if (id === 'modalCrearDepto') {
-                  
-                    const nombreInput = modal.querySelector('input[name="Departamento.Nombre"]');
-                    if (nombreInput) nombreInput.value = '';
 
-               
-                    const selectJefe = modal.querySelector('select[name="Departamento.IdJefe"]');
-                    if (selectJefe) selectJefe.selectedIndex = 0;
+                    document.getElementById("modalEliminarDepto").style.display = "none";
+                    idDeptoSeleccionado = null;
+                    });
 
-                    const selectSuperior = modal.querySelector('select[name="Departamento.IdDeptSuperior"]');
-                    if (selectSuperior) selectSuperior.selectedIndex = 0;
+                document.getElementById("cancelarEliminar").addEventListener("click", () => {
+                    document.getElementById("modalEliminarDepto").style.display = "none";
+                    idDeptoSeleccionado = null;
+                });
+
+        //            document.querySelectorAll('.eliminarDep').forEach(btn => {
+        //     btn.addEventListener('click', () => {
+        //         const id = btn.dataset.id;
+        //         const nombre = btn.dataset.nombre;
+
+        //         if (confirm(`¿Deseas eliminar el departamento ${nombre}?`)) {
+        //             fetch(`/Admin/Departamento/EliminarConfirmado/${id}`, {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+        //                 }
+        //             })
+        //             .then(res => res.json())
+        //             .then(data => {
+        //                 if (data.success) {
+        //                     if (data.showToast) {
+        //                         mostrarToast(data.message, 'success');
+        //                     }
+        //                     setTimeout(() => location.reload(), 1500);
+        //                 } else {
+        //                     if (data.showToast) {
+        //                         mostrarToast(data.message, 'error');
+        //                     }
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 mostrarToast('Error en la comunicación con el servidor', 'error');
+        //                 console.error('Error:', error);
+        //             });
+        //         }
+        //     });
+        // });
+
+                function mostrarToast(mensaje, tipo) {
+                // Eliminar toasts anteriores
+                document.querySelectorAll('.toast-msg').forEach(el => el.remove());
+
+                const toast = document.createElement('div');
+                toast.className = `toast-msg ${tipo}`;
+                toast.innerHTML = `
+                    <span>${mensaje}</span>
+                    <button class="close-toast">&times;</button>
+                `;
+
+                // 👇 ¡Clave! Insertarlo en el BODY para que el "top" funcione correctamente
+                document.body.appendChild(toast);
+
+                // Cierre automático
+                setTimeout(() => {
+                    toast.style.transition = "opacity 0.5s ease-out";
+                    toast.style.opacity = 0;
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
+
+                // Cierre manual
+                toast.querySelector('.close-toast').addEventListener('click', () => {
+                    toast.remove();
+                });
                 }
 
-                modal.style.display = 'none';
-                modal.classList.remove('active');
-            }
-        }
 
-        // Cierre de toasts
-        document.querySelectorAll('.close-toast').forEach(btn => {
-            btn.addEventListener('click', () => btn.parentElement.remove());
-        });
+                document.querySelectorAll('.editarDep').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.dataset.id;
+                        fetch(`/Admin/Departamento/Editar/${id}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                document.getElementById("edit-id").value = data.id;
+                                document.getElementById("edit-nombre").value = data.nombre;
+                                document.getElementById("edit-jefe").value = data.idJefe;
+                                document.getElementById("edit-sup").value = data.idDeptSuperior || "";
 
-        setTimeout(() => {
-            const toast = document.querySelector('.toast-msg');
-            if (toast) {
-                toast.style.transition = "opacity 0.5s ease-out";
-                toast.style.opacity = 0;
-                setTimeout(() => toast.remove(), 500);
-            }
-        }, 3000);
+                                const modal = document.getElementById("modalEditarDepto");
+                                modal.style.display = "block";
+                                modal.classList.add("active");
+                            });
+                    });
+                });
+                        function cerrarModal(id) {
+                    const modal = document.getElementById(id);
+                    if (modal) {
+                        if (id === 'modalCrearDepto') {
+
+                            const nombreInput = modal.querySelector('input[name="Departamento.Nombre"]');
+                            if (nombreInput) nombreInput.value = '';
+
+
+                            const selectJefe = modal.querySelector('select[name="Departamento.IdJefe"]');
+                            if (selectJefe) selectJefe.selectedIndex = 0;
+
+                            const selectSuperior = modal.querySelector('select[name="Departamento.IdDeptSuperior"]');
+                            if (selectSuperior) selectSuperior.selectedIndex = 0;
+                        }
+
+                        modal.style.display = 'none';
+                        modal.classList.remove('active');
+                    }
+                }
+
+                // Cierre de toasts
+                document.querySelectorAll('.close-toast').forEach(btn => {
+                    btn.addEventListener('click', () => btn.parentElement.remove());
+                });
+
+                setTimeout(() => {
+                    const toast = document.querySelector('.toast-msg');
+                    if (toast) {
+                        toast.style.transition = "opacity 0.5s ease-out";
+                        toast.style.opacity = 0;
+                        setTimeout(() => toast.remove(), 500);
+                    }
+                }, 3000);
     </script>
 </body>
 </html>

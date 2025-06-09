@@ -6,6 +6,7 @@
     <title>Outlock Base</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 <body>
     <header>
@@ -34,32 +35,93 @@
             <a id="apartado-configu" href="configuuuu.html" class="material-icons">settings</a>
         </aside>
         <main>
-
-           
-
-            <form id="correos">
-                <h3>Servidor de Correo <a id="btnEditarCorreo" class="material-icons">edit</a></h3>
-                <div>
-                  <label>SMTP Host</label>
-                  <input type="text" placeholder="smtp.ejemplo.com" disabled/>
-                    <label>Puerto</label>
-                    <input type="number" placeholder="465 o 587" disabled/>               
-                    <label>Encriptación</label>
-                    <select disabled>
-                        <option>SSL</option>
-                        <option>TLS</option>
-                        <option>Ninguna</option>
-                    </select>
-                  <label>Correo remitente</label>
-                  <input type="email" placeholder="sistema@minutas.com" disabled/>
-                  <label>Contraseña / Token</label>
-                  <input type="password" value="contraseña" disabled/>
+            <div class="configuracion">
+                <input id="btnEncabezados" value="Encabezados" type="button"/><br>
+                <input id="btnServidor" value="Servidor de correo" type="button"/>
+            </div>
+            <form id="correos" style="display: none;">
+                <div class="campos-container">
+                    <div class="datos">
+                        <label>SMTP Host</label>
+                        <label>Puerto</label>          
+                        <label style="margin-top: 8vh;">Encriptación</label>
+                        <label>Correo remitente</label>
+                        <label>Contraseña / Token</label> 
+                    </div>
+                    <div class="editables" data-section="correo">
+                        <div>
+                            <input id="correoHost" type="text" placeholder="smtp.ejemplo.com" disabled/>
+                            <button data-input="correoHost" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button class="GuardarPerfil editarbtns">✔️</button>
+                            <button class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                        <div>
+                            <input id="correoPuerto" type="number" placeholder="465 o 587" disabled/>
+                            <button data-input="correoPuerto" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button class="GuardarPerfil editarbtns">✔️</button>
+                            <button class="CancelarPerfil editarbtns">❌</button>
+                        </div>     
+                        <div >
+                            <select id="correoEncriptacion" disabled>
+                                <option>SSL</option>
+                                <option>TLS</option>
+                                <option>Ninguna</option>
+                            </select>
+                            <button data-input="correoEncriptacion" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button class="GuardarPerfil editarbtns">✔️</button>
+                            <button class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                        <div>
+                            <input id="correoRemitente" type="email" placeholder="sistema@minutas.com" disabled/>
+                            <button data-input="correoRemitente" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button class="GuardarPerfil editarbtns">✔️</button>
+                            <button class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                        <div>
+                            <input id="correoToken" type="password" value="contraseña" disabled/>
+                            <button data-input="correoToken" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button class="GuardarPerfil editarbtns">✔️</button>
+                            <button class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                    </div>
                 </div>
             </form>
-                
-            
 
-            <!--Editar perfil-->
+
+            <div id="minuta-config">
+                <div>
+                    <label>Logo</label><br>
+                    <label for="img" class="upload-container">
+                        <img style="height: 20vh; width: auto;" alt="Logo" title="Editar logo" src="/Modifi/logotec (weld).png">
+                        <a class="material-symbols-outlined">add_photo_alternate</a>
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+                </div>
+                <div>
+                    <label>Encabezado</label><br>
+                    <label for="img">
+                        <span class="upload-container">
+                            <img title="Editar encabezado" src="encabezado.png"> 
+                            <a class="material-symbols-outlined">add_photo_alternate</a>
+                        </span>
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+                </div>
+                <div>
+                    <label>Pie de página</label><br>
+                    <label for="img">
+                        <span class="upload-container">
+                            <img title="Editar pie de página" src="/Modifi/encabezadoAbajo.png">
+                            <a class="material-symbols-outlined">add_photo_alternate</a>
+                        </span>
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+                </div>
+                <div class="buttons" style="box-shadow: none;">
+                    <input type="button" value="Guardar cambios">
+                </div> 
+            </div>
+            <!-- Editar perfil
             <div id="modalEditarCorreo" class="modal">
                 <form>
                     <h3>Editar datos</h3>
@@ -93,7 +155,7 @@
                     </div>
                     
                 </form>
-            </div>
+            </div> -->
             
         </main>
     </div>
@@ -102,17 +164,73 @@
         const sidebar = document.querySelector('.sidebar');
         const header =document.querySelector("header");
         const modEditCorreo =  document.querySelector("#modalEditarCorreo");
-        // editar datos del servidor 
-        document.querySelector("#btnEditarCorreo").addEventListener("click", function(){
-            modEditCorreo.style.display="block";
+  
+        // editar
+        inicializarEditables('[data-section="perfil"]');
+        inicializarEditables('[data-section="correo"]');
+
+        function inicializarEditables(sectionSelector) {
+        const seccion = document.querySelector(sectionSelector);
+        if (!seccion) return;
+
+        const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
+
+        botonesEditar.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const campoId = btn.dataset.input;
+
+            // Deshabilitar todos los inputs de esta sección
+            seccion.querySelectorAll("input, select").forEach(input => {
+                input.disabled = true;
+                input.classList.remove("active");
+            });
+
+            // Ocultar todos los botones de esta sección
+            seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
+            seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
+
+            // Activar solo el campo correspondiente
+            const campo = document.getElementById(campoId);
+            campo.disabled = false;
+            campo.classList.add("active");
+            campo.focus();
+
+            // Mostrar botones de guardar/cancelar solo para este campo
+            const divPadre = btn.closest("div");
+            btn.style.display = "none";
+            divPadre.querySelector(".GuardarPerfil").style.display = "inline";
+            divPadre.querySelector(".CancelarPerfil").style.display = "inline";
+            });
         });
-        // cerrar ventana de editar
-        modEditCorreo.addEventListener("click", function(e){
-            if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
-                modEditCorreo.style.display = "none";
-            }
+        }
+
+        const btnEncabezados = document.getElementById('btnEncabezados');
+        const btnServidor = document.getElementById('btnServidor');
+        const vistaEncabezados = document.getElementById('minuta-config');
+        const vistaServidor = document.getElementById('correos');
+
+        function activar(botonActivo) {
+        [btnEncabezados, btnServidor].forEach(b => b.classList.remove('activo'));
+        botonActivo.classList.add('activo');
+        }
+
+        btnEncabezados.addEventListener('click', () => {
+            vistaEncabezados.style.display = 'block';
+            vistaServidor.style.display = 'none';
+            activar(btnEncabezados);
         });
-        
+
+        btnServidor.addEventListener('click', () => {
+            vistaEncabezados.style.display = 'none';
+            vistaServidor.style.display = 'block';
+            activar(btnServidor);
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+        vistaEncabezados.style.display = 'block';
+        activar(btnEncabezados);
+        });
+
 
 
         document.querySelector("#buscar").addEventListener("click",function (){
@@ -136,42 +254,12 @@
         });
  
  
-        const agregar = document.querySelector("#agregar");
-        sidebar.addEventListener("click", function(e){
-            if(e.target.tagName == "I"){
-                agregar.style.visibility="visible";
-            }
- 
-        });
- 
-        //Filtros
-        let lasActiveCategory = null;
-        const categorias=document.querySelector('.filtros div');
-        categorias.addEventListener('click',function(e){
-            if(lasActiveCategory){
-                lasActiveCategory.classList.remove('active');
-            }
-            lasActiveCategory=e.target;
-            e.target.classList.toggle('active');
-        });
- 
         //CambioEnMovilDeminuta
         const Lista=document.querySelector('.minutas-list');
         const minutasContent=document.querySelector('.minuta-content');
         const minutas=document.querySelector('.minutas');
  
-        minutas.addEventListener('click',(e)=>{
-            if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
-               
-                minutasContent.classList.toggle('active');
-                console.log(e.target.parentElement.classList.contains('filtros'));
-                Lista.classList.toggle('inactive');
-            }
-        });
- 
- 
-       
- 
+     
         history.pushState(null, "", location.href);
  
         window.addEventListener("popstate", function () {
@@ -180,13 +268,7 @@
         history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
         });
  
- 
- 
         document.addEventListener("click", function (event) {
-      //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
-        //        minutasContent.classList.remove('active');
-          //      minutas.classList.remove('inactive');
-            //}
             if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
                 if (sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
@@ -195,49 +277,6 @@
                 }
             }
         });
-        // mostrar iconos segun la categoria
-        const pendientes = document.querySelector("#minutas-pendientes");
-        const firmadas = document.querySelector("#minutas-firmadas");
-        const borradores = document.querySelector("#minutas-borradores");
- 
-        document.addEventListener("DOMContentLoaded", function () {
-            pendientes.click();
-        });
-        pendientes.addEventListener("click", function () {
-            actualizarIconos(0);
-        });
-        firmadas.addEventListener("click", function () {
-            actualizarIconos(1);
-        });
-        borradores.addEventListener("click", function () {
-            actualizarIconos(2);
-        });
-        function actualizarIconos(activo){
-            document.querySelectorAll(".minuta").forEach(minuta => {
-                let icons = minuta.querySelectorAll("a");
- 
-                icons.forEach((icon, index) => {
-                    if (index === activo) {
-                        icon.classList.add("active");
-                        icon.style.opacity = "1";
-                        icon.style.pointerEvents = "auto";
-                    } else {
-                        icon.classList.remove("active");
-                        icon.style.opacity = "0";
-                        icon.style.pointerEvents = "none";
-                    }
-                });
-            });
-        }
-
-
-        document.getElementById("btnfiltros").addEventListener("click", function (e) {
-            const filtrar = document.querySelector(".filtrar");
-            e.target.classList.toggle("active");
-            filtrar.classList.toggle("active");
-        });
-
-
     </script>
 </body>
 </html>

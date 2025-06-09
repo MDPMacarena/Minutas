@@ -333,21 +333,20 @@
 
             </div>
         </div>
-        <div id="modalCrearMinuta" class="modal">
+        <div id="modalCrearMinuta" class="modal" style="display: block;">
             <form>
                 <h3>Crear Minuta</h3>
                 <label>Objetivo</label>
-                <textarea placeholder="Escribir..."></textarea><br>
+                <textarea id="objetivo" placeholder="Escribir..."></textarea><br>
                 <label>Desarrollo de la reunión</label>
-                <textarea placeholder="Escribir..."></textarea><br>
+                <textarea id="desarrollo" placeholder="Escribir..."></textarea><br>
                 <div>
                     <label>Orden del día</label>
-                    <input type="text" placeholder="Escribir...">
+                    <input id="orden" type="text" placeholder="Escribir...">
                     <input class="material-icons" type="button" value="add">
                 </div>
                 <ul>
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
-
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
@@ -355,8 +354,8 @@
 
                 <div>
                     <label>Compromisos y tareas</label>
-                    <input type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
+                    <input id="compromisos" type="text" placeholder="Escribir...">
+                    <input  id="btnUsuarios" class="material-icons" type="button" value="add">
                 </div>
                 <ul>
                     <li>Lorem Ipsum is simply dummy text of the printing and typesetting <button>X</button></li>
@@ -366,19 +365,21 @@
 
                 <div>
                     <label>Lista de asistentes</label>
-                    <input type="text" placeholder="Buscar...">
-                    <input class="material-icons" type="button" value="search">
+                    <input id="inUsuarios" type="text" placeholder="Buscar...">
+                    <input id="btnUsuarios" class="material-icons" type="button" value="search">
                 </div>
+                <ul id="lstUsrs">
+                </ul>
                 <ul>
                     <li>Sandra <button>X</button></li>
                     <li>Eliza <button>X</button></li>
                     <li>Jose <button>X</button></li>
                 </ul>
                 <div id="opciones">
-                    <label>Privada<input type="checkbox"></label>
+                    <label>Privada<input id="privada" type="checkbox"></label>
                     <input id="ia" class="material-symbols-outlined" type="button" title="IA" value="wand_stars">
                     <input class="buttons" type="button" value="Cancelar">
-                    <input class="buttons" type="button" value="Confirmar">
+                    <input class="buttons" type="submit" value="Confirmar">
                 </div>
 
             </form>
@@ -705,7 +706,19 @@
             filtrar.classList.toggle("active");
         });
 
+        const lista = document.getElementById('lstUsrs');
 
+        function agregarUsuario(nombre) {
+        const li = document.createElement('li');
+        li.textContent = nombre + ' ';
+
+        const btn = document.createElement('button');
+        btn.textContent = 'X';
+        btn.onclick = () => li.remove();
+
+        li.appendChild(btn);
+        lista.appendChild(li);
+        }
         
 //asasas
     </script>

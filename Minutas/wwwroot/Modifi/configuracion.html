@@ -6,6 +6,7 @@
     <title>Outlock Base</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 <body>
     <header>
@@ -23,9 +24,6 @@
             <i id="buscar" class="material-icons">search</i>
         </div>
  
-       
- 
-       
     </header>
     <div class="content">
         <aside class="sidebar">
@@ -34,71 +32,42 @@
                 <a id="apartado-departamentos" href="departamento.html">Departamentos</a>
                 <a id="apartado-configuracion" href="configuracion.html">Configuracion</a>
                 <a id="apartado-perfil" href="perfil.html">Perfil</a>
-
- 
-     
         </aside>
         <main>
-            <div class="minuta-content" id="minuta-config" style="display: block;">
-                <label for="img">
-                    <img title="Editar encabezado" src="encabezado.png"> 
-                </label>
-                <input type="file" id="img" style="display: none;">
-                <h1>DDSC-0231</h1>
-                <!--<img  src="cuerpoMinuta.png">-->
+            <div id="minuta-config">
                 <div>
-                    <p><b>Objetivo:</b>Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario 
-                    académico para el año 2025, asegurando una adecuada planificación de actividades escolares.</p><br>
-                    <p><b>Orden del día:</b>Bienvenida y presentación del objetivo de la reunión, revisión del calendario académico propuesto
-                    para 2025, discusión sobre fechas clave (inicio y fin de clases, periodos de evaluación, vacaciones,
-                    etc.), propuestas y ajustes necesarios, votación y aprobación del calendario, conclusiones y cierre
-                    de la reunión.</p><br>
-                    <p><b>Desarrollo de la reunión:</b>Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
-                    comunicadas oficialmente a la comunidad académica. Se programará una reunión de seguimiento en
-                    caso de requerir modificaciones.</p><br>
-                    <p><b>Compromisos y tareas:</b> </p>
-                        <ul>
-                            <li>Se ha logrado una planificación estructurada del calendario académico 2025.</li>
-                            <li>Las fechas clave han sido definidas considerando la viabilidad y necesidades de la institución,
-                                se espera que la implementación del calendario facilite una mejor organización de las actividades
-                                escolares.</li>
-                        </ul><br>
-               
-                    <p><b>Lista de asistentes:</b></p>
-                    
-                    <table>
-                        <thead>
-                            <td>
-                                <th>Nombre</th>
-                                <th>Firma</th>
-                                <th>Nombre</th>
-                                <th>Firma</th>
-                            </td>
-                            
-                        </thead>
-                        <tbody>
-                            <td>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                            </td>
-                        </tbody>
-                        
-                    </table>
-                    <label for="img">
-                        <img title="Editar encabezado" src="/Modifi/encabezadoAbajo.png">
+                    <label>Logo</label><br>
+                    <label for="img" class="upload-container">
+                        <img style="height: 20vh; width: auto;" alt="Logo" title="Editar logo" src="/Modifi/logotec (weld).png">
+                        <a class="material-symbols-outlined">add_photo_alternate</a>
                     </label>
                     <input type="file" id="img" style="display: none;">
-                   
                 </div>
-            <div class="buttons">
-                <input type="button" value="Guardar cambios">
+                <div>
+                    <label>Encabezado</label><br>
+                    <label for="img">
+                        <span class="upload-container">
+                            <img title="Editar encabezado" src="encabezado.png"> 
+                            <a class="material-symbols-outlined">add_photo_alternate</a>
+                        </span>
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+                </div>
+                <div>
+                    <label>Pie de página</label><br>
+                    <label for="img">
+                        <span class="upload-container">
+                            <img title="Editar pie de página" src="/Modifi/encabezadoAbajo.png">
+                            <a class="material-symbols-outlined">add_photo_alternate</a>
+                        </span>
+                    </label>
+                    <input type="file" id="img" style="display: none;">
+                </div>
+                <div class="buttons" style="box-shadow: none;">
+                    <input type="button" value="Guardar cambios">
+                </div> 
             </div>
-
-
         </main>
-   
     </div>
         <script>
         const menu = document.querySelector('.menu');
@@ -112,26 +81,6 @@
         //Sidebar
         menu.addEventListener('click', () => {
             sidebar.classList.toggle('active');
-        });
- 
- 
-        const agregar = document.querySelector("#agregar");
-        sidebar.addEventListener("click", function(e){
-            if(e.target.tagName == "I"){
-                agregar.style.visibility="visible";
-            }
- 
-        });
- 
-        //Filtros
-        let lasActiveCategory = null;
-        const categorias=document.querySelector('.filtros div');
-        categorias.addEventListener('click',(e)=>{
-            if(lasActiveCategory){
-                lasActiveCategory.classList.remove('active');
-            }
-            lasActiveCategory=e.target;
-            e.target.classList.toggle('active');
         });
  
         //CambioEnMovilDeminuta
@@ -148,9 +97,6 @@
             }
         });
  
- 
-       
- 
         history.pushState(null, "", location.href);
  
         window.addEventListener("popstate", function () {
@@ -159,63 +105,13 @@
         history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
         });
  
- 
- 
         document.addEventListener("click", function (event) {
-      //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
-        //        minutasContent.classList.remove('active');
-          //      minutas.classList.remove('inactive');
-            //}
             if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
                 if (sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
             console.log('click en sidebar');
- 
                 }
             }
-        });
- 
- 
-        // mostrar iconos segun la categoria
-        const pendientes = document.querySelector("#minutas-pendientes");
-        const firmadas = document.querySelector("#minutas-firmadas");
-        const borradores = document.querySelector("#minutas-borradores");
- 
-        document.addEventListener("DOMContentLoaded", function () {
-            pendientes.click();
-        });
-        pendientes.addEventListener("click", function () {
-            actualizarIconos(0);
-        });
-        firmadas.addEventListener("click", function () {
-            actualizarIconos(1);
-        });
-        borradores.addEventListener("click", function () {
-            actualizarIconos(2);
-        });
-        function actualizarIconos(activo){
-            document.querySelectorAll(".minuta").forEach(minuta => {
-                let icons = minuta.querySelectorAll("a");
- 
-                icons.forEach((icon, index) => {
-                    if (index === activo) {
-                        icon.classList.add("active");
-                        icon.style.opacity = "1";
-                        icon.style.pointerEvents = "auto";
-                    } else {
-                        icon.classList.remove("active");
-                        icon.style.opacity = "0";
-                        icon.style.pointerEvents = "none";
-                    }
-                });
-            });
-        }
-
-
-        document.getElementById("btnfiltros").addEventListener("click", function (e) {
-            const filtrar = document.querySelector(".filtrar");
-            e.target.classList.toggle("active");
-            filtrar.classList.toggle("active");
         });
     </script>
 </body>

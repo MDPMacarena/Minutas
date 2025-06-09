@@ -36,12 +36,14 @@
             height: 100dvh;
             padding: 0px;
         }
-
+        /*ete*/
         .login-container h2 {
             text-align: center;
             background-color: var(--secondary-color);
             color: white;
             padding: 10px;
+            height:130px;
+            line-height:7;
             border-radius: 5px 5px 0 0;
         }
 
@@ -110,7 +112,10 @@
 
 
 
-
+        img{
+            height: 20vh;
+            translate: 0px 50px;
+        }
 
 
 
@@ -143,16 +148,15 @@
 
 
 
+    <img src="~/Modifi/logotec (weld).png" />
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Sistema de Gestión de Minutas</h2>
         <form action="/Account/login" method="POST">
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input asp-for="Mail" type="text" id="username" required>
+                <input asp-for="Mail" type="text" id="username" placeholder="Número de control..." required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input asp-for="Password" type="password" id="password"  required>
+                <input asp-for="Password" type="password" id="password" placeholder="Contraseña..." required>
             </div>
             <div class="form-group">
                 <input type="submit" value="Login">

@@ -34,10 +34,9 @@
             <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
             <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
             <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
-            <a id="apartado-configuracion" href="/Admin/Configuracion">Encabezados</a>
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
             <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
-            <a id="apartado-configu" href="/Modifi/configuuuu.html" class="material-icons">settings</a>
+            <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
         </aside>
 
         <main>
@@ -203,13 +202,11 @@
 
             <!--Eliminar empleado-->
             <div id="modalEliminarEmpleado" class="modal">
-                <div class="modal-content">
-                    <form class="botonesForm">
+                    <form class="botonesForm" style="height:20vh">
                         <label id="modalEliminarMensaje">¿Desea eliminar a este empleado?</label>
                         <input type="button" id="btnEliminarSi" value="Sí">
                         <input type="button" id="btnEliminarNo" value="No">
                     </form>
-                </div>
             </div>
         </main>
     </div>
@@ -304,47 +301,6 @@
         });
 
 
-            // codigo anterioooorr para eliminar con alert
-
-            // document.querySelectorAll('.eliminarEmp').forEach(btn => {
-            //     btn.addEventListener('click', () => {
-            //         const id = btn.getAttribute('data-id');
-            //         const nombre = btn.getAttribute('data-nombre');
-            //         const numEmpleado = btn.getAttribute('data-numero');
-
-            //         const mensaje = `¿Deseas eliminar al usuario ${numEmpleado} - ${nombre}?`;
-            //         if (confirm(mensaje)) {
-            //             fetch(`/Admin/Empleado/EliminarConfirmado/${id}`, {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-            //                 }
-            //             })
-            //             .then(response => {
-            //                 if (!response.ok) throw new Error('Error en la respuesta del servidor');
-            //                 return response.json();
-            //             })
-            //             .then(data => {
-            //                 if (data.success) {
-            //                     location.reload();
-            //                 } else {
-            //                     // Mostrar mensaje de error si es necesario
-            //                     const toastError = document.createElement('div');
-            //                     toastError.className = 'toast-msg error';
-            //                     toastError.innerHTML = `
-            //                         <span>Error al eliminar el usuario</span>
-            //                         <button class="close-toast">&times;</button>
-            //                     `;
-            //                     document.querySelector('main').prepend(toastError);
-            //                 }
-            //             })
-            //             .catch(error => {
-            //                 console.error('Error:', error);
-            //             });
-            //         }
-            //     });
-            // });
-
             // Editar empleado
             document.querySelectorAll('.editarEmp').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -385,18 +341,6 @@
                 }
             }, 3000);
 
-            // Filtros
-            let lasActiveCategory = null;
-            const categorias = document.querySelector('.filtros div');
-            if (categorias) {
-                categorias.addEventListener('click', (e) => {
-                    if (lasActiveCategory) {
-                        lasActiveCategory.classList.remove('active');
-                    }
-                    lasActiveCategory = e.target;
-                    e.target.classList.toggle('active');
-                });
-            }
 
             // Cambio en móvil de minuta
             const minutas = document.querySelector('.minutas-list');
