@@ -1,0 +1,7 @@
+{
+  "Host": "smtp58.ejemplo.com",
+  "Puerto": 5000252,
+  "Encriptacion": "Ninguna",
+  "Remitente": "sistema@minutas.com",
+  "Token": "REUNIONES"
+}

@@ -1,17 +1,25 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+
+@{
     Layout = "_LayoutAdmin";
 }
 
 <div class="content">
     <aside class="sidebar">
         <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
+
+        @if (User.IsInRole("administrador"))
+        {
             <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
             <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
-            <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
-            <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
             <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
+        }
+        <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
+        <a id="apartado-sesion" href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
 
-        
+
+
     </aside>
     <main>
         <!-- <input type="button"  class="float-btn hover" value="Crear minuta">-->
@@ -26,30 +34,48 @@
             </div>
             <div class="filtrar">
                 <form>
-
                     <label>Departamento:</label>
-                    <select>
-                        <option>Ninguno</option>
-                        <option>Sistemas</option>
-                        <option>Vinculación</option>
-                        <option>Planeación</option>
-                        <option>Administración</option>
-                        <option>Industrial</option>
-                        <option>Coordinación</option>
-                    </select>
+                    @if (ViewBag.Rol == "administrador")
+                    {
+                        <select>
+                            <option>Ninguno</option>
+                            <option>Sistemas</option>
+                            <option>Vinculación</option>
+                            <option>Planeación</option>
+                            <option>Administración</option>
+                            <option>Industrial</option>
+                            <option>Coordinación</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <input type="text" value="@ViewBag.Departamento" disabled />
+                    }
                     <label>Empleados:</label>
-                    <select>
-                        <option>Oscar</option>
-                        <option>Adriana</option>
-                        <option>Ernestina</option>
-                        <option>Hector</option>
-                    </select>
+                    @if(ViewBag.Rol=="administrador" || ViewBag.Rol=="jefe")
+                    {
+                        <select>
+                            <option>Seleccionar</option>
+                            <option>Oscar</option>
+                            <option>Adriana</option>
+                            <option>Ernestina</option>
+                            <option>Hector</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <input type="text" value="Seleccionar" disabled />
+                    }
+                      
+
                     <label>Desde:</label>
                     <input type="date">
+
                     <label>Hasta:</label>
                     <input type="date">
                 </form>
             </div>
+
             <div class="minutas">
                 <div class="minuta">
                     <h3>DDSC-10052501</h3>
@@ -600,6 +626,26 @@
                 filtrar.classList.toggle("active");
             });
 
+
+                function cerrarSesion() {
+        // Crea dinámicamente un formulario para enviar POST a /Account/Logout
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/Account/Logout';
+
+        // Agrega token antifalsificación
+        const token = document.querySelector('meta[name="RequestVerificationToken"]')?.content;
+        if (token) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = '__RequestVerificationToken';
+            input.value = token;
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 
 </script>
 

@@ -28,6 +28,7 @@ namespace MinutasManage.Controllers
         {
             var usuario = await Context.Usuarios
                 .Include(u => u.IdRolNavigation)
+                .Include(u => u.IdDepartamentoNavigation) // <-- Asegúrate de incluir el departamento
                 .FirstOrDefaultAsync(u => u.Correo == lg.Mail && u.Activo == true);
 
             if (usuario == null || _passwordHasher.VerifyHashedPassword(usuario, usuario.ContraseñaHash, lg.Password) != PasswordVerificationResult.Success)
@@ -43,7 +44,9 @@ namespace MinutasManage.Controllers
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Name, usuario.Nombre),
                 new Claim(ClaimTypes.Role, usuario.IdRolNavigation.Nombre),
-                new Claim("Correo", usuario.Correo)
+                new Claim("Correo", usuario.Correo),
+                new Claim("Departamento", usuario.IdDepartamentoNavigation.Nombre) // <-- Agregado
+
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

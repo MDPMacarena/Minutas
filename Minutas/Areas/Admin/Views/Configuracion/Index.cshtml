@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model MinutasManage.Areas.Admin.Models.ConfiguracionCorreo
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,11 +30,15 @@
     <div class="content">
         <aside class="sidebar">
             <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
-            <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
-            <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
+
+            @if (User.IsInRole("administrador"))
+            {
+                <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
+                <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
+                <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
+            }
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
-            <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
-            <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
+            <a id="apartado-sesion" href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
 
 
         </aside>
@@ -41,7 +47,8 @@
                 <input id="btnEncabezados" value="Encabezados" type="button" /><br>
                 <input id="btnServidor" value="Servidor de correo" type="button" />
             </div>
-            <form id="correos" style="display: none;">
+            <form id="correos" style="display:none;">
+             
                 <div class="campos-container">
                     <div class="datos">
                         <label>SMTP Host</label>
@@ -52,38 +59,38 @@
                     </div>
                     <div class="editables" data-section="correo">
                         <div>
-                            <input id="correoHost" type="text" placeholder="smtp.ejemplo.com" disabled />
-                            <button data-input="correoHost" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <input id="correoHost" type="text" value="@Model.Host" disabled />
+                            <button data-input="correoHost" data-campo="host" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns" style="display:none;">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns" style="display:none;">❌</button>
                         </div>
                         <div>
-                            <input id="correoPuerto" type="number" placeholder="465 o 587" disabled />
-                            <button data-input="correoPuerto" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <input id="correoPuerto"  type="number" value="@Model.Puerto" disabled />
+                            <button data-input="correoPuerto" data-campo="puerto" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns" style="display:none;">✔️</button>
+                            <button type="button"  class="CancelarPerfil editarbtns" style="display:none;">❌</button>
                         </div>
                         <div>
                             <select id="correoEncriptacion" disabled>
-                                <option>SSL</option>
-                                <option>TLS</option>
-                                <option>Ninguna</option>
+                                <option value="SSL" @(Model.Encriptacion == "SSL" ? "selected" : "")>SSL</option>
+                                <option value="TLS" @(Model.Encriptacion == "TLS" ? "selected" : "")>TLS</option>
+                                <option value="Ninguna" @(Model.Encriptacion == "Ninguna" ? "selected" : "")>Ninguna</option>
                             </select>
-                            <button data-input="correoEncriptacion" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <button  data-input="correoEncriptacion" data-campo="encriptacion" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns" style="display:none;">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns" style="display:none;">❌</button>
                         </div>
                         <div>
-                            <input id="correoRemitente" type="email" placeholder="sistema@minutas.com" disabled />
-                            <button data-input="correoRemitente" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <input id="correoRemitente"  type="email" value="@Model.Remitente" disabled />
+                            <button data-input="correoRemitente" data-campo="remitente" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns" style="display:none;">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns" style="display:none;">❌</button>
                         </div>
                         <div>
-                            <input id="correoToken" type="password" value="contraseña" disabled />
-                            <button data-input="correoToken" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <input id="correoToken"  type="password" value="@Model.Token" disabled />
+                            <button data-input="correoToken" data-campo="token" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns" style="display:none;">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns" style="display:none;">❌</button>
                         </div>
                     </div>
                 </div>
@@ -131,41 +138,47 @@
         const header =document.querySelector("header");
         const modEditCorreo =  document.querySelector("#modalEditarCorreo");
 
-        // editar
+            // editar
         inicializarEditables('[data-section="perfil"]');
         inicializarEditables('[data-section="correo"]');
 
         function inicializarEditables(sectionSelector) {
-        const seccion = document.querySelector(sectionSelector);
-        if (!seccion) return;
+            const seccion = document.querySelector(sectionSelector);
+            if (!seccion) return;
 
-        const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
+            const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
 
-        botonesEditar.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const campoId = btn.dataset.input;
+            botonesEditar.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const campoId = btn.dataset.input;
 
-            seccion.querySelectorAll("input, select").forEach(input => {
-                input.disabled = true;
-                input.classList.remove("active");
+                    seccion.querySelectorAll("input, select").forEach(input => {
+                        input.disabled = true;
+                        input.classList.remove("active");
+                    });
+
+                    seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
+                    seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
+
+                    const campo = document.getElementById(campoId);
+
+                    //  Guarda el valor original solo si no ha sido guardado antes
+                    if (!campo.dataset.original) {
+                        campo.dataset.original = campo.value;
+                    }
+
+                    campo.disabled = false;
+                    campo.classList.add("active");
+                    campo.focus();
+
+                    // mostrar botones de guardar y cancelar solo el clickeado
+                    const divPadre = btn.closest("div");
+                    btn.style.display = "none";
+                    divPadre.querySelector(".GuardarPerfil").style.display = "inline";
+                    divPadre.querySelector(".CancelarPerfil").style.display = "inline";
+                });
             });
-
-            seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
-            seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
-
-            const campo = document.getElementById(campoId);
-            campo.disabled = false;
-            campo.classList.add("active");
-            campo.focus();
-
-            // mostrar botones de guardar y cancelar solo el clickeado
-            const divPadre = btn.closest("div");
-            btn.style.display = "none";
-            divPadre.querySelector(".GuardarPerfil").style.display = "inline";
-            divPadre.querySelector(".CancelarPerfil").style.display = "inline";
-            });
-        });
         }
 
         const btnEncabezados = document.getElementById('btnEncabezados');
@@ -210,14 +223,14 @@
           const minutasContent=document.querySelector('.minuta-content');
           const minutas=document.querySelector('.minutas');
 
-          minutas.addEventListener('click',(e)=>{
-              if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
+          // minutas.addEventListener('click',(e)=>{
+          //     if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
 
-                  minutasContent.classList.toggle('active');
-                  console.log(e.target.parentElement.classList.contains('filtros'));
-                  Lista.classList.toggle('inactive');
-              }
-          });
+          //         minutasContent.classList.toggle('active');
+          //         console.log(e.target.parentElement.classList.contains('filtros'));
+          //         Lista.classList.toggle('inactive');
+          //     }
+          // });
 
 
 
@@ -246,10 +259,89 @@
               }
           });
 
-          document.getElementById("btnfiltros").addEventListener("click", function (e) {
-              const filtrar = document.querySelector(".filtrar");
-              e.target.classList.toggle("active");
-              filtrar.classList.toggle("active");
-          });
+          // document.getElementById("btnfiltros").addEventListener("click", function (e) {
+          //     const filtrar = document.querySelector(".filtrar");
+          //     e.target.classList.toggle("active");
+          //     filtrar.classList.toggle("active");
+          // });
+
+           function cerrarSesion() {
+                // Crea dinámicamente un formulario para enviar POST a /Account/Logout
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/Account/Logout';
+
+                // Agrega token antifalsificación
+                const token = document.querySelector('meta[name="RequestVerificationToken"]')?.content;
+                if (token) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = '__RequestVerificationToken';
+                    input.value = token;
+                    form.appendChild(input);
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+             // Al hacer clic en "Guardar"
+        document.querySelectorAll('.GuardarPerfil').forEach(btnGuardar => {
+            btnGuardar.addEventListener('click', async e => {
+                e.preventDefault();
+                const div = btnGuardar.parentElement;
+                const input = div.querySelector('input, select');
+                const campo = div.querySelector('.btnEditarPerfil').dataset.campo;
+                const valor = input.value;
+
+                try {
+                    const response = await fetch('/Admin/Configuracion/GuardarCampoCorreo', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ campo, valor })
+                    });
+
+                    if (!response.ok) throw new Error('Error al guardar');
+
+                    const data = await response.json();
+                    alert(data.mensaje);
+
+                    // Desactiva input y actualiza el valor original
+                    input.disabled = true;
+                    input.classList.remove("active");
+                    input.dataset.original = input.value;
+
+                    btnGuardar.style.display = 'none';
+                    div.querySelector('.CancelarPerfil').style.display = 'none';
+                    div.querySelector('.btnEditarPerfil').style.display = 'inline';
+
+                } catch {
+                    alert('Error al guardar campo');
+                }
+            });
+        });
+
+        // Al hacer clic en "Cancelar"
+        document.querySelectorAll('.CancelarPerfil').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                const div = btn.parentElement;
+                const input = div.querySelector('input, select');
+
+                // Restaurar el valor original si existe
+                if (input && input.dataset.original !== undefined) {
+                    input.value = input.dataset.original;
+                }
+
+                input.disabled = true;
+                input.classList.remove("active");
+
+                btn.style.display = 'none';
+                div.querySelector('.GuardarPerfil').style.display = 'none';
+                div.querySelector('.btnEditarPerfil').style.display = 'inline';
+            });
+        });
     </script>
 </body>

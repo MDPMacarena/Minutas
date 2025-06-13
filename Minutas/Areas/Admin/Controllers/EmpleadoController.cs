@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinutasManage.Areas.Admin.Models;
 using MinutasManage.Models;
@@ -8,7 +10,9 @@ using MinutasManage.Repositories;
 
 namespace MinutasManage.Areas.Admin.Controllers
 {
+    
     [Area("Admin")]
+    [Authorize(Roles = "administrador")]
     public class EmpleadoController : Controller
     {
         public Repository<Usuarios> empRepository { get; }
@@ -16,11 +20,15 @@ namespace MinutasManage.Areas.Admin.Controllers
 
         public Repository<Roles> rolRepository { get; }
         public EmpleadoValidator Validator { get; }
+        public PasswordHasher<Usuarios> PasswordHasher { get; }
 
-        public EmpleadoController(Repository<Usuarios> empleadoRepository, Repository<Departamento> departamentoRepository, Repository<Roles> repositoryr, EmpleadoValidator validator)
+        public EmpleadoController(Repository<Usuarios> empleadoRepository,
+            Repository<Departamento> departamentoRepository, Repository<Roles> repositoryr, 
+            EmpleadoValidator validator,PasswordHasher<Usuarios> passwordHasher)
         {
             rolRepository = repositoryr;
             Validator = validator;
+            PasswordHasher = passwordHasher;
             empRepository = empleadoRepository;
             depaRepository = departamentoRepository;
 
@@ -78,7 +86,7 @@ namespace MinutasManage.Areas.Admin.Controllers
             }
 
             // Setear campos que no vienen del formulario
-            vm.Usuario.ContraseñaHash = "REUNIONES"; // ¡Psst! Esto debería ser un hash real, no una palabra secreta visible 😅
+            vm.Usuario.ContraseñaHash = PasswordHasher.HashPassword(vm.Usuario, "REUNIONES");
             vm.Usuario.IdRol = 3; // Rol por defecto (puede ser redundante si ya lo mandas desde el form)
 
             empRepository.Insert(vm.Usuario);
@@ -122,7 +130,20 @@ namespace MinutasManage.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            empRepository.Update(empleado);
+            var existente = empRepository.Get(empleado.Id);
+
+            if (existente != null)
+            {
+                
+                existente.Nombre = empleado.Nombre;
+                existente.NumEmpleado = empleado.NumEmpleado;
+                existente.Correo = empleado.Correo;
+                existente.IdDepartamento = empleado.IdDepartamento;
+                existente.IdRol = empleado.IdRol;
+                existente.FechaNacimiento = empleado.FechaNacimiento;
+
+                empRepository.Update(existente);
+            }
 
             TempData["SuccessEditar"] = "Empleado editado correctamente" +
                 (!string.IsNullOrEmpty(aviso) ? " | " + aviso : "");

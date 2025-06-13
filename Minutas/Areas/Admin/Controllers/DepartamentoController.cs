@@ -4,10 +4,12 @@ using MinutasManage.Repositories;
 using MinutasManage.Areas.Admin.Models;
 using MinutasManage.Models.Validators;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MinutasManage.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "administrador")]
     public class DepartamentoController : Controller
     {
         private readonly Repository<Departamento> _depaRepo;

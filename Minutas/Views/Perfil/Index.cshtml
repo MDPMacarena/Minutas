@@ -127,18 +127,18 @@
           });
 
           //CambioEnMovilDeminuta
-          const Lista=document.querySelector('.minutas-list');
-          const minutasContent=document.querySelector('.minuta-content');
-          const minutas=document.querySelector('.minutas');
+          // const Lista=document.querySelector('.minutas-list');
+          // const minutasContent=document.querySelector('.minuta-content');
+          // const minutas=document.querySelector('.minutas');
 
-          minutas.addEventListener('click',(e)=>{
-              if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
+          // minutas.addEventListener('click',(e)=>{
+          //     if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
 
-                  minutasContent.classList.toggle('active');
-                  console.log(e.target.parentElement.classList.contains('filtros'));
-                  Lista.classList.toggle('inactive');
-              }
-          });
+          //         minutasContent.classList.toggle('active');
+          //         console.log(e.target.parentElement.classList.contains('filtros'));
+          //         Lista.classList.toggle('inactive');
+          //     }
+          // });
 
 
 
@@ -202,11 +202,11 @@
           }
 
 
-          document.getElementById("btnfiltros").addEventListener("click", function (e) {
-              const filtrar = document.querySelector(".filtrar");
-              e.target.classList.toggle("active");
-              filtrar.classList.toggle("active");
-          });
+          // document.getElementById("btnfiltros").addEventListener("click", function (e) {
+          //     const filtrar = document.querySelector(".filtrar");
+          //     e.target.classList.toggle("active");
+          //     filtrar.classList.toggle("active");
+          // });
 
 
     </script>

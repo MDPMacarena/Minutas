@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MinutasManage.Models;
 using MinutasManage.Models.Validators;
@@ -27,6 +28,8 @@ builder.Services.AddScoped(typeof(Repository<>), typeof(Repository<>));
 
 builder.Services.AddScoped(typeof(DepartamentoValidator));
 builder.Services.AddScoped(typeof(EmpleadoValidator));
+builder.Services.AddScoped<PasswordHasher<Usuarios>>();
+builder.Services.AddScoped(typeof(PerfilValidator));
 
 
 // Configura la autenticación por cookies
@@ -37,13 +40,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
 
 var app = builder.Build();
 
 // Middleware para servir archivos estáticos (css, js, etc.)
 app.UseStaticFiles();
-
+app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication();

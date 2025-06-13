@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model MinutasManage.Models.Usuarios
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,169 +30,238 @@
     <div class="content">
         <aside class="sidebar">
             <a id="apartado-minutas" href="/Admin/Home">Minutas</a>
-            <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
-            <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
+
+            @if (User.IsInRole("administrador"))
+            {
+                <a id="apartado-empleados" href="/Admin/Empleado">Empleados</a>
+                <a id="apartado-departamentos" href="/Admin/Departamento">Departamentos</a>
+                <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
+            }
             <a id="apartado-perfil" href="/Admin/Perfil">Perfil</a>
-            <a id="apartado-sesion" href="/Modifi/login.html">Cerrar Sesión</a>
-            <a id="apartado-configuracion" href="/Admin/Configuracion" class="material-icons">settings</a>
+            <a id="apartado-sesion" href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
         </aside>
         <main>
-            <form id="perfil">
-                <h3><span>#4455 </span>ADMINISTRADOR <span></h3>
+            <form id="perfil" method="post" action="/Admin/Perfil/ActualizarPerfil">
+                @Html.AntiForgeryToken()
+                <h3><span>#@Model.NumEmpleado</span>@Model.IdRolNavigation.Nombre</h3>
                 <div class="campos-container">
                     <div class="datos">
                         <label>Nombre</label>
                         <label>Correo Electrónico</label>
                         <label>Fecha de Nacimiento</label>
-                        <label>Contraseña</label>
+                      
                     </div>
                     <div class="editables" data-section="perfil">
+                        <!-- Nombre -->
                         <div>
-                            <input id="perfilNombre" type="text" value="Luis Carlos Longares Vidal" disabled>
+                            <input id="perfilNombre" name="Nombre" type="text" value="@Model.Nombre" disabled />
                             <button data-input="perfilNombre" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <button type="button" class="GuardarPerfil editarbtns">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns">❌</button>
                         </div>
+                        <!-- Correo -->
                         <div>
-                            <input id="perfilCorreo" type="text" value="lglv@rcarbonifera.tecnm.mx" disabled>
+                            <input id="perfilCorreo" name="Correo" type="email" value="@Model.Correo" disabled />
                             <button data-input="perfilCorreo" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <button type="button" class="GuardarPerfil editarbtns">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns">❌</button>
                         </div>
+                        <!-- Fecha de Nacimiento: solo lectura, sin botones -->
                         <div>
-                            <input id="perfilNacimiento" type="datetime" value="02/03/85" disabled>
-                            <button disabled data-input="perfilNacimiento" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
+                            <input id="perfilNacimiento" name="FechaNacimiento" type="date" value="@Model.FechaNacimiento.ToString("yyyy-MM-dd")" disabled />
                         </div>
-                        <div>
-                            <input id="perfilContraseña" type="password" value="contraseña" disabled>
-                            <button data-input="perfilContraseña" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
-                            <button class="GuardarPerfil editarbtns">✔️</button>
-                            <button class="CancelarPerfil editarbtns">❌</button>
-                        </div>
+                       
+                     
                     </div>
+
                 </div>
             </form>
+
         </main>
     </div>
-    <script>
-          const menu = document.querySelector('.menu');
-          const sidebar = document.querySelector('.sidebar');
-          const header =document.querySelector("header");
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const menu = document.querySelector('.menu');
+    const sidebar = document.querySelector('.sidebar');
+    const header = document.querySelector("header");
+    const buscador = document.querySelector("#buscar");
+    const agregar = document.querySelector("#agregar");
+    const Lista = document.querySelector('.minutas-list');
+    const minutasContent = document.querySelector('.minuta-content');
+    const minutas = document.querySelector('.minutas');
 
-         inicializarEditables('[data-section="perfil"]');
-         inicializarEditables('[data-section="correo"]');
+         
 
-         function inicializarEditables(sectionSelector) {
-         const seccion = document.querySelector(sectionSelector);
-         if (!seccion) return;
-
-         const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
-
-         botonesEditar.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const campoId = btn.dataset.input;
-
-            // Deshabilitar todos los inputs de esta sección
-            seccion.querySelectorAll("input, select").forEach(input => {
-                input.disabled = true;
-                input.classList.remove("active");
-            });
-
-            // Ocultar todos los botones de esta sección
-            seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
-            seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
-
-            // Activar solo el campo correspondiente
-            const campo = document.getElementById(campoId);
-            campo.disabled = false;
-            campo.classList.add("active");
-            campo.focus();
-
-            // Mostrar botones de guardar/cancelar solo para este campo
-            const divPadre = btn.closest("div");
-            btn.style.display = "none";
-            divPadre.querySelector(".GuardarPerfil").style.display = "inline";
-            divPadre.querySelector(".CancelarPerfil").style.display = "inline";
-            });
-            });
+             const formPerfil = document.getElementById("perfil");
+            if (formPerfil) {
+                formPerfil.addEventListener("submit", function () {
+                    this.querySelectorAll("input, select").forEach(input => {
+                        input.disabled = false; // Así todos los valores se envían
+                    });
+                });
             }
 
+    // Validar que existan los elementos antes de usarlos
+    if (menu && sidebar) {
+        menu.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
 
-          document.querySelector("#buscar").addEventListener("click",function (){
-              header.classList.toggle("buscar");
+        sidebar.addEventListener("click", function (e) {
+            if (e.target.tagName === "I" && agregar) {
+                agregar.style.visibility = "visible";
+            }
+        });
+    }
 
-          });
+    if (buscador && header) {
+        buscador.addEventListener("click", function () {
+            header.classList.toggle("buscar");
+        });
 
-          // este es solo de MUESTRA al momento de usar el buscador
-          const buscador = document.querySelector("#buscar");
-          buscador.addEventListener("input", function(){
-               if (buscador.value.length > 0) {
-                  setTimeout(function(){
-                      window.location.href = "index.html";
-                  }, 1000);
+        buscador.addEventListener("input", function () {
+            if (buscador.value.length > 0) {
+                setTimeout(function () {
+                    window.location.href = "index.html";
+                }, 1000);
+            }
+        });
+    }
 
-              }
-          })
-          //Sidebar
-          menu.addEventListener('click', () => {
-              sidebar.classList.toggle('active');
-          });
+    // Editar campos del perfil
+    inicializarEditables('[data-section="perfil"]');
+    inicializarEditables('[data-section="correo"]');
+
+    function inicializarEditables(sectionSelector) {
+        const seccion = document.querySelector(sectionSelector);
+        if (!seccion) return;
+
+        const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
+
+        botonesEditar.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const campoId = btn.dataset.input;
+                const campo = document.getElementById(campoId);
+                if (!campo) return;
+                          // Guardar el valor original solo si no se ha guardado antes
+                    campo.dataset.original = campo.value;
+
+                // Desactivar todos los inputs/selects
+                seccion.querySelectorAll("input, select").forEach(input => {
+                    input.disabled = true;
+                    input.classList.remove("active");
+                });
+
+                // Ocultar todos los botones
+                seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
+                seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
+
+                // Activar solo el campo correspondiente
+                campo.disabled = false;
+                campo.classList.add("active");
+                campo.focus();
+
+                // Mostrar los botones de acción para ese campo
+                const divPadre = btn.closest("div");
+                if (divPadre) {
+                    btn.style.display = "none";
+                    const btnGuardar = divPadre.querySelector(".GuardarPerfil");
+                    const btnCancelar = divPadre.querySelector(".CancelarPerfil");
+                    if (btnGuardar) btnGuardar.style.display = "inline";
+                    if (btnCancelar) btnCancelar.style.display = "inline";
+                }
+            });
+        });
+    }
+
+    // Navegación móvil en minutas
+    if (minutas && Lista && minutasContent) {
+        minutas.addEventListener('click', (e) => {
+            const esFiltro = e.target.classList.contains('filtros') ||
+                e.target.closest('.filtros');
+
+            if (!esFiltro) {
+                minutasContent.classList.toggle('active');
+                Lista.classList.toggle('inactive');
+            }
+        });
+
+        // Manejo del botón de retroceso del navegador
+        history.pushState(null, "", location.href);
+        window.addEventListener("popstate", function () {
+            Lista.classList.toggle('inactive');
+            console.log("Intento de salir con botón de retroceso");
+            history.pushState(null, "", location.href);
+        });
+    }
+
+    // Cerrar sidebar si se hace clic fuera
+    document.addEventListener("click", function (event) {
+        if (sidebar && menu && !sidebar.contains(event.target) && !menu.contains(event.target)) {
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                console.log('click fuera del sidebar');
+            }
+        }
+    });
+            document.querySelectorAll('.GuardarPerfil').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Habilitar todos los inputs para enviar
+                const form = this.closest('form');
+                form.querySelectorAll('input, select').forEach(i => i.disabled = false);
+                form.submit();
+            });
+        });
 
 
-          const agregar = document.querySelector("#agregar");
-          sidebar.addEventListener("click", function(e){
-              if(e.target.tagName == "I"){
-                  agregar.style.visibility="visible";
-              }
+         
 
-          });
+});
 
-          //CambioEnMovilDeminuta
-          const Lista=document.querySelector('.minutas-list');
-          const minutasContent=document.querySelector('.minuta-content');
-          const minutas=document.querySelector('.minutas');
+                 function cerrarSesion() {
+                // Crea dinámicamente un formulario para enviar POST a /Account/Logout
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/Account/Logout';
 
-          minutas.addEventListener('click',(e)=>{
-              if(!e.target.classList.contains('filtros') && !e.target.parentElement.parentElement.classList.contains('filtros')  && !e.target.parentElement.classList.contains('filtros')){
+                // Agrega token antifalsificación
+                const token = document.querySelector('meta[name="RequestVerificationToken"]')?.content;
+                if (token) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = '__RequestVerificationToken';
+                    input.value = token;
+                    form.appendChild(input);
+                }
 
-                  minutasContent.classList.toggle('active');
-                  console.log(e.target.parentElement.classList.contains('filtros'));
-                  Lista.classList.toggle('inactive');
-              }
-          });
+                document.body.appendChild(form);
+                form.submit();
+            }
 
+                    document.querySelectorAll('.CancelarPerfil').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const div = btn.closest('div');
+                const input = div.querySelector('input, select');
+                if (!input) return;
 
-          history.pushState(null, "", location.href);
+                // Restaurar valor original si existe
+                if (input.dataset.original !== undefined) {
+                    input.value = input.dataset.original;
+                }
 
-          window.addEventListener("popstate", function () {
-              Lista.classList.toggle('inactive');
-          console.log("Intento de salir con botón de retroceso");
-          history.pushState(null, "", location.href); // Reagrega el estado para evitar la salida
-          });
+                input.disabled = true;
+                input.classList.remove('active');
 
+                btn.style.display = 'none';
+                const btnGuardar = div.querySelector('.GuardarPerfil');
+                const btnEditar = div.querySelector('.btnEditarPerfil');
+                if (btnGuardar) btnGuardar.style.display = 'none';
+                if (btnEditar) btnEditar.style.display = 'inline';
+            });
+        });
 
-          document.addEventListener("click", function (event) {
-        //      if (!minutasContent.contains(event.target) && !minutas.contains(event.target)) {
-          //        minutasContent.classList.remove('active');
-            //      minutas.classList.remove('inactive');
-              //}
-              if (!sidebar.contains(event.target ) && !menu.contains(event.target)) {
-                  if (sidebar.classList.contains('active')) {
-                      sidebar.classList.remove('active');
-              console.log('click en sidebar');
+</script>
 
-                  }
-              }
-          });
-
-          document.getElementById("btnfiltros").addEventListener("click", function (e) {
-              const filtrar = document.querySelector(".filtrar");
-              e.target.classList.toggle("active");
-              filtrar.classList.toggle("active");
-          });
-    </script>
 </body>
 </html>
