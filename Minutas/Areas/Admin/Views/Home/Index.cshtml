@@ -359,7 +359,8 @@
                  const m =await response.json();
 
 
-                document.querySelector("#tit").textContent=m.objetivo
+                console.log(JSON.parse(m.contenido).Objetivo);
+                document.querySelector("#tit").textContent=JSON.parse(m.contenido).Objetivo;
 
 
 
