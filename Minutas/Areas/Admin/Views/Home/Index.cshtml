@@ -86,19 +86,20 @@
                         <a><i class="material-icons">edit</i></a>
                     </div>
                 </div>
-                <template>
-                    <div class="minuta">
-                        <h3>asd</h3>
-                        <div>
-                            <p>Se reúnen los abajo firmantes con el objetivo...</p>
-                            <a><i class="material-icons">draw</i></a>
-                            <a><i class="material-icons">delete</i></a>
-                            <a><i class="material-icons">edit</i></a>
-                        </div>
-                    </div>
-                </template>
+              
             </div>
         </div>
+        <template>
+            <div class="minuta">
+                <h3>asd</h3>
+                <div>
+                    <p>Se reúnen los abajo firmantes con el objetivo...</p>
+                    <a><i class="material-icons">draw</i></a>
+                    <a><i class="material-icons">delete</i></a>
+                    <a><i class="material-icons">edit</i></a>
+                </div>
+            </div>
+        </template>
         <!--cuando no se selecciona ninguna minuta-->
         <div class="minuta-content-inactive">
             <label>Seleccione una minuta</label>
@@ -300,11 +301,12 @@
 <script>
     // Cambiar el color del icono de la bar
     
-    async function CargarMinutas(){
+    async function CargarMinutas(state){
         const modCrearMin = document.querySelector("#modalCrearMinuta");
+        const minutasList = document.querySelector(".minutas");
+            minutasList.replaceChildren();
 
-
-        const response = await fetch('/Admin/Minutas/Minutas');
+        const response = await fetch('/Minutas/'+state);
 
 		if(!response.ok){
 			return; 
@@ -320,7 +322,7 @@
             console.log(JSON.parse(minuta.contenido));
 			p.textContent =  JSON.parse(minuta.contenido).Orden;
 
-			const minutasList = document.querySelector(".minutas");
+			
 			minutasList.appendChild(clone);
 		}
          modCrearMin.classList.remove("active");
@@ -329,7 +331,7 @@
 	}
 
 	window.addEventListener('load', function() {
-        CargarMinutas();
+       
     });
 
 
@@ -585,18 +587,21 @@
                 pendientes.click();
             });
             pendientes.addEventListener("click", function () {
+                 CargarMinutas("PorFirmar");
                 actualizarIconos(0);
                 btnPendientes.style.display = "block";
                 btnBorradores.style.display = "none";
                 btnFirmadas.style.display = "none";
             });
             firmadas.addEventListener("click", function () {
+                 CargarMinutas("Firmada");
                 actualizarIconos(1);
                 btnFirmadas.style.display = "block";
                 btnBorradores.style.display = "none";
                 btnPendientes.style.display = "none";
             });
             borradores.addEventListener("click", function () {
+                 CargarMinutas("Borrador");
                 actualizarIconos(2);
                 btnBorradores.style.display = "block";
                 btnFirmadas.style.display = "none";

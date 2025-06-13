@@ -29,25 +29,26 @@ namespace MinutasManage.Areas.Admin.Controllers
         }
 
 
+        // [HttpGet]
+        // public IActionResult Minutas()
+        // {
+        //     var minutas = _minutaRepo.GetAll()
+        //.Select(e => new {
+        //    e.Id,
+        //    e.Titulo,
+        //    e.Contenido
+        //})
+        //.ToList();
+
+        //     return Json(minutas);
+        // }
         [HttpGet]
-        public IActionResult Minutas()
-        {
-            var minutas = _minutaRepo.GetAll()
-       .Select(e => new {
-           e.Id,
-           e.Titulo,
-           e.Contenido
-       })
-       .ToList();
-            
-            return Json(minutas);
-        }
-        [HttpGet]
+        [Route("Minutas/{State}")]
         public IActionResult Minutas(string State)
         {
             User.Claims.ToList();
             int id = int.Parse(User.FindFirst("Id")?.Value);
-            var minutas = _minutaRepo.GetAll().AsQueryable<Minutas>().Include(x=>x.MinutaUsuario).Where(x=>x.IdCreador==id || x.MinutaUsuario.Any(y=>y.IdUsuario==id && y.IdMinuta==x.Id))
+            var minutas = _minutaRepo.GetAll().AsQueryable<Minutas>().Include(x=>x.MinutaUsuario).Where(x=>x.Estado==State &&(x.IdCreador==id || x.MinutaUsuario.Any(y=>y.IdUsuario==id && y.IdMinuta==x.Id)) )
        .Select(e => new {
            e.Id,
            e.Titulo,
