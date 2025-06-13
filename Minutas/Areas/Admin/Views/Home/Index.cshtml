@@ -67,7 +67,6 @@
                         <input type="text" value="Seleccionar" disabled />
                     }
                       
-
                     <label>Desde:</label>
                     <input type="date">
 
@@ -88,7 +87,7 @@
                 </div>
               
             </div>
-        </div>
+        </div> 
         <template>
             <div class="minuta">
                 <h3>asd</h3>
@@ -106,31 +105,32 @@
         </div>
 
         <div class="minuta-content">
-            <h1>DDSC-13052500</h1>
+            <h1 id="tit">DDSC-13052500</h1>
 
             <div>
-                <p>
-                    <b>Objetivo:</b>Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario
-                    académico para el año 2025, asegurando una adecuada planificación de actividades escolares.
-                </p><br>
-                <p>
-                    <b>Desarrollo de la reunión:</b>Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
+                
+                    <b>Objetivo:</b><p id="obj">Se reúnen los abajo firmantes con el objetivo de definir y aprobar las fechas clave del calendario
+                    académico para el año 2025, asegurando una adecuada planificación de actividades escolares.</p>
+               
+                    <br>
+                
+
+               
+                    <b>Desarrollo de la reunión:</b><p id="des"> Se aprueba el calendario académico con los ajustes discutidos. Las fechas establecidas serán
                     comunicadas oficialmente a la comunidad académica. Se programará una reunión de seguimiento en
                     caso de requerir modificaciones.
-                </p><br>
+                </p>
+                <br>
+
                 <p>
                     <b>Orden del día:</b>
-                    <ul>
+                    <ul id="ord">
                         <li>Bienvenida y presentación del objetivo de la reunión</li>
-                        <li>Revisión del calendario académico propuesto para 2025</li>
-                        <li>Discusión sobre fechas clave (inicio y fin de clases, periodos de evaluación, vacaciones, etc.)</li>
-                        <li>Propuestas y ajustes necesarios</li>
-                        <li>Votación y aprobación del calendario</li>
-                        <li>Conclusiones y cierre de la reunión</li>
+                       
                     </ul>
                 </p><br>
                 <p><b>Compromisos y tareas:</b> </p>
-                <ul>
+                <ul id="com">
                     <li>Se ha logrado una planificación estructurada del calendario académico 2025.</li>
                     <li>
                         Las fechas clave han sido definidas considerando la viabilidad y necesidades de la institución,
@@ -313,18 +313,21 @@
 		}
 		const minutas =await response.json();
 
-		for (const minuta of minutas) {
-			const template = document.querySelector("template");
-			const clone = template.content.cloneNode(true);
-			const h3 = clone.querySelector("h3");
-			const p = clone.querySelector("p");
-			h3.textContent = minuta.titulo;
-            console.log(JSON.parse(minuta.contenido));
-			p.textContent =  JSON.parse(minuta.contenido).Orden;
+        for (const minuta of minutas) {
+        const template = document.querySelector("template");
+        const clone = template.content.cloneNode(true);
 
-			
-			minutasList.appendChild(clone);
-		}
+        const div = clone.querySelector(".minuta"); // ✅ Buscar el elemento real
+        div.dataset.id = minuta.id;
+
+        const h3 = clone.querySelector("h3");
+        const p = clone.querySelector("p");
+
+        h3.textContent = minuta.titulo;
+        p.textContent = JSON.parse(minuta.contenido).Objetivo;
+
+        minutasList.appendChild(clone);
+    }
          modCrearMin.classList.remove("active");
          actualizarIconos(0);
 
@@ -345,9 +348,22 @@
             const desactivar = document.querySelector(".minuta-content-inactive");
             const activar = document.querySelector(".minuta-content");
 
-            min.addEventListener("click", function(e){
+            min.addEventListener("click",async function(e){
             const clickedMinuta = e.target.closest(".minuta");
             if (clickedMinuta) {
+                const response = await fetch('/Minuta/'+clickedMinuta.dataset.id);
+
+                if(!response.ok){
+                     return;
+                     }
+                 const m =await response.json();
+
+
+                document.querySelector("#tit").textContent=m.objetivo
+
+
+
+
                 desactivar.style.display="none";
                 activar.style.display="block";
             }

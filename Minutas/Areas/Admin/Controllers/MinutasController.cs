@@ -60,6 +60,23 @@ namespace MinutasManage.Areas.Admin.Controllers
         }
 
 
+        [HttpGet]
+        [Route("Minuta/{id}")]
+        public IActionResult Minuta(int id)
+        {
+            User.Claims.ToList();
+            int uid = int.Parse(User.FindFirst("Id")?.Value);
+            var m = _minutaRepo.GetAll().Select(e => new {
+                e.Id,
+                e.Titulo,
+                e.Contenido
+            }).FirstOrDefault(x => x.Id == id);
+
+            return Json(m);
+        }
+
+
+
         [HttpPost]
         public IActionResult Agregar(AgregarMinutaViewModel minuta)
         {
