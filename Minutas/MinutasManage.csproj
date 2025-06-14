@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Services\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 

@@ -177,7 +177,7 @@
                 <div>
                     <label>Orden del día</label>
                     <input id="orden" name="orden" type="text" placeholder="Escribir...">
-                    <input class="material-icons" type="button" value="add">
+                    <input id="btnOrd" class="material-icons" type="button" value="add">
                 </div>
                 <ul id="lstOrden">
                 </ul>
@@ -187,7 +187,7 @@
                 <div>
                     <label>Compromisos y tareas</label>
                     <input id="compromisos" name="compromisos" type="text" placeholder="Escribir...">
-                    <input id="btnUsuarios" class="material-icons" type="button" value="add">
+                    <input id="btnComp" class="material-icons" type="button" value="add">
                 </div>
                 <ul id="lstCompromisos">
 
@@ -301,6 +301,8 @@
 <script>
     // Cambiar el color del icono de la bar
     
+
+
     async function CargarMinutas(state){
         const modCrearMin = document.querySelector("#modalCrearMinuta");
         const minutasList = document.querySelector(".minutas");
@@ -326,7 +328,14 @@
         h3.textContent = minuta.titulo;
         p.textContent = JSON.parse(minuta.contenido).Objetivo;
 
+       
+        
+
         minutasList.appendChild(clone);
+
+        
+
+
     }
          modCrearMin.classList.remove("active");
          actualizarIconos(0);
@@ -360,10 +369,28 @@
 
 
                 console.log(JSON.parse(m.contenido).Objetivo);
-                document.querySelector("#tit").textContent=JSON.parse(m.contenido).Titulo;
+                document.querySelector("#tit").textContent=m.titulo;
                 document.querySelector("#obj").textContent=JSON.parse(m.contenido).Objetivo;
                 document.querySelector("#des").textContent=JSON.parse(m.contenido).Desarrollo;
+                const ord =document.querySelector("#ord");
+                const com =document.querySelector("#com");
+                com.replaceChildren();
+                ord.replaceChildren();
 
+                for(const c of JSON.parse(JSON.parse(m.contenido).Compromisos)){
+                    console.log(c);
+                    const li = document.createElement("li");
+                    li.textContent=c;
+                    com.appendChild(li);
+                }
+
+
+                for(const c of JSON.parse(JSON.parse(m.contenido).Orden)){
+                    console.log(c);
+                    const li = document.createElement("li");
+                    li.textContent=c;
+                    ord.appendChild(li);
+                }
 
 
 
@@ -397,8 +424,46 @@
 
 
             const lstUsuarios=document.getElementById("lstUsrs");
+            const lstOrden=document.getElementById("lstOrden");
+			const lstCompromisos=document.getElementById("lstCompromisos");
             let listaAsistentes=[];
+            let listaCompromisos=[];
+			let listaOrden=[];
+
+
 			const inUsuarios=document.getElementById("inUsuarios");
+			const inOrden=document.getElementById("orden");
+			const inCompromisos=document.getElementById("compromisos");
+			document.getElementById("btnOrd").addEventListener("click",function(){
+				if(inOrden.value.trim() !== ""){
+					listaOrden.push(inOrden.value.trim());
+				};
+				let li = document.createElement("li");
+				li.textContent=inOrden.value.trim();
+				/*se agrego para q tuviera un icono de eliminar :D */
+				let btnEliminar = document.createElement("button");
+				btnEliminar.textContent = "X";
+				btnEliminar.addEventListener("click", function () {
+					li.remove();
+				});
+				li.appendChild(btnEliminar);
+				lstOrden.append(li);
+			});
+			document.getElementById("btnComp").addEventListener("click",function(){
+				if(inCompromisos.value.trim() !== ""){
+					listaCompromisos.push(inCompromisos.value.trim());
+				};
+				let li = document.createElement("li");
+				li.textContent=inCompromisos.value.trim();
+				/*se agrego para q tuviera un icono de eliminar :D */
+				let btnEliminar = document.createElement("button");
+				btnEliminar.textContent = "X";
+				btnEliminar.addEventListener("click", function () {
+					li.remove();
+				});
+				li.appendChild(btnEliminar);
+				lstCompromisos.append(li);
+			});
 			document.getElementById("btnUsuarios").addEventListener("click",function(){
 				if(inUsuarios.value.trim() !== ""){
 					listaAsistentes.push(inUsuarios.value.trim());
@@ -432,8 +497,8 @@
       const contenido = {
         Objetivo: document.getElementById("objetivo").value,
         Desarrollo: document.getElementById("desarrollo").value,
-        Orden: document.getElementById("orden").value,
-        Compromisos: document.getElementById("compromisos").value
+        Orden: JSON.stringify(listaOrden),
+        Compromisos: JSON.stringify(listaCompromisos)
       };
       console.log(contenido);
       const dataFinal = new FormData();
@@ -484,7 +549,81 @@
             let buttons = document.querySelectorAll("#modalIAMinuta .buttons");
 
             document.querySelector("#ia").addEventListener("click",function(){
-                ia.style.display = "block";
+                //ia.style.display = "block";
+                 const formData = new FormData(formulario);
+
+      // Validación robusta
+
+      console.log(document.getElementById("objetivo").value);
+      const contenido = {
+        Objetivo: document.getElementById("objetivo").value,
+        Desarrollo: document.getElementById("desarrollo").value,
+        Orden: JSON.stringify(listaOrden),
+        Compromisos: JSON.stringify(listaCompromisos)
+      };
+      console.log(contenido);
+      const dataFinal = new FormData();
+      dataFinal.append('Contenido', JSON.stringify(contenido));
+
+      // const checkboxPrivada = document.getElementById("privada");
+      // dataFinal.append('Privada', checkboxPrivada?.checked ? 1 : 0);
+      // dataFinal.append('Asistentes',JSON.stringify(listaAsistentes));
+
+      fetch("/Admin/Minutas/Testia", {
+        method: "POST",
+        body: dataFinal
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Error en la respuesta del servidor');
+        return response.text();
+      })
+      .then(data => {
+        console.log('Respuesta:', data);
+       
+        djson=JSON.parse(data);
+        jsonm=JSON.parse(djson.contenido)
+        document.getElementById("objetivo").value=jsonm.Objetivo;
+        document.getElementById("desarrollo").value=jsonm.Desarrollo;
+
+        for(const c of jsonm.Compromisos){
+           
+                listaCompromisos.push(c);
+                
+                let li = document.createElement("li");
+                li.textContent=c;
+                /*se agrego para q tuviera un icono de eliminar :D */
+                let btnEliminar = document.createElement("button");
+                btnEliminar.textContent = "X";
+                btnEliminar.addEventListener("click", function () {
+                    li.remove();
+                });
+                li.appendChild(btnEliminar);
+                lstCompromisos.append(li);
+        }
+        for(const c of jsonm.Orden){
+
+                listaOrden.push(c);
+
+                let li = document.createElement("li");
+                li.textContent=c;
+                /*se agrego para q tuviera un icono de eliminar :D */
+                let btnEliminar = document.createElement("button");
+                btnEliminar.textContent = "X";
+                btnEliminar.addEventListener("click", function () {
+                    li.remove();
+                });
+                li.appendChild(btnEliminar);
+                lstOrden.append(li);
+        }
+
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        //alert('Error al enviar la minuta.');
+
+
+      });
+
             });
 
             ia.addEventListener("click", function(e) {

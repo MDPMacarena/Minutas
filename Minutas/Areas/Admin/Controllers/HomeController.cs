@@ -41,5 +41,7 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             return View();
         }
+
+
     }
 }

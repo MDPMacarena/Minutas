@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinutasManage.Areas.Admin.Models;
 using MinutasManage.Models;
 using MinutasManage.Repositories;
+using MinutasManage.Services;
 
 namespace MinutasManage.Areas.Admin.Controllers
 {
@@ -76,6 +78,18 @@ namespace MinutasManage.Areas.Admin.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> testia(MinutaIAViewModel minuta)
+        {
+            IaService _ia = new IaService();
+            var texto = await _ia.GenerarRespuestaAsync("quiero que mejores la redaccion de esta minuta, no modifiques el formato solo la redaccion NI AGREGUES NADA MAS,solo quiero que agreges informacion en los capos, quiero que tu respuesta sea unicamente el json no quiero que agregues saltos de linea ni nada, solo el json en una sola linea de texto sin formato, los compromisos son una lista de strings y ya" + minuta.Contenido); // Fixed syntax error by replacing 'Json.SERIALIZER() minuta' with 'Json.Serialize(minuta)'
+            texto=texto.Replace("```json", "");
+            texto = texto.Replace("```", "");
+
+
+            minuta.Contenido = texto;
+            return Ok(minuta);
+        }
 
         [HttpPost]
         public IActionResult Agregar(AgregarMinutaViewModel minuta)
