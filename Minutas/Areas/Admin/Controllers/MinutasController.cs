@@ -138,14 +138,61 @@ namespace MinutasManage.Areas.Admin.Controllers
                     _minutaUsuario.Insert(mu);
                 }
             }
+            return Json(min);
+        }
 
 
+        [HttpPost]
+        public IActionResult AgregarBorrador(AgregarMinutaViewModel minuta)
+        {
+            User.Claims.ToList();
+            int id = int.Parse(User.FindFirst("Id")?.Value);
+            var empleado = _empleadoRepo.Get(id);
+            var departamento = _departamentoRepo.Get(empleado.IdDepartamento);
+            string[] nombre = departamento.Nombre.ToUpper().Split(" ");
+            string titulo = "";
+            foreach (string n in nombre)
+            {
+                titulo += n[0];
+            }
+            titulo += "-" + DateTime.Now.ToString("yy/MM/dd").Replace("/", "");
+            Random rnd = new Random();
+            titulo += "-" + rnd.Next(1000, 9999).ToString("000");
 
 
+            Minutas min = new Minutas()
+            {
+                IdCreador = empleado.Id,
+                FechaCreacion = DateOnly.FromDateTime(DateTime.Today),
+                Estado = "Borrador",
+                IdDepartamento = empleado.IdDepartamento,
+                Contenido = minuta.Contenido,
+                Privada = minuta.Privada,
+                Titulo = titulo
+            };
+            //agregar lista de externos a contenido da igual ponerlo allí porque solo se usa para visualizar
 
+            _minutaRepo.Insert(min);
+
+            //minuta.Asistentes = minuta.Asistentes[0].Split(",");
+            ////agregar asistentes
+            //foreach (var usr in minuta.Asistentes)
+            //{
+            //    var usuario = _empleadoRepo.GetAll().FirstOrDefault(x => x.NumEmpleado == usr);
+            //    if (usuario != null)
+            //    {
+            //        MinutaUsuario mu = new MinutaUsuario()
+            //        {
+            //            IdMinuta = min.Id,
+            //            IdUsuario = usuario.Id
+            //        };
+            //        _minutaUsuario.Insert(mu);
+            //    }
+            //}
 
             return Json(min);
         }
 
     }
 }
+
