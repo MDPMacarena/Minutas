@@ -192,6 +192,18 @@ namespace MinutasManage.Areas.Admin.Controllers
 
             return Json(min);
         }
+        [HttpDelete]
+        [Route("admin/minutas/delete/{id}")]
+        public IActionResult Eliminar(int id)
+        {
+            var min = _minutaRepo.Get(id);
+            if(min != null)
+            {
+                _minutaRepo.Delete(min);
+
+            }
+            return Ok();
+        }
 
     }
 }

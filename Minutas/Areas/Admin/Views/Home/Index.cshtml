@@ -161,6 +161,7 @@
                 <div class="buttons">
                     <input id="btnPendientes" type="button" value="Firmar">
                     <input id="btnFirmadas" type="button" value="Eliminar">
+                    <input id="btnShowBorrar" type="button" value="Eliminar" />
                     <input id="btnBorradores" type="button" value="Editar">
                 </div>
 
@@ -263,7 +264,7 @@
         <div id="modalEliminarMinuta" class="modal">
             <form class="botonesForm">
                 <label>¿Desea eliminar esta Minuta?</label><br>
-                <input type="button" value="Si">
+                <input id="btndelete" type="button" value="Si">
                 <input type="button" value="No">
             </form>
         </div>
@@ -294,6 +295,7 @@
                     </textarea>
                     </div><br>
                     <div class="buttons">
+
                         <input type="button" value="Guardar">
                     </div>
                 </form>
@@ -303,7 +305,7 @@
 </div>
 <script>
     // Cambiar el color del icono de la bar
-    
+    let idmin=0;
 
 
     async function CargarMinutas(state){
@@ -364,13 +366,13 @@
             const clickedMinuta = e.target.closest(".minuta");
             if (clickedMinuta) {
                 const response = await fetch('/Minuta/'+clickedMinuta.dataset.id);
-
+                
                 if(!response.ok){
                      return;
                      }
                  const m =await response.json();
 
-
+                idmin=m.id;
                 console.log(JSON.parse(m.contenido).Objetivo);
                 document.querySelector("#tit").textContent=m.titulo;
                 document.querySelector("#obj").textContent=JSON.parse(m.contenido).Objetivo;
@@ -407,6 +409,36 @@
             const modEditarMin = document.querySelector("#modalEditarMinuta")
             const modElimMin = document.querySelector("#modalEliminarMinuta");
             const modFirmMin = document.querySelector("#btnPendientes");
+
+            document.querySelector("#btnShowBorrar").addEventListener("click",function(){
+                modElimMin.style.display = "block";
+            });
+            
+            document.querySelector("#btndelete").addEventListener("click",function(){
+
+
+    fetch(`/admin/minutas/delete/${idmin}`, {
+      method: "DELETE"
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('Error en la respuesta del servidor');
+        return response.text();
+      })
+      .then(data => {
+        console.log('Respuesta:', data);
+       // alert('Minuta enviada correctamente.');
+        formulario.reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        //alert('Error al enviar la minuta.');
+        formulario.reset();
+
+
+      });
+      location.reload();
+
+            });
 
             modFirmMin.addEventListener("click", function(){
                 document.querySelector("#firmas tr").style.display = "block";
