@@ -31,52 +31,41 @@
             <a id="apartado-sesion" href="/login.html">Cerrar Sesión</a>
         </aside>
         <main>
-            <form id="perfil">
+            <form id="perfil" data-section="perfil">
                 <h3><span>#4455 </span>EMPLEADO <a id="btnEditarPerfil" class="material-icons">edit</a></h3>
-                <div>
-                    <label>Departamento</label>
-                    <input type="text" value="Recursos Humanos" disabled>
-                    <label>Nombre</label>
-                    <input type="text" value="Mario Esteban Longares Cervantes" disabled>
-                    <label>Correo Electrónico</label>
-                    <input type="text" value="lglv@rcarbonifera.tecnm.mx" disabled>
-                    <label>Fecha de Nacimiento</label>
-                    <input type="datetime" placeholder="02/03/80" disabled>
-                    <label>Contraseña</label>
-                    <input type="password" value="contraseña" disabled>
+                <div class="campos-container">
+                    <div class="datos">
+                        <label>Nombre</label>
+                        <label>Correo Electrónico</label>
+                        <label>Fecha de Nacimiento</label>
+
+                    </div>
+                    <div class="editables" data-section="perfil">
+                        <!-- Nombre -->
+                        <div>
+                            <input id="perfilNombre" name="Nombre" type="text" value="@Model.Nombre" disabled />
+                            <button data-input="perfilNombre" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                        <!-- Correo -->
+                        <div>
+                            <input id="perfilCorreo" name="Correo" type="email" value="@Model.Correo" disabled />
+                            <button data-input="perfilCorreo" class="btnEditarPerfil editarbtns" title="Editar">🖉</button>
+                            <button type="button" class="GuardarPerfil editarbtns">✔️</button>
+                            <button type="button" class="CancelarPerfil editarbtns">❌</button>
+                        </div>
+                        <!-- Fecha de Nacimiento: solo lectura, sin botones -->
+                        <div>
+                            <input id="perfilNacimiento" name="FechaNacimiento" type="date" value="@Model.FechaNacimiento.ToString("yyyy-MM-dd")" disabled />
+                        </div>
+
+
+                    </div>
+
                 </div>
             </form>
 
-            <!--Editar perfil-->
-            <div id="modalEditarPerfil" class="modal">
-                <form>
-                    <h3>Editar Perfil</h3>
-                    <div>
-                        <div>
-                            <label>Nombre</label>
-                            <input type="text" value="Luis Carlos Longares Vidal">
-                        </div>
-                        <div>
-                            <label>Correo Electronico</label>
-                            <input type="text" value="lglv@rcarbonifera.tecnm.mx">
-                        </div>
-                        <div>
-                            <label>Fecha de Nacimiento</label>
-                            <input type="datetime" placeholder="02/03/85" disabled>
-                        </div>
-                        <div>
-                            <label>Contraseña</label>
-                            <input type="password" value="contraseña">
-                        </div>
-
-                    </div><br>
-                    <div class="buttons">
-                        <input type="button" value="Cancelar">
-                        <input type="button" value="Guardar cambios">
-                    </div>
-
-                </form>
-            </div>
         </main>
     </div>
     <script>
@@ -85,18 +74,60 @@
           const header =document.querySelector("header");
           const modEditPerfil =  document.querySelector("#modalEditarPerfil");
 
-            // editar perfil
-            document.querySelector("#btnEditarPerfil").addEventListener("click", function(){
-                modEditPerfil.style.display="block";
-            });
-            // cerrar perfil
-            modEditPerfil.addEventListener("click", function(e){
-                if (e.target.tagName === "INPUT" && (e.target.value === "Cancelar" || e.target.value === "Guardar cambios")) {
-                    modEditPerfil.style.display = "none";
-                }
-            });
+            const formPerfil = document.getElementById("perfil");
+            if (formPerfil) {
+                formPerfil.addEventListener("submit", function () {
+                    this.querySelectorAll("input, select").forEach(input => {
+                        input.disabled = false; // Así todos los valores se envían
+                    });
 
-        
+                // Editar campos del perfil
+            inicializarEditables('[data-section="perfil"]');
+            inicializarEditables('[data-section="correo"]');
+
+            function inicializarEditables(sectionSelector) {
+                const seccion = document.querySelector(sectionSelector);
+                if (!seccion) return;
+
+            const botonesEditar = seccion.querySelectorAll(".btnEditarPerfil");
+
+            botonesEditar.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const campoId = btn.dataset.input;
+                    const campo = document.getElementById(campoId);
+                    if (!campo) return;
+                              // Guardar el valor original solo si no se ha guardado antes
+                        campo.dataset.original = campo.value;
+
+                    // Desactivar todos los inputs/selects
+                    seccion.querySelectorAll("input, select").forEach(input => {
+                        input.disabled = true;
+                        input.classList.remove("active");
+                    });
+
+                    // Ocultar todos los botones
+                    seccion.querySelectorAll(".GuardarPerfil, .CancelarPerfil").forEach(b => b.style.display = "none");
+                    seccion.querySelectorAll(".btnEditarPerfil").forEach(b => b.style.display = "inline");
+
+                    // Activar solo el campo correspondiente
+                    campo.disabled = false;
+                    campo.classList.add("active");
+                    campo.focus();
+
+                    // Mostrar los botones de acción para ese campo
+                    const divPadre = btn.closest("div");
+                    if (divPadre) {
+                        btn.style.display = "none";
+                        const btnGuardar = divPadre.querySelector(".GuardarPerfil");
+                        const btnCancelar = divPadre.querySelector(".CancelarPerfil");
+                        if (btnGuardar) btnGuardar.style.display = "inline";
+                        if (btnCancelar) btnCancelar.style.display = "inline";
+                    }
+                });
+            });
+        }
+
           document.querySelector("#buscar").addEventListener("click",function (){
               console.log("sdfgh");
               header.classList.toggle("buscar");
@@ -166,47 +197,61 @@
                   }
               }
           });
-          // mostrar iconos segun la categoria
-          const pendientes = document.querySelector("#minutas-pendientes");
-          const firmadas = document.querySelector("#minutas-firmadas");
-          const borradores = document.querySelector("#minutas-borradores");
-
-          document.addEventListener("DOMContentLoaded", function () {
-              pendientes.click();
-          });
-          pendientes.addEventListener("click", function () {
-              actualizarIconos(0);
-          });
-          firmadas.addEventListener("click", function () {
-              actualizarIconos(1);
-          });
-          borradores.addEventListener("click", function () {
-              actualizarIconos(2);
-          });
-          function actualizarIconos(activo){
-              document.querySelectorAll(".minuta").forEach(minuta => {
-                  let icons = minuta.querySelectorAll("a");
-
-                  icons.forEach((icon, index) => {
-                      if (index === activo) {
-                          icon.classList.add("active");
-                          icon.style.opacity = "1";
-                          icon.style.pointerEvents = "auto";
-                      } else {
-                          icon.classList.remove("active");
-                          icon.style.opacity = "0";
-                          icon.style.pointerEvents = "none";
-                      }
-                  });
-              });
-          }
+                   document.querySelectorAll('.GuardarPerfil').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Habilitar todos los inputs para enviar
+                        const form = this.closest('form');
+                        form.querySelectorAll('input, select').forEach(i => i.disabled = false);
+                        form.submit();
+                    });
+                });
 
 
-          // document.getElementById("btnfiltros").addEventListener("click", function (e) {
-          //     const filtrar = document.querySelector(".filtrar");
-          //     e.target.classList.toggle("active");
-          //     filtrar.classList.toggle("active");
-          // });
+
+
+        });
+
+                         function cerrarSesion() {
+                        // Crea dinámicamente un formulario para enviar POST a /Account/Logout
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/Account/Logout';
+
+                        // Agrega token antifalsificación
+                        const token = document.querySelector('meta[name="RequestVerificationToken"]')?.content;
+                        if (token) {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = '__RequestVerificationToken';
+                            input.value = token;
+                            form.appendChild(input);
+                        }
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+
+                            document.querySelectorAll('.CancelarPerfil').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const div = btn.closest('div');
+                        const input = div.querySelector('input, select');
+                        if (!input) return;
+
+                        // Restaurar valor original si existe
+                        if (input.dataset.original !== undefined) {
+                            input.value = input.dataset.original;
+                        }
+
+                        input.disabled = true;
+                        input.classList.remove('active');
+
+                        btn.style.display = 'none';
+                        const btnGuardar = div.querySelector('.GuardarPerfil');
+                        const btnEditar = div.querySelector('.btnEditarPerfil');
+                        if (btnGuardar) btnGuardar.style.display = 'none';
+                        if (btnEditar) btnEditar.style.display = 'inline';
+                    });
+                });
 
 
     </script>
