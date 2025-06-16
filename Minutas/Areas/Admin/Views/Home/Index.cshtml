@@ -661,6 +661,7 @@
       .then(data => {
         console.log('Respuesta:', data);
        
+
         djson=JSON.parse(data);
         jsonm=JSON.parse(djson.contenido)
         document.getElementById("objetivo").value=jsonm.Objetivo;
@@ -741,6 +742,12 @@
             sidebar.addEventListener("click", function(e){
                 if(e.target.tagName == "I"){
                     agregar.style.visibility="visible";
+            lstUsuarios.innerHTML="";
+            lstOrden.innerHTML="";
+            lstCompromisos.innerHTML="";
+            listaAsistentes=[];
+            listaCompromisos=[];
+            listaOrden=[];
                 }
 
             });
